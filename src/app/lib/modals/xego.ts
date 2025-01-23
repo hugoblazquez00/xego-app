@@ -2,7 +2,6 @@ import { Schema, model, models } from "mongoose";
 
 const XegoSchema = new Schema(
   {
-    id: { type: Schema.Types.ObjectId, auto: true }, // ID único generado automáticamente
     title: { type: String, required: true }, // Título del Xego (nombre del proyecto)
     description: { type: String, required: true }, // Descripción del Xego
     difficulty: { type: String, enum: ["Beginner", "Intermediate", "Advanced"], required: true }, // Nivel de dificultad
