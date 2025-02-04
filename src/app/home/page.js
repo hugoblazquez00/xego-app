@@ -31,7 +31,7 @@ export default function Home() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 ">
       {xegoProjects.map((xego, index) => (
         <XegoCard key={index} xego={xego} />
       ))}

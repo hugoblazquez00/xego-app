@@ -1,8 +1,16 @@
+"use client"
 import React from 'react';
+import { useRouter } from "next/navigation"
 
 const XegoCard = ({ xego }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/${xego.id}/xego`)
+  };
+
   return (
-    <div className="border rounded-lg p-4 w-80 h-96 flex flex-col">
+    <div onClick={handleClick} className="border rounded-lg p-4 w-80 h-96 flex flex-col cursor-pointer">
       <div className="flex justify-between mb-2">
         <span className="bg-gray-200 px-2 py-1 rounded text-sm">
           {xego.difficulty}
