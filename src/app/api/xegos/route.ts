@@ -11,7 +11,7 @@ export const GET = async() => {
     const xegos = await Xego.find();
     return new NextResponse(JSON. stringify(xegos), { status: 200 });
   } catch (error) {
-    return new NextResponse("Error in fetching usersS " + error.message, 
+    return new NextResponse("Error in fetching users " + error.message, 
       {
         status: 500,
       }

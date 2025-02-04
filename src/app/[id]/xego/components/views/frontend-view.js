@@ -51,16 +51,7 @@ export function FrontendView({ currentScreen }) {
 
   return (
     <div className="frontend-view flex flex-col gap-4 p-4">
-      <div className="flex justify-end gap-2">
-        <Button onClick={() => changeTheme('vs-dark')}>Tema Oscuro</Button>
-        <Button onClick={() => changeTheme('light')}>Tema Claro</Button>
-        <Button onClick={formatCode}>Formatear Código</Button>
-        
-        <Button onClick={() => changeLanguage('javascript')}>JavaScript</Button>
-        <Button onClick={() => changeLanguage('typescript')}>TypeScript</Button>
-        <Button onClick={() => changeLanguage('html')}>HTML</Button>
-        <Button onClick={() => changeLanguage('css')}>CSS</Button>
-      </div>
+     
       <div className="flex">
         <div className="w-1/3">
           <FileTree onSelect={handleFileSelect} />
