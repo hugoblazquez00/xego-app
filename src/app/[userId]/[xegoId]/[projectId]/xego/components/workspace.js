@@ -4,13 +4,13 @@ import { FrontendView } from "./views/frontend-view"
 import { BackendView } from "./views/backend-view"
 import { DatabaseView } from "./views/database-view"
 
-export function Workspace({ className, currentScreen, currentView }) {
+export function Workspace({ className, currentScreen, currentView, projectId }) {
   const renderView = () => {
     switch (currentView) {
       case "website":
         return <WebsiteView currentScreen={currentScreen} />
       case "frontend":
-        return <FrontendView currentScreen={currentScreen} />
+        return <FrontendView currentScreen={currentScreen} projectId={projectId} />
       case "backend":
         return <BackendView currentScreen={currentScreen} />
       case "database":
@@ -21,11 +21,8 @@ export function Workspace({ className, currentScreen, currentView }) {
   }
 
   return (
-    <div className={`bg-gray-50 ${className}`}>
-     
-      <div className="p-4">
-        {renderView()}
-      </div>
+    <div className={`bg-gray-50 flex ${className}`}>
+      {renderView()}
     </div>
   )
 }

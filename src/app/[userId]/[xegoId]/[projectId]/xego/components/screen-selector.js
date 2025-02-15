@@ -1,7 +1,7 @@
 import React from "react"
 
 export function ScreenSelector({ currentScreen, onToggle }) {
-  const buttonText = currentScreen === "instructions" ? "Project Screen" : "Instruction Screen"
+  const buttonText = currentScreen === "instructions" ? "Instruction Screen" : "Project Screen"
 
   return (
     <button

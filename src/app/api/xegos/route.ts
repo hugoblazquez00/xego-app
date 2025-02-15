@@ -5,20 +5,29 @@ import { Types } from "mongoose";
 
 const  ObjectId = require('mongoose').Types.ObjectId;
 
-export const GET = async() => {
+
+export const GET = async (request: Request) => {
+  const { searchParams } = new URL(request.url);
+  const idXego = searchParams.get("xegoID");
+
+  //const { idXego } = params; // Obtener el id del parámetro de la URL
+
   try {
     await connect();
-    const xegos = await Xego.find();
-    return new NextResponse(JSON. stringify(xegos), { status: 200 });
+    const xego = await Xego.findOne({ _id: idXego });
+    if (!xego) {
+      return new NextResponse("Xego not found", { status: 404 });
+    }
+
+    console.log("Xego from api/xegos:", xego)
+    return new NextResponse(JSON.stringify(xego), { status: 200 });
   } catch (error) {
-    return new NextResponse("Error in fetching users " + error.message, 
-      {
-        status: 500,
-      }
-    );
+    console.error("Error fetching Xego:", error);
+    return new NextResponse("Error in fetching Xego " + error.message, {
+      status: 500,
+    });
   }
 };
-
 export const POST = async (request: Request) => {
   try {
     const body = await request.json();

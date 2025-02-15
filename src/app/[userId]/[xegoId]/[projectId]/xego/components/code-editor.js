@@ -39,7 +39,7 @@ export const CodeEditor = forwardRef(({ code, setCode, theme }, ref) => {
   return (
     <div className="w-full h-full">
       <Editor
-        height="400px"
+        height="100%"
         defaultLanguage="javascript"
         language="javascript"
         value={code}
