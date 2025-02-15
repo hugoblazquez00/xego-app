@@ -29,7 +29,7 @@ export function ActionsFrontendView({ editorRef, currentTheme, toggleTheme }) {
     const id = setTimeout(() => {
       setIsMenuOpen(false);
       setIsLanguageMenuOpen(false);
-    }, 10000); // Esperar 10 segundos antes de cerrar
+    }, 7000);
     setTimeoutId(id);
   };
 

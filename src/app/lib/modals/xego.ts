@@ -26,6 +26,6 @@ const XegoSchema = new Schema(
 );
 
 // Comprueba si ya existe el modelo
-const Xego = models.Xego || model("Xego", XegoSchema);
+const Xego = models.Xego || model("Xego", XegoSchema, "xegos");
 
 export default Xego;
