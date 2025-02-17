@@ -14,7 +14,6 @@ export const CodeEditor = forwardRef(({ code, setCode, theme }, ref) => {
 
   const handleChange = (value, event) => {
     setCode(value);
-    console.log('Código actualizado:', value);
   };
 
   useImperativeHandle(ref, () => ({

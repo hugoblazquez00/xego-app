@@ -4,13 +4,22 @@ import { FrontendView } from "./views/frontend-view"
 import { BackendView } from "./views/backend-view"
 import { DatabaseView } from "./views/database-view"
 
-export function Workspace({ className, currentScreen, currentView, projectId }) {
+export function Workspace({ className, currentScreen, currentView, projectId, setIsSavedXego, isSavedXego, setCodeXego, codeXego, setCurrentFile, saveCurrentFile }) {
   const renderView = () => {
     switch (currentView) {
       case "website":
         return <WebsiteView currentScreen={currentScreen} />
       case "frontend":
-        return <FrontendView currentScreen={currentScreen} projectId={projectId} />
+        return <FrontendView 
+                 currentScreen={currentScreen} 
+                 projectId={projectId} 
+                 setIsSavedXego={setIsSavedXego} 
+                 isSavedXego={isSavedXego}
+                 setCodeXego={setCodeXego} 
+                 codeXego={codeXego}
+                 setCurrentFile={setCurrentFile} 
+                 saveCurrentFile={saveCurrentFile}
+               />
       case "backend":
         return <BackendView currentScreen={currentScreen} />
       case "database":
