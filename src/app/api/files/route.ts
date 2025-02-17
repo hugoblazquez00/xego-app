@@ -1,16 +1,27 @@
 import connect from "@/app/lib/db";
 import File from "@/app/lib/modals/file";
 import { NextResponse } from "next/server";
+import { Types } from "mongoose";
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const projectID = searchParams.get("projectID");
+  const fileName = searchParams.get("fileName"); // Get the file name if provided
+
   try {
     await connect();
 
-    // Obtener archivos del proyecto específico
+    // If a fileName is provided, fetch that specific file
+    if (fileName) {
+      const file = await File.findOne({ idproject: projectID, name: fileName }).exec();
+      if (!file) {
+        return new NextResponse("File not found", { status: 404 });
+      }
+      return new NextResponse(JSON.stringify(file), { status: 200 });
+    }
+
+    // Otherwise, fetch all files for the project
     const files = await File.find({ idproject: projectID }).exec();
-    console.log("Files from api/files:", files);
     return new NextResponse(JSON.stringify(files), { status: 200 });
   } catch (error) {
     return new NextResponse("Error in fetching files " + error.message, {
@@ -23,14 +34,20 @@ export const POST = async (request: Request) => {
   try {
     const body = await request.json();
     await connect();
+
+    // Create a new file or folder based on the type
     const newFile = new File({
-      idproject: body.idproject, // Referencia al proyecto
+      idproject: body.idproject, // Reference to the project
       name: body.name,
-      content: body.content,
       path: body.path,
-      language: body.language,
       type: body.type,
+      // Only set content and language if the type is 'file'
+      ...(body.type === 'file' && {
+        content: body.content,
+        language: body.language,
+      }),
     });
+
     await newFile.save();
     return new NextResponse(
       JSON.stringify({ message: "File is created", file: newFile }),
@@ -38,6 +55,48 @@ export const POST = async (request: Request) => {
     );
   } catch (error: any) {
     return new NextResponse("Error in creating File " + error.message, {
+      status: 500,
+    });
+  }
+};
+
+export const PATCH = async (request: Request) => {
+  try {
+    const body = await request.json();
+    const { fileId, newContent } = body; // Obtener el ID del archivo y el nuevo contenido
+    await connect();
+
+    if (!fileId || !newContent) {
+      return new NextResponse(
+        JSON.stringify({ message: "File ID or new content not found" }),
+        { status: 400 }
+      );
+    }
+
+    if (!Types.ObjectId.isValid(fileId)) {
+      return new NextResponse(JSON.stringify({ message: "Invalid File ID" }), {
+        status: 400,
+      });
+    }
+    const updatedFile = await File.findByIdAndUpdate(
+      fileId,
+      { content: newContent },
+      { new: true }
+    );
+
+    if (!updatedFile) {
+      return new NextResponse(
+        JSON.stringify({ message: "File not found in the database" }),
+        { status: 404 }
+      );
+    }
+
+    return new NextResponse(
+      JSON.stringify({ message: "File is updated", file: updatedFile }),
+      { status: 200 }
+    );
+  } catch (error: any) {
+    return new NextResponse("Error in updating File " + error.message, {
       status: 500,
     });
   }
