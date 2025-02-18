@@ -4,7 +4,7 @@ import { FrontendView } from "./views/frontend-view"
 import { BackendView } from "./views/backend-view"
 import { DatabaseView } from "./views/database-view"
 
-export function Workspace({ className, currentScreen, currentView, projectId, setIsSavedXego, isSavedXego, setCodeXego, codeXego, setCurrentFile, saveCurrentFile }) {
+export function Workspace({ className, currentScreen, currentView, projectId, setIsSavedXego, isSavedXego, setCodeXego, codeXego, setCurrentFileXego, currentFileXego, saveCurrentFile }) {
   const renderView = () => {
     switch (currentView) {
       case "website":
@@ -17,7 +17,8 @@ export function Workspace({ className, currentScreen, currentView, projectId, se
                  isSavedXego={isSavedXego}
                  setCodeXego={setCodeXego} 
                  codeXego={codeXego}
-                 setCurrentFile={setCurrentFile} 
+                 setCurrentFileXego={setCurrentFileXego} 
+                 currentFileXego = {currentFileXego}
                  saveCurrentFile={saveCurrentFile}
                />
       case "backend":

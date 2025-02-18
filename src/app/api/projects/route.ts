@@ -5,16 +5,24 @@ import File from "@/app/lib/modals/file";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get("userID");
+  const projectId = searchParams.get("projectID");
 
   try {
-    
     await connect();
 
-     
+    if (projectId) {
+      // Get single project
+      const project = await Project.find({ _id: projectId }).exec();
+      if (!project) {
+        return new NextResponse("Project not found", { status: 404 });
+      }
+      return new NextResponse(JSON.stringify(project), { status: 200 });
+    }
+
+    // Get all projects for user
     const projects = await Project.find({ iduser: userId }).exec();
     console.log("Projects from api/projects for user ",userId,":", projects);
     return new NextResponse(JSON.stringify(projects), { status: 200 });
