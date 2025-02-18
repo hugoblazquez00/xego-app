@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ActionsFrontendView } from "../actions-frontend-view"
 
-// Utility function to build the tree structure
 const buildTree = (files) => {
   const tree = [];
 
@@ -34,10 +33,8 @@ const buildTree = (files) => {
   return tree;
 };
 
-export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedXego, setCodeXego, codeXego, setCurrentFile, saveCurrentFile }) {
-  const [localCode, setLocalCode] = useState('// Selecciona un archivo para editar');
+export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedXego, setCodeXego, codeXego, setCurrentFileXego, currentFileXego, saveCurrentFile }) {
   const [files, setFiles] = useState([]);
-  const [currentFile, setCurrentFileState] = useState(null);
   const editorRef = useRef(null);
   const [currentTheme, setCurrentTheme] = useState('vs-dark');
 
@@ -45,61 +42,60 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
     try {
       const response = await fetch(`/api/files?projectID=${projectId}`);
       if (!response.ok) {
-        throw new Error('Error fetching files');
+        console.error("ERRORFV04 - ERROR FETCHING FILES", error);
       }
       const data = await response.json();
-      const organizedFiles = buildTree(data); // Organize the fetched files
-      setFiles(organizedFiles); // Store the organized files in state
+      const organizedFiles = buildTree(data);
+      setFiles(organizedFiles);
     } catch (error) {
-      console.error("Error fetching files:", error);
+      console.error("ERRORFV04 - ERROR FETCHING FILES", error);
     }
   };
 
   useEffect(() => {
-    fetchFiles(); // Fetch files when the component mounts
+    fetchFiles();
   }, [projectId, currentScreen]);
 
   const handleEditorChange = (value) => {
-    setLocalCode(value);
     setCodeXego(value);
     setIsSavedXego(false);
   };
 
   const handleFileSelect = async (fileName) => {
-    if (!isSavedXego && currentFile) {
-      console.log("SAVEFV01 - FILE SELECTION CHANGED.");
-      await saveCurrentFile(currentFile, localCode);
+    console.log("SAVEFV01 - FILE SELECTION CHANGED.");
+    if (!isSavedXego && currentFileXego) {
+      try {
+        await saveCurrentFile(currentFileXego, codeXego);
+      } catch (error) {
+        console.error("ERRORFV01 - FILE SELECTION ERROR", error);
+      }
     }
     try {
       const response = await fetch(`/api/files?projectID=${projectId}&fileName=${fileName}`);
       const fileData = await response.json();
       const content = fileData.content || `// No content available for ${fileName}`;
-      setLocalCode(content);
       setCodeXego(content);
-      setCurrentFileState(fileData);
-      setCurrentFile(fileData); 
+      setCurrentFileXego(fileData); 
       setIsSavedXego(true);
-      console.log("Archivo seleccionado:", fileName);
     } catch (error) {
-      console.error("Error al cargar el archivo:", error);
+      console.error("ERRORFV02 - ERROR PREPARING FILES", error);
     }
   };
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      console.log("isSavedXego: ", isSavedXego);
-      if (!isSavedXego && currentFile) {
+      if (!isSavedXego && currentFileXego) {
         console.log("SAVEFV01 - AUTO-SAVING FILE.");
         try {
-          await saveCurrentFile(currentFile, localCode);
+          await saveCurrentFile(currentFileXego, codeXego);
         } catch (error) {
-          console.error("Error al guardar el archivo automáticamente:", error);
+          console.error("ERRORFV03 - ERROR WHILE AUTOSAVING FILE", error);
         }
       }
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [localCode, isSavedXego, currentFile, saveCurrentFile]);
+  }, [codeXego, isSavedXego, currentFileXego, saveCurrentFile]);
 
   const handleFileCreated = async (newFile) => {
     const response = await fetch('/api/files', {
@@ -111,8 +107,7 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
     });
 
     if (response.ok) {
-      // Re-fetch the files to update the tree
-      await fetchFiles(); // Call the fetch function to refresh the tree
+      await fetchFiles();
     }
   };
 
@@ -124,11 +119,11 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
     }
   };
 
-  const formatCode = () => {
-    if (editorRef.current) {
-      editorRef.current.formatCode();
-    }
-  };
+  // const formatCode = () => {
+  //   if (editorRef.current) {
+  //     editorRef.current.formatCode();
+  //   }
+  // };
 
   const changeLanguage = (language) => {
     if (editorRef.current) {
@@ -149,7 +144,7 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
       </div>
       <div className="flex flex-col flex-1 relative">
         <div className="flex-1">
-          <CodeEditor ref={editorRef} code={localCode} setCode={handleEditorChange} theme={currentTheme} />
+          <CodeEditor ref={editorRef} code={codeXego} setCode={handleEditorChange} theme={currentTheme} />
         </div>
         <ActionsFrontendView 
           editorRef={editorRef} 
@@ -157,11 +152,6 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
           toggleTheme={toggleTheme} 
         />
       </div>
-      {/* <div className="save-status">
-        <button onClick={saveFileContent} disabled={isSaved}>
-          {isSaved ? "Archivo guardado" : "Guardar archivo"}
-        </button>
-      </div> */}
     </div>
   )
 } 
