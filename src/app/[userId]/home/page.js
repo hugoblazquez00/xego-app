@@ -37,7 +37,7 @@ export default function Home({ params }) {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-4 gap-2 p-4">
       {projects.map((project, index) => (
         <ProjectCard key={index} project={project} />
       ))}

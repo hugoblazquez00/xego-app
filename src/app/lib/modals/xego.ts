@@ -19,6 +19,7 @@ const XegoSchema = new Schema(
     views: { type: Number, default: 0 }, // Contador de visualizaciones
     downloads: { type: Number, default: 0 }, // Contador de descargas
     isPublished: { type: Boolean, default: false }, // Estado de publicación
+    files: [{ type: Schema.Types.ObjectId, ref: "XegoFile" }],
   },
   {
     timestamps: true, // Agrega campos "createdAt" y "updatedAt" automáticamente
