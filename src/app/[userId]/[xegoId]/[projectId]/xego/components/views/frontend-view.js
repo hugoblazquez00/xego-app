@@ -40,9 +40,24 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
 
   const fetchFiles = async () => {
     try {
-      const response = await fetch(`/api/files?projectID=${projectId}`);
+      let response;
+      if (currentScreen === "project") {
+        response = await fetch(`/api/files?projectID=${projectId}`);
+      } else {
+        const projectResponse = await fetch(`/api/projects?projectID=${projectId}`);
+        if (!projectResponse.ok) {
+          console.error("ERRORFV04 - ERROR FETCHING PROJECT");
+          return;
+        }
+        const projectData = await projectResponse.json();
+        const idXego = projectData[0]?.idxego; 
+
+        response = await fetch(`/api/xegofiles?xegoID=${idXego}`);
+      }
+      
       if (!response.ok) {
-        console.error("ERRORFV04 - ERROR FETCHING FILES", error);
+        console.error("ERRORFV04 - ERROR FETCHING FILES");
+        return;
       }
       const data = await response.json();
       const organizedFiles = buildTree(data);
@@ -71,8 +86,16 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
       }
     }
     try {
-      const response = await fetch(`/api/files?projectID=${projectId}&fileName=${fileName}`);
+      let response;
+      if (currentScreen === "project") {
+        console.log("Fetching projects");
+        response = await fetch(`/api/files?projectID=${projectId}&fileName=${fileName}`);
+      } else {
+        console.log("Fetching xegos");
+        response = await fetch(`/api/xegofiles?xegoID=${projectId}&fileName=${fileName}`);
+      }
       const fileData = await response.json();
+      console.log("fileData: ", fileData);
       const content = fileData.content || `// No content available for ${fileName}`;
       setCodeXego(content);
       setCurrentFileXego(fileData); 
@@ -98,13 +121,24 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego,isSavedX
   }, [codeXego, isSavedXego, currentFileXego, saveCurrentFile]);
 
   const handleFileCreated = async (newFile) => {
-    const response = await fetch('/api/files', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newFile),
-    });
+    let response;
+    if (currentScreen === "project") {
+      response = await fetch('/api/files', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newFile),
+      });
+    } else {
+      response = await fetch('/api/xegofiles', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...newFile, idxego: projectId }),
+      });
+    }
 
     if (response.ok) {
       await fetchFiles();

@@ -2,6 +2,24 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation"
 
+const difficultyColors = {
+  Easy: 'bg-green-200',
+  Intermediate: 'bg-yellow-200',
+  Hard: 'bg-red-200',
+};
+
+const categoryColors = {
+  Frontend: 'bg-blue-200',
+  Backend: 'bg-purple-200',
+  Database: 'bg-orange-200',
+  // Añade más categorías según sea necesario
+};
+
+function getRandomColor() {
+  const colors = ['bg-red-100', 'bg-blue-100', 'bg-green-100', 'bg-yellow-100', 'bg-purple-100', 'bg-pink-100'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
 const ProjectCard = ({ project }) => {
   const router = useRouter();
   const [xegoData, setXegoData] = useState(null);
@@ -43,10 +61,10 @@ const ProjectCard = ({ project }) => {
   return (
     <div onClick={handleClick} className="border rounded-lg p-4 w-80 h-96 flex flex-col cursor-pointer">
       <div className="flex justify-between mb-2">
-        <span className="bg-gray-200 px-2 py-1 rounded text-sm">
+        <span className={`px-2 py-1 rounded text-sm ${difficultyColors[xegoData?.difficulty]}`}>
           {xegoData?.difficulty}
         </span>
-        <span className="bg-gray-100 px-2 py-1 rounded text-sm">
+        <span className={`px-2 py-1 rounded text-sm ${categoryColors[xegoData?.category]}`}>
           {xegoData?.category}
         </span>
       </div>
@@ -63,7 +81,7 @@ const ProjectCard = ({ project }) => {
           {xegoData?.technologies.map((tech, index) => (
             <span 
               key={index} 
-              className="bg-gray-100 px-1 py-0.5 rounded text-xs"
+              className={`px-1 py-0.5 rounded text-xs ${getRandomColor()}`}
             >
               {tech}
             </span>

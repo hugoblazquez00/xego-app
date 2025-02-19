@@ -102,4 +102,32 @@ export const PATCH = async (request: Request) => {
   }
 };
 
+export const DELETE = async (request: Request) => {
+  const { searchParams } = new URL(request.url);
+  const fileId = searchParams.get("fileId");
+
+  try {
+    await connect();
+
+    if (!fileId) {
+      return new NextResponse("File ID is required", { status: 400 });
+    }
+
+    const deletedFile = await File.findByIdAndDelete(fileId);
+
+    if (!deletedFile) {
+      return new NextResponse("File not found", { status: 404 });
+    }
+
+    return new NextResponse(
+      JSON.stringify({ message: "File deleted", file: deletedFile }),
+      { status: 200 }
+    );
+  } catch (error: any) {
+    return new NextResponse("Error in deleting file " + error.message, {
+      status: 500,
+    });
+  }
+};
+
 // Puedes agregar métodos PATCH y DELETE según sea necesario 
