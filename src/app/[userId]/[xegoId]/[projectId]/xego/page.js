@@ -5,6 +5,7 @@ import { Workspace } from "./components/workspace"
 import { ViewSelector } from "./components/view-selector"
 import { XegoNavbar } from "./components/XegoNavbar"
 import React from "react"
+import { fetchFiles } from '../../../../utils/api';
 
 export default function XegoPage({ params }) {
   const [currentView, setCurrentView] = useState("website")
@@ -18,13 +19,16 @@ export default function XegoPage({ params }) {
   const userId = React.use(params).userId
 
   useEffect(() => {
-    const fetchFiles = async () => {
-      const response = await fetch(`/api/files?projectID=${projectId}`);
-      const data = await response.json();
-      setFiles(data);
+    const loadFiles = async () => {
+      try {
+        const data = await fetchFiles(projectId);
+        setFiles(data);
+      } catch (error) {
+        console.error("Error loading files:", error);
+      }
     };
 
-    fetchFiles();
+    loadFiles();
   }, [projectId]);
 
   const toggleScreen = () => {

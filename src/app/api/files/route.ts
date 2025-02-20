@@ -129,5 +129,3 @@ export const DELETE = async (request: Request) => {
     });
   }
 };
-
-// Puedes agregar métodos PATCH y DELETE según sea necesario 

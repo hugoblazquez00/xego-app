@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { verifyUser } from './utils/api';
 
 export default function HomePage() {
   const [userId, setUserId] = useState("");
@@ -10,17 +11,17 @@ export default function HomePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (userId) {
-      const response = await fetch(`/api/users?userId=${userId}`);
-      if (response.ok) {
-        const user = await response.json();
+      try {
+        const user = await verifyUser(userId);
         console.log("----------------------------------------\nLogin - (/) - User: ", user, "\n----------------------------------------\n");
         if (user) {
           router.push(`/${userId}/home`);
         } else {
           alert("User not found, verify userid");
         }
-      } else {
+      } catch (error) {
         alert("UserId Verification error.");
+        console.error(error);
       }
     }
   };

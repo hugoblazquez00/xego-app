@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import ProjectCard from '@/app/components/projectCard';
 import React from 'react';
+import { fetchProjects } from '../../utils/api';
 
 export default function Home({ params }) {
   const userId = React.use(params).userId; 
@@ -10,18 +11,11 @@ export default function Home({ params }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProjects = async () => {
+    const loadProjects = async () => {
       try {
-        const response = await fetch(`/api/projects?userID=${userId}`); 
-       
-        if (response.ok) {
-          const data = await response.json();
-          console.log("----------------------------------------\nHome - (/home) - List of Projects for user id ", userId, ": ", data, "\n----------------------------------------\n");
-      
-          setProjects(data);
-        } else {
-          throw new Error("Error fetching projects");
-        }
+        const data = await fetchProjects(userId); // Usar la función importada
+        console.log("----------------------------------------\nHome - (/home) - List of Projects for user id ", userId, ": ", data, "\n----------------------------------------\n");
+        setProjects(data);
       } catch (error) {
         console.error("Error fetching projects:", error); 
         setError(error.message);
@@ -30,7 +24,7 @@ export default function Home({ params }) {
       }
     };
 
-    fetchProjects();
+    loadProjects();
   }, [userId]);
 
   if (loading) return <div>Loading...</div>;
