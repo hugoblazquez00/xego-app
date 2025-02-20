@@ -12,34 +12,9 @@ const SCALE = 1.5; // Scale factor for icons
 const DISTANCE = 50; // Distance before mouse affects an icon
 const NUDGE = 5; // Pixels icons are moved away from mouse
 
-export function FileDock({ projectId, newFile, files }) {
+export function FileDock({ projectId, onCreate, files }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFolder, setIsFolder] = useState(false); // Track if creating a folder
-  const [pathLastFolder, setpathLastFolder] = useState(""); // Track if creating a folder
-
-  const handleCreateFile = async (fileData) => {
-    const response = await fetch('/api/files', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        idproject: projectId,
-        name: fileData.name,
-        path: fileData.path,
-        type: isFolder ? 'folder' : 'file',
-        ...(isFolder ? {} : { content: '', language: 'javascript' }), // Only include content for files
-      }),
-    });
-    setpathLastFolder(fileData.path);
-    if (response.ok) {
-      const data = await response.json();
-      console.log("NewFile: ", data.file);
-      newFile(data.file);
-    } else {
-      console.error("Error creating file/folder");
-    }
-  };
+  const [isFolder, setIsFolder] = useState(false);
 
   const handleToggleFolders = () => {
     console.log("Abrir/Cerrar carpetas");
@@ -68,7 +43,7 @@ export function FileDock({ projectId, newFile, files }) {
       <CreateFileModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
-        onCreate={handleCreateFile} 
+        onCreate={onCreate}
         type={isFolder ? 'folder' : 'file'}
         files={files}
       />

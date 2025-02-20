@@ -3,59 +3,42 @@ import { File, Folder, Tree } from "@/components/ui/file-tree";
 import { FileDock } from "./file-dock";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import { ShimmerButton } from "@/components/magicui/shimmer-button";
+import { ProiconsDelete } from 'src/components/icons';
 
 // Recursive function to render tree items
 const renderTreeItem = (item, onSelect, onDelete) => {
   const isFile = item.type === 'file';
 
   return (
-    <div key={item.name} className="relative group">
+    <div key={item._id || `${item.path}-${item.name}`}  className="relative group">
       {isFile ? (
-        <File value={item.name} onClick={() => onSelect(item.name)}>
+        <File  value={item.name} onClick={() => onSelect(item)}>
           <p>{item.name}</p>
         </File>
       ) : (
-        <Folder value={item.name} element={item.name}>
+        <Folder  value={item.name} element={item.name}>
           {(item.children || []).map(child => renderTreeItem(child, onSelect, onDelete))}
         </Folder>
       )}
-      <span
+      <button
         className="icon-delete absolute right-0 top-0 opacity-0 group-hover:opacity-100 cursor-pointer"
-        onClick={() => onDelete(item)}
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(item);
+        }}
       >
-        🏠
-      </span>
+        <ProiconsDelete />
+      </button>
     </div>
   );
 };
 
-export function FileTree({ onSelect, currentScreen, files, projectId, onFileCreated }) {
+export function FileTree({ onSelect, currentScreen, files, projectId, onCreate, onDelete, itemToDelete, setItemToDelete }) {
   const [showModal, setShowModal] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null);
 
   const handleDelete = (item) => {
     setItemToDelete(item);
     setShowModal(true);
-  };
-
-  const confirmDelete = async () => {
-    try {
-      console.log(itemToDelete?.type);
-      const response = await fetch(`/api/files?fileId=${itemToDelete._id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        console.log("Item deleted:", itemToDelete);
-        onFileCreated(); // O cualquier función que actualice la lista de archivos
-      } else {
-        console.error("Error deleting item");
-      }
-    } catch (error) {
-      console.error("Error deleting item:", error);
-    } finally {
-      setShowModal(false);
-    }
   };
 
   const cancelDelete = () => {
@@ -63,10 +46,18 @@ export function FileTree({ onSelect, currentScreen, files, projectId, onFileCrea
     setShowModal(false);
   };
 
+  const confirmDelete = () => {
+    if (itemToDelete) {
+      onDelete(itemToDelete);
+      setShowModal(false);
+      setItemToDelete(null);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div style={{ height: "calc(100vh - 146px)" }} className="relative flex w-full flex-col overflow-hidden rounded-lg border bg-background md:shadow-xl">
-        <FileDock projectId={projectId} newFile={onFileCreated} files={files} />
+        <FileDock projectId={projectId} onCreate={onCreate} files={files} />
         <Tree
           className="overflow-auto rounded-md bg-background p-2"
           elements={files}
