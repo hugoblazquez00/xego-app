@@ -87,12 +87,11 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
     try {
       let response;
       if (currentScreen === "project") {
-        response = fetchFile(projectId, file.name);
+        response = await fetchFile(projectId, file.name);
       } else {
-        response = fetchXegoFile(projectId, file.name);
+        response = await fetchXegoFile(projectId, file.name);
       }
       const fileData =  response;
-      console.log("fileData: ", fileData);
       
       const completeFileData = {
         ...file,

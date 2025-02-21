@@ -9,10 +9,7 @@ export const fetchFiles = async (projectId) => {
 };
 
 export const fetchFile = async (projectId, filename) => {
-  console.log("A:",filename)
-  const response = await fetch(`${API_BASE_URL}/files?projectID=${projectId}&fileName=${filename}`);
-
-  
+  const response = await fetch(`${API_BASE_URL}/files?projectID=${projectId}&fileName=${filename}`);  
   if (!response.ok) {
     throw new Error('Error fetching files');
   }
@@ -31,11 +28,10 @@ export const fetchXegoFiles = async (projectId) => {
   return await response.json();
 };
 export const fetchXegoFile = async (projectId, filename) => {
-
   const projectDetails = await fetchProjectDetails(projectId);
   const idXego = projectDetails[0]?.idxego; 
+  console.log("idxego",idXego)
   const response = await fetch(`${API_BASE_URL}/xegofiles?xegoID=${idXego}&fileName=${filename}`);
-  
   if (!response.ok) {
     throw new Error('Error fetching files');
   }
@@ -82,7 +78,6 @@ export const fetchProjects = async (userId) => {
 
 export const fetchProjectDetails = async (projectId) => {
   const response = await fetch(`${API_BASE_URL}/projects?projectID=${projectId}`);
-  console.log(projectId);
   if (!response.ok) {
     throw new Error('Error fetching project details');
   }
@@ -90,11 +85,7 @@ export const fetchProjectDetails = async (projectId) => {
 };
 
 export const fetchXegoDetails = async (xegoId) => {
-  //const response = await fetch(`${API_BASE_URL}/projects?projectID=${projectId}`);
-  
   const response = await fetch(`${API_BASE_URL}/xegos?xegoID=${xegoId}`)
-  
-  //console.log(projectId);
   if (!response.ok) {
     throw new Error('Error fetching project details');
   }

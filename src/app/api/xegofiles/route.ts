@@ -12,11 +12,11 @@ export const GET = async (request: Request) => {
 
     if (fileName) {
       // Get single file
-      const file = await XegoFile.findOne({ 
-        idxego: xegoId,
-        name: fileName 
-      });
-
+      console.log("XegoId : ", xegoId);
+      console.log("filename: ", fileName);
+      const file = await XegoFile.find({ idxego: xegoId, name: fileName }).exec();
+      
+      console.log("file",file);
       if (!file) {
         return new NextResponse("File not found", { status: 404 });
       }
