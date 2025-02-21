@@ -1,7 +1,7 @@
 "use client";
 
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import React, { useState, useRef } from 'react';
 import { Dock, DockIcon } from "@/components/magicui/dock";
 // import { Separator } from "@/components/ui/separator";
@@ -74,7 +74,7 @@ function AppIcon({ children }) {
           <motion.button
             ref={ref}
             style={{ x, scale }}
-            className="flex items-center justify-center aspect-square block w-10 rounded-full bg-white shadow"
+            className="flex items-center justify-center aspect-square  w-10 rounded-full bg-white shadow"
           >
             {children}
           </motion.button>
