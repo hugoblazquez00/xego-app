@@ -10,39 +10,34 @@ const buildTree = (files) => {
   const tree = [];
   const fileMap = {};
 
-  // Primero, crear un mapa de todos los archivos
   files.forEach(file => {
-    // Mantener todos los datos originales del archivo
     fileMap[file.path] = {
       ...file,
-      children: [] // Inicializamos children como un array vacío
+      children: []
     };
   });
 
-  // Luego, construir la estructura del árbol
   files.forEach(file => {
-    const parts = file.path.split('/').filter(Boolean); // Dividir el path en partes
+    const parts = file.path.split('/').filter(Boolean); 
     let currentLevel = tree;
 
     parts.forEach((part, index) => {
-      // Verificar si es el último elemento (archivo)
       const isLastPart = index === parts.length - 1;
 
-      // Crear un nuevo objeto para la carpeta o usar el existente
       let existingFolder = currentLevel.find(item => item.name === part && item.type === (isLastPart ? 'file' : 'folder'));
 
       if (!existingFolder) {
         existingFolder = {
           name: part,
-          type: isLastPart ? file.type : 'folder', // Si es el último, es un archivo
-          path: file.path, // Mantener el path original
-          _id: isLastPart ? file._id : `${file._id}-${part}`, // Usar el _id del archivo o generar uno para la carpeta
+          type: isLastPart ? file.type : 'folder',
+          path: file.path, 
+          _id: isLastPart ? file._id : `${file._id}-${part}`,
           children: []
         };
         currentLevel.push(existingFolder);
       }
 
-      currentLevel = existingFolder.children; // Mover al siguiente nivel
+      currentLevel = existingFolder.children; 
     });
   });
 
@@ -133,7 +128,9 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
   const handleCreateFile = async (name, path, type) => {
     try {
       const newFile = await createFile(projectId, name, path, type);
-      setFiles((prevFiles) => [...prevFiles, newFile]);
+      if (newFile) {
+        await loadFiles();
+      }
     } catch (error) {
       console.error("Error creating file:", error);
     }
@@ -185,7 +182,7 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
           currentScreen={currentScreen} 
           files={files}
           projectId={projectId} 
-          onCreate={handleCreateFile}
+          handleCreateFile={handleCreateFile}
           onDelete={handleDelete}
           itemToDelete={itemToDelete}
           setItemToDelete={setItemToDelete}
