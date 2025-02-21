@@ -14,13 +14,19 @@ export const GET = async (request: Request) => {
 
   try {
     await connect();
-    const xego = await Xego.findOne({ _id: idXego });
-    if (!xego) {
-      return new NextResponse("Xego not found", { status: 404 });
+    if (idXego){
+      const xego = await Xego.findOne({ _id: idXego });
+      if (!xego) {
+        return new NextResponse("Xego not found", { status: 404 });
+      }
+  
+      console.log("Xego from api/xegos:", xego)
+      return new NextResponse(JSON.stringify(xego), { status: 200 });
     }
-
-    console.log("Xego from api/xegos:", xego)
-    return new NextResponse(JSON.stringify(xego), { status: 200 });
+    else{
+      return new NextResponse("idXego false", { status: 404 });
+    }
+   
   } catch (error) {
     console.error("Error fetching Xego:", error);
     return new NextResponse("Error in fetching Xego " + error.message, {

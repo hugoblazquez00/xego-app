@@ -4,7 +4,7 @@ import { CodeEditor } from "../code-editor"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ActionsFrontendView } from "../actions-frontend-view"
-import { fetchFiles, fetchXegoFiles, fetchProjectDetails, createFile, deleteFile } from '../../../../../../utils/api';
+import { fetchFiles, fetchXegoFiles, createFile, deleteFile, fetchFile,fetchXegoFile } from '../../../../../../utils/api';
 
 const buildTree = (files) => {
   const tree = [];
@@ -87,13 +87,11 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
     try {
       let response;
       if (currentScreen === "project") {
-        console.log("Fetching projects");
-        response = await fetch(`/api/files?projectID=${projectId}&fileName=${file.name}`);
+        response = fetchFile(projectId, file.name);
       } else {
-        console.log("Fetching xegos");
-        response = await fetch(`/api/xegofiles?xegoID=${projectId}&fileName=${file.name}`);
+        response = fetchXegoFile(projectId, file.name);
       }
-      const fileData = await response.json();
+      const fileData =  response;
       console.log("fileData: ", fileData);
       
       const completeFileData = {
