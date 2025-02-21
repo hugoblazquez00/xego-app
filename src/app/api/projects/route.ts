@@ -15,7 +15,6 @@ export const GET = async (request: Request) => {
 
     if (projectId) {
       // Get single project
-      console.log(projectId);
       const project = await Project.find({ _id: projectId }).exec();
       if (!project) {
         return new NextResponse("Project not found", { status: 404 });
