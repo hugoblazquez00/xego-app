@@ -8,7 +8,7 @@ export function Workspace({ className, currentScreen, currentView, projectId, se
   const renderView = () => {
     switch (currentView) {
       case "website":
-        return <WebsiteView currentScreen={currentScreen} />
+        return <WebsiteView currentScreen={currentScreen} projectId={projectId} />
       case "frontend":
         return <FrontendView 
                  currentScreen={currentScreen} 
