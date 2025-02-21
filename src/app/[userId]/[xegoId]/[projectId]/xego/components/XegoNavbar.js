@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { BoldComputer, EmptyComputer, OnComputer } from '@/components/icons'
 import { ScreenSelector } from './screen-selector'
+import { fetchProjectDetails} from '../../../../../utils/api';
 
 export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, projectId, userId }) {
   const router = useRouter()
@@ -15,21 +16,20 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
     const fetchProjectAndXegoInfo = async () => {
       try {
         // Fetch project info
-        const projectResponse = await fetch(`/api/projects?projectID=${projectId}`);
+        const projectData = await fetchProjectDetails(projectId);
         
-        if (projectResponse.ok) {
-          const projectData = await projectResponse.json();
-          // Since we get an array with one object, we take the first element
-          const project = projectData[0];
-          setProjectName(project.name);
+        //const projectData = await projectResponse.json();
+        // Since we get an array with one object, we take the first element
+        const project = projectData[0];
+        setProjectName(project.name);
 
-          // Fetch xego info using the xego ID from the project
-          const xegoResponse = await fetch(`/api/xegos?xegoID=${project.idxego}`)
-          if (xegoResponse.ok) {
-            const xegoData = await xegoResponse.json()
-            setXegoName(xegoData.title)
-          }
+        // Fetch xego info using the xego ID from the project
+        const xegoResponse = await fetch(`/api/xegos?xegoID=${project.idxego}`)
+        if (xegoResponse.ok) {
+          const xegoData = await xegoResponse.json()
+          setXegoName(xegoData.title)
         }
+        
       } catch (error) {
         console.error('Error fetching project/xego info:', error)
       }
