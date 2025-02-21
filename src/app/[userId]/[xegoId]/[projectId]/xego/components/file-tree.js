@@ -33,7 +33,7 @@ const renderTreeItem = (item, onSelect, onDelete) => {
   );
 };
 
-export function FileTree({ onSelect, currentScreen, files, projectId, onCreate, onDelete, itemToDelete, setItemToDelete }) {
+export function FileTree({ onSelect, currentScreen, files, projectId, handleCreateFile, onDelete, itemToDelete, setItemToDelete }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = (item) => {
@@ -57,7 +57,7 @@ export function FileTree({ onSelect, currentScreen, files, projectId, onCreate, 
   return (
     <div className="flex flex-col h-full">
       <div style={{ height: "calc(100vh - 146px)" }} className="relative flex w-full flex-col overflow-hidden rounded-lg border bg-background md:shadow-xl">
-        <FileDock projectId={projectId} onCreate={onCreate} files={files} />
+        <FileDock projectId={projectId} handleCreateFile={handleCreateFile} files={files} />
         <Tree
           className="overflow-auto rounded-md bg-background p-2"
           elements={files}

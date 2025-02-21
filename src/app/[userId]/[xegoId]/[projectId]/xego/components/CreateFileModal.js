@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button"; // Adjust the import based on your UI library
 
-const CreateFileModal = ({ isOpen, onClose, onCreate, type, files }) => {
+const CreateFileModal = ({ isOpen, onClose, handleCreateFile, type, files }) => {
   const [name, setName] = useState('');
   const [path, setPath] = useState('');
   const modalRef = useRef(null);
@@ -11,7 +11,8 @@ const CreateFileModal = ({ isOpen, onClose, onCreate, type, files }) => {
   
     const fullPath = path === "/" ? `/${name}` : `${path}/${name}`;
     console.log(fullPath);
-    onCreate({ name, path: fullPath, type });
+    console.log
+    handleCreateFile( name, fullPath, type );
     onClose(); // Cerrar el modal después de la creación
   };
 

@@ -12,7 +12,7 @@ const SCALE = 1.5; // Scale factor for icons
 const DISTANCE = 50; // Distance before mouse affects an icon
 const NUDGE = 5; // Pixels icons are moved away from mouse
 
-export function FileDock({ projectId, onCreate, files }) {
+export function FileDock({ projectId, handleCreateFile, files }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFolder, setIsFolder] = useState(false);
 
@@ -43,7 +43,7 @@ export function FileDock({ projectId, onCreate, files }) {
       <CreateFileModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
-        onCreate={onCreate}
+        handleCreateFile={handleCreateFile}
         type={isFolder ? 'folder' : 'file'}
         files={files}
       />
