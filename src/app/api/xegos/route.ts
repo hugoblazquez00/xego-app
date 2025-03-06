@@ -20,7 +20,7 @@ export const GET = async (request: Request) => {
         return new NextResponse("Xego not found", { status: 404 });
       }
   
-      console.log("Xego from api/xegos:", xego)
+      // console.log("Xego from api/xegos:", xego)
       return new NextResponse(JSON.stringify(xego), { status: 200 });
     }
     else{

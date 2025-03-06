@@ -1,37 +1,34 @@
 import connect from "@/app/lib/db";
 import File from "@/app/lib/modals/file";
 import { NextResponse } from "next/server";
-import { transform } from "@babel/core";
-import { build } from "esbuild";
 
 export const POST = async (request: Request) => {
-
   const { searchParams } = new URL(request.url);
-  const projectId = searchParams.get("projectID");
+  const projectID = searchParams.get("projectID");
+
+  if (!projectID) {
+    return new NextResponse("Missing projectID parameter", { status: 400 });
+  }
 
   try {
     await connect();
-    console.log("files.json()\n\n\n\n\n\n\n\n")
-    const files = await File.find({ idproject: projectId }).exec();
-    
-    console.log(files.json())
-    // Transformar y agrupar archivos
-    const transformedFiles = await Promise.all(files.map(async (file) => {
-      const result = await transform(file.content, {
-        presets: ["@babel/preset-react"],
-      });
-      return { name: file.name, content: result.code };
-    }));
+    const files = await File.find({ idproject: projectID }).exec();
 
-    // Usar esbuild para agrupar
-    const bundleResult = await build({
-      entryPoints: transformedFiles.map(file => ({ contents: file.content, loader: 'jsx' })),
-      bundle: true,
-      write: false,
+    if (files.length === 0) {
+      return new NextResponse("No files found for the project", { status: 404 });
+    }
+
+    // Normalizar rutas y construir el mapa de archivos
+    const fileMap: { [key: string]: string } = {};
+    files.forEach((file) => {
+      let normalizedPath = file.path.replace(/^\/+/, ""); // Quitar `/` inicial si existe
+      fileMap[normalizedPath] = file.content;
     });
 
-    return new NextResponse(bundleResult.outputFiles[0].text, { status: 200 });
+    return NextResponse.json(fileMap);
   } catch (error) {
-    return new NextResponse("Error bundling files " + error.message, { status: 500 });
+    return new NextResponse(`Error fetching files: ${error.message}`, {
+      status: 500,
+    });
   }
-}; 
+};
