@@ -19,10 +19,9 @@ export const POST = async (request: Request) => {
       return new NextResponse("No files found for the project", { status: 404 });
     }
 
-    // Mapa de archivos { ruta: contenido }
     const fileMap: { [key: string]: string } = {};
     files.forEach((file) => {
-      let normalizedPath = file.path.replace(/^\/+/, ""); // Normalizar rutas
+      let normalizedPath = file.path.replace(/^\/+/, ""); 
       fileMap[normalizedPath] = file.content;
     });
 
@@ -32,7 +31,7 @@ export const POST = async (request: Request) => {
       return new NextResponse("Entry file src/index.jsx not found", { status: 400 });
     }
 
-    // Construcción del bundle con esbuild en el backend con los plugins adecuados
+    
     const result = await esbuild.build({
       entryPoints: [entryFile],
       bundle: true,
@@ -60,15 +59,12 @@ export const POST = async (request: Request) => {
             build.onResolve({ filter: /^\.\.?\// }, (args) => {
               let fullPath = args.resolveDir + "/" + args.path;
 
-              // Normalizar la ruta
               fullPath = fullPath.replace(/\\/g, "/").replace("//", "/");
 
-              // Si el archivo existe en `fileMap`, devolverlo correctamente
               if (fileMap[fullPath]) {
                 return { path: fullPath, namespace: "file-loader" };
               }
 
-              // Prueba con la extensión JSX si no la tiene
               if (!fullPath.endsWith(".js") && !fullPath.endsWith(".jsx")) {
                 if (fileMap[fullPath + ".jsx"]) {
                   return { path: fullPath + ".jsx", namespace: "file-loader" };
@@ -80,8 +76,6 @@ export const POST = async (request: Request) => {
 
               return { external: true };
             });
-
-            // Resolver archivos del usuario
             build.onResolve({ filter: /.*/ }, (args) => {
               if (args.path in fileMap) {
                 return { path: args.path, namespace: "file-loader" };
@@ -100,7 +94,6 @@ export const POST = async (request: Request) => {
       ],
     });
 
-    // Devolver el código generado como respuesta
     return new NextResponse(result.outputFiles[0].text, { status: 200 });
   } catch (error) {
     return new NextResponse(`Error bundling files: ${error.message}`, { status: 500 });
