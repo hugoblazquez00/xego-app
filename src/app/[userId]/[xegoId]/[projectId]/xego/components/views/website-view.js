@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-export function WebsiteView({ projectId }) {
+export function WebsiteView({ projectId, currentScreen }) {
   const [iframeSrc, setIframeSrc] = useState("");
 
   useEffect(() => {
     const loadBundle = async () => {
       try {
-        const response = await fetch(`/api/bundle?projectID=${projectId}`, { method: "POST" });
+        const response = await fetch(`/api/bundle?projectID=${projectId}&screen=${currentScreen}`, { method: "POST" });
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -36,10 +37,10 @@ export function WebsiteView({ projectId }) {
     };
 
     loadBundle();
-  }, [projectId]);
+  }, [projectId, currentScreen]);
 
   return (
-    <div className="website-view" style={{ width: "100%"}}>
+    <div className="website-view" style={{ width: "100%" }}>
       <iframe src={iframeSrc || "about:blank"} style={{ width: "100%", height: "100vh", border: "none" }} />
     </div>
   );
