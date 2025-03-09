@@ -30,7 +30,7 @@ export const fetchXegoFiles = async (projectId) => {
 export const fetchXegoFile = async (projectId, filename) => {
   const projectDetails = await fetchProjectDetails(projectId);
   const idXego = projectDetails[0]?.idxego; 
-  console.log("idxego",idXego)
+  console.log("idxego",filename)
   const response = await fetch(`${API_BASE_URL}/xegofiles?xegoID=${idXego}&fileName=${filename}`);
   if (!response.ok) {
     throw new Error('Error fetching files');

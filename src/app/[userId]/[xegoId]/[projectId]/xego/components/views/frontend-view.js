@@ -3,7 +3,6 @@ import { FileTree } from "../file-tree"
 import { CodeEditor } from "../code-editor"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ActionsFrontendView } from "../actions-frontend-view"
 import { fetchFiles, fetchXegoFiles, createFile, deleteFile, fetchFile,fetchXegoFile } from '../../../../../../utils/api';
 
 const buildTree = (files) => {
@@ -92,7 +91,6 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
         response = await fetchXegoFile(projectId, file.name);
       }
       const fileData =  response;
-      
       const completeFileData = {
         ...file,
         ...fileData,
@@ -133,13 +131,13 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
     }
   };
 
-  const toggleTheme = () => {
-    const newTheme = currentTheme === 'vs-dark' ? 'light' : 'vs-dark';
-    setCurrentTheme(newTheme);
-    if (editorRef.current) {
-      editorRef.current.changeTheme(newTheme);
-    }
-  };
+  // const toggleTheme = () => {
+  //   const newTheme = currentTheme === 'vs-dark' ? 'light' : 'vs-dark';
+  //   setCurrentTheme(newTheme);
+  //   if (editorRef.current) {
+  //     editorRef.current.changeTheme(newTheme);
+  //   }
+  // };
 
   // const formatCode = () => {
   //   if (editorRef.current) {
@@ -147,11 +145,11 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
   //   }
   // };
 
-  const changeLanguage = (language) => {
-    if (editorRef.current) {
-      editorRef.current.changeLanguage(language);
-    }
-  };
+  // const changeLanguage = (language) => {
+  //   if (editorRef.current) {
+  //     editorRef.current.changeLanguage(language);
+  //   }
+  // };
 
   const handleDelete = (item) => {
     setItemToDelete(item);
@@ -189,11 +187,6 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
         <div className="flex-1">
           <CodeEditor ref={editorRef} code={codeXego} setCode={handleEditorChange} theme={currentTheme} />
         </div>
-        <ActionsFrontendView 
-          editorRef={editorRef} 
-          currentTheme={currentTheme} 
-          toggleTheme={toggleTheme} 
-        />
       </div>
     </div>
   )
