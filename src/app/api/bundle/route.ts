@@ -1,11 +1,14 @@
 import connect from "@/app/lib/db";
 import File from "@/app/lib/modals/file";
+import XegoFile from "@/app/lib/modals/xegoFile";
+import Project from "@/app/lib/modals/project";
 import { NextResponse } from "next/server";
 import * as esbuild from "esbuild";
 
 export const POST = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const projectID = searchParams.get("projectID");
+  const screen = searchParams.get("screen");
 
   if (!projectID) {
     return new NextResponse("Missing projectID parameter", { status: 400 });
@@ -13,10 +16,23 @@ export const POST = async (request: Request) => {
 
   try {
     await connect();
-    const files = await File.find({ idproject: projectID }).exec();
+    let files;
+    if (screen === "project") {
+      files = await File.find({ idproject: projectID }).exec();
+    } else if (screen === "instructions") {
+      const project = await Project.find({ _id: projectID }).exec();
+      
+      //const xegoID = project?.idxego;
+      const xegoID = project[0]?.idxego; 
+      if (!xegoID) {
+        return new NextResponse("XegoID not found for the project", { status: 404 });
+      }
+
+      files = await XegoFile.find({ idxego: xegoID }).exec();
+    }
 
     if (files.length === 0) {
-      return new NextResponse("No files found for the project", { status: 404 });
+      return new NextResponse("No files found for the project or xego", { status: 404 });
     }
 
     const fileMap: { [key: string]: string } = {};
@@ -31,7 +47,6 @@ export const POST = async (request: Request) => {
       return new NextResponse("Entry file src/index.jsx not found", { status: 400 });
     }
 
-    
     const result = await esbuild.build({
       entryPoints: [entryFile],
       bundle: true,
