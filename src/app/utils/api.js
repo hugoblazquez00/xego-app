@@ -122,7 +122,8 @@ export const createAiMessage = async (projectId, content) => {
   if (!response.ok) {
     throw new Error('Error creating AI message');
   }
-  return await response.json();
+  const data = await response.json();
+  return data;
 };
 
 export const fetchAiMessages = async (projectId) => {
