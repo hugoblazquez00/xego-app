@@ -114,6 +114,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
       <AiHelperModal 
         isOpen={isAiHelperOpen}
         onClose={() => setIsAiHelperOpen(false)}
+        projectId={projectId}
       />
     </>
   )

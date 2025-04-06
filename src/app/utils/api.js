@@ -107,3 +107,28 @@ export const verifyUser = async (userId) => {
   }
   return await response.json();
 };
+
+export const createAiMessage = async (projectId, content) => {
+  const response = await fetch(`${API_BASE_URL}/aimessage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      idproject: projectId,
+      content: content,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error('Error creating AI message');
+  }
+  return await response.json();
+};
+
+export const fetchAiMessages = async (projectId) => {
+  const response = await fetch(`${API_BASE_URL}/aimessage?projectId=${projectId}`);
+  if (!response.ok) {
+    throw new Error('Error fetching AI messages');
+  }
+  return await response.json();
+};
