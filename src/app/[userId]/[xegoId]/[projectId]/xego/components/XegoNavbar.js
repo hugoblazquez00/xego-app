@@ -7,7 +7,7 @@ import { ScreenSelector } from './screen-selector'
 import { fetchProjectDetails, fetchXegoDetails} from '../../../../../utils/api';
 import { AiHelperModal } from './AiHelperModal'
 
-export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, projectId, userId }) {
+export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, projectId, userId, files }) {
   const router = useRouter()
   const [projectName, setProjectName] = useState('')
   const [xegoName, setXegoName] = useState('')
@@ -115,6 +115,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
         isOpen={isAiHelperOpen}
         onClose={() => setIsAiHelperOpen(false)}
         projectId={projectId}
+        files={files}
       />
     </>
   )

@@ -17,7 +17,6 @@ export const fetchFile = async (projectId, filename) => {
 };
 
 export const fetchXegoFiles = async (projectId) => {
-
   const projectDetails = await fetchProjectDetails(projectId);
   const idXego = projectDetails[0]?.idxego; 
   const response = await fetch(`${API_BASE_URL}/xegofiles?xegoID=${idXego}`);
@@ -108,7 +107,7 @@ export const verifyUser = async (userId) => {
   return await response.json();
 };
 
-export const createAiMessage = async (projectId, content) => {
+export const createAiMessage = async (projectId, content, context = [], lastMessages = []) => {
   const response = await fetch(`${API_BASE_URL}/aimessage`, {
     method: 'POST',
     headers: {
@@ -116,7 +115,9 @@ export const createAiMessage = async (projectId, content) => {
     },
     body: JSON.stringify({
       idproject: projectId,
-      content: content,
+      content,
+      context,
+      lastMessages
     }),
   });
   if (!response.ok) {
