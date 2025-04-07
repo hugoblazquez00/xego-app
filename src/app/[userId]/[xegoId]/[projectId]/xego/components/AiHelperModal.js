@@ -12,6 +12,7 @@ export function AiHelperModal({ isOpen, onClose, projectId, files }) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const messagesEndRef = useRef(null);
   const contextMenuRef = useRef(null);
 
@@ -87,6 +88,13 @@ export function AiHelperModal({ isOpen, onClose, projectId, files }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  };
+
   if (!isOpen) {
     return null;
   }
@@ -124,8 +132,33 @@ export function AiHelperModal({ isOpen, onClose, projectId, files }) {
                     remarkPlugins={[remarkGfm]}
                     components={{
                         p: ({ node, ...props }) => <p className="prose prose-sm dark:prose-invert" {...props} />,
-                        pre: ({ node, ...props }) => <pre className="bg-gray-900 text-white p-2 rounded-md overflow-x-auto my-2" {...props} />,
-                        code: ({ node, ...props }) => <code className="bg-gray-100 text-gray-600 px-1 rounded" {...props} />
+                        pre: ({ node, ...props }) => {
+                          const code = props.children?.props?.children || '';
+                          return (
+                            <div className="relative">
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  copyToClipboard(code);
+                                }}
+                                className="text-xs bg-white/10 hover:bg-white/20 absolute top-1 right-1 px-2 py-0.5 rounded"
+                              >
+                                {copied ? 'Copied' : 'Copy'}
+                              </button>
+                              <pre className="bg-gray-900 text-white p-2 rounded-md overflow-x-auto my-2" {...props} />
+                            </div>
+                          );
+                        },
+                        code: ({ inline, children, ...props }) => (
+                          inline ? (
+                            <code className="bg-gray-100 text-gray-600 px-1 rounded" {...props}>
+                              {children}
+                            </code>
+                          ) : (
+                            <code {...props}>{children}</code>
+                          )
+                        )
                     }}
                 />
               </div>
