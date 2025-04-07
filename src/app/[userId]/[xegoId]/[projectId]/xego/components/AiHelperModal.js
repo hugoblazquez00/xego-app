@@ -156,7 +156,7 @@ export function AiHelperModal({ isOpen, onClose, projectId, files }) {
                               {children}
                             </code>
                           ) : (
-                            <code {...props}>{children}</code>
+                            <code className="bg-gray-100 text-gray-600 px-1 rounded" {...props}>{children}</code>
                           )
                         )
                     }}
