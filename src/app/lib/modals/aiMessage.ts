@@ -1,4 +1,3 @@
-
 import { Schema, model, models } from "mongoose";
 // const mongoose = require('mongoose');
 
@@ -8,7 +7,11 @@ const AiMessageSchema = new Schema({
     content: { type: String, required: true },
     model: { type: String },        
     tokensUsed: { type: Number },    
-}, { timestamps: true });           
+    context: [{
+        path: { type: String },
+        content: { type: String }
+    }]
+}, { timestamps: true }); // TODO añadir contexto          
 
 const AiMessage = models.AiMessage || model("AiMessage", AiMessageSchema, "aiMessages");
 

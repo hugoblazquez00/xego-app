@@ -71,6 +71,7 @@ export default function XegoPage({ params }) {
         onSave={handleSave}
         projectId={projectId}
         userId={userId}
+        files={files} 
       />
       <main className="flex-1 flex flex-col overflow-hidden">
         <div className="flex-1 overflow-hidden">

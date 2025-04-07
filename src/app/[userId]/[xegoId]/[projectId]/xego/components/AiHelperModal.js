@@ -1,14 +1,19 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react';
-import { createAiMessage, fetchAiMessages } from '@/app/utils/api';
-import { AiHelperConvoIcon, SendIcon } from '@/components/icons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { createAiMessage, fetchAiMessages, fetchFile } from '@/app/utils/api';
+import { AiHelperConvoIcon, SendIcon, AddContextIcon } from '@/components/icons';
 
-export function AiHelperModal({ isOpen, onClose, projectId }) {
+export function AiHelperModal({ isOpen, onClose, projectId, files }) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const messagesEndRef = useRef(null);
+  const contextMenuRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -30,14 +35,39 @@ export function AiHelperModal({ isOpen, onClose, projectId }) {
     }
   }, [isOpen, projectId]);
 
+  const handleFileSelect = async (file) => {
+    if (selectedFiles.some(f => f.path === file.path)) return;
+    
+    try {
+      const fileContent = await fetchFile(projectId, file.name);
+      setSelectedFiles(prev => [...prev, {
+        path: file.path,
+        content: fileContent.content
+      }]);
+      setIsContextMenuOpen(false);
+    } catch (error) {
+      console.error('Error fetching file content:', error);
+    }
+  };
+
+  const removeFile = (path) => {
+    setSelectedFiles(prev => prev.filter(f => f.path !== path));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message.trim()) return;
 
+    const lastMessages = messages
+      .filter(msg => msg.sender === 'user')
+      .slice(-5)
+      .map(msg => ({ content: msg.content }));
+
     setIsLoading(true);
     try {
-      await createAiMessage(projectId, message);
+      await createAiMessage(projectId, message, selectedFiles, lastMessages);
       setMessage('');
+      setSelectedFiles([]);
       await loadMessages();
     } catch (error) {
       console.error('Error sending message:', error);
@@ -45,6 +75,17 @@ export function AiHelperModal({ isOpen, onClose, projectId }) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
+        setIsContextMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (!isOpen) {
     return null;
@@ -78,41 +119,98 @@ export function AiHelperModal({ isOpen, onClose, projectId }) {
                     : 'bg-gray-700 text-white'
                 }`}
               >
-                {msg.content}
+                <ReactMarkdown
+                    children={msg.content}
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                        p: ({ node, ...props }) => <p className="prose prose-sm dark:prose-invert" {...props} />,
+                        pre: ({ node, ...props }) => <pre className="bg-gray-900 text-white p-2 rounded-md overflow-x-auto my-2" {...props} />,
+                        code: ({ node, ...props }) => <code className="bg-gray-100 text-gray-600 px-1 rounded" {...props} />
+                    }}
+                />
               </div>
             </div>
           ))}
           <div ref={messagesEndRef} />
         </div>
 
+        {/* Área de archivos seleccionados */}
+        {selectedFiles.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-2">
+            {selectedFiles.map((file) => (
+              <div
+                key={file.path}
+                className="bg-gray-100 px-3 py-1 rounded-full flex items-center gap-2 group"
+              >
+                <span className="text-sm">{file.path}</span>
+                <button
+                  onClick={() => removeFile(file.path)}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-500 hover:text-gray-700"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Input form */}
-        <form onSubmit={handleSubmit} className="flex gap-2 items-end">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type your message here..."
-            className="flex-1 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="1"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit(e);
-              }
-            }}
-          />
+        <form onSubmit={handleSubmit} className="flex gap-2 items-end relative" onClick={(e) => e.stopPropagation()}>
+          <div className="flex-1 flex items-end gap-2">
+            <button
+              type="button"
+              onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
+              className="p-2 mb-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <AddContextIcon className="w-5 h-5" />
+            </button>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message here..."
+              className="flex-1 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="1"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit(e);
+                }
+              }}
+            />
+          </div>
+          
           <button
             type="submit"
             disabled={isLoading || !message.trim()}
-            className={`p-3 rounded-lg h-[50px] w-[50px] flex items-center justify-center transition-colors ${
+            className={`p-2 mb-2 flex items-center justify-center transition-colors ${
               isLoading || !message.trim()
-                ? 'bg-gray-300 cursor-not-allowed'
-                : 'bg-blue-500 hover:bg-blue-600 text-white'
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-blue-500 hover:text-blue-600'
             }`}
           >
             <SendIcon className={`w-5 h-5 ${isLoading ? 'opacity-50' : ''}`} />
           </button>
+
+          {/* Menú de contexto */}
+          {isContextMenuOpen && (
+            <div
+              ref={contextMenuRef}
+              className="absolute bottom-full left-0 mb-2 w-64 max-h-48 overflow-y-auto bg-white border rounded-lg shadow-lg"
+            >
+              {files.filter(file => file.type === 'file').map((file) => (
+                <button
+                  key={file.path}
+                  type="button"
+                  onClick={() => handleFileSelect(file)}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                >
+                  {file.path}
+                </button>
+              ))}
+            </div>
+          )}
         </form>
       </div>
     </div>
   );
-} 
+}
