@@ -95,7 +95,10 @@ export default function XegoPage({ params }) {
       </main>
       {currentScreen === "instructions" && (
         <div className="absolute bottom-6 right-6 z-50 w-[400px]">
-          <InstructionsCard />
+          <InstructionsCard 
+          
+          projectId={projectId}
+        />
         </div>
       )}
     </div>
