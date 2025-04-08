@@ -5,7 +5,7 @@ import React from 'react';
 import { fetchProjects } from '../../utils/api';
 
 export default function Home({ params }) {
-  const userId = React.use(params).userId; 
+  const userId = params.userId; 
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
