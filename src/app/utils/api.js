@@ -26,6 +26,7 @@ export const fetchXegoFiles = async (projectId) => {
   }
   return await response.json();
 };
+
 export const fetchXegoFile = async (projectId, filename) => {
   const projectDetails = await fetchProjectDetails(projectId);
   const idXego = projectDetails[0]?.idxego; 
@@ -133,4 +134,13 @@ export const fetchAiMessages = async (projectId) => {
     throw new Error('Error fetching AI messages');
   }
   return await response.json();
+};
+
+export const fetchInstructionByStep = async (xegoId, step) => {
+  const response = await fetch(`${API_BASE_URL}/instructions?xegoId=${xegoId}`);
+  if (!response.ok) {
+    throw new Error('Error fetching instructions');
+  }
+  const allInstructions = await response.json();
+  return allInstructions.find(instruction => instruction.step === step);
 };
