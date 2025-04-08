@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Workspace } from "./components/workspace"
 import { ViewSelector } from "./components/view-selector"
 import { XegoNavbar } from "./components/XegoNavbar"
+import { InstructionsCard } from "./components/instructions-card";
 import React from "react"
 import { fetchFiles } from '../../../../utils/api';
 
@@ -15,8 +16,8 @@ export default function XegoPage({ params }) {
   const [codeXego, setCodeXego] = useState('');
   const [currentFileXego, setCurrentFileXego] = useState(null);
   
-  const projectId = React.use(params).projectId
-  const userId = React.use(params).userId
+  const projectId = params.projectId
+  const userId = params.userId
 
   useEffect(() => {
     const loadFiles = async () => {
@@ -63,7 +64,7 @@ export default function XegoPage({ params }) {
   }
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col relative">
       <XegoNavbar 
         currentScreen={currentScreen}
         onToggle={toggleScreen}
@@ -92,6 +93,11 @@ export default function XegoPage({ params }) {
         </div>
         <ViewSelector currentView={currentView} onViewChange={setCurrentView} className="border-t p-4" />
       </main>
+      {currentScreen === "instructions" && (
+        <div className="absolute bottom-6 right-6 z-50 w-[400px]">
+          <InstructionsCard />
+        </div>
+      )}
     </div>
   )
 }

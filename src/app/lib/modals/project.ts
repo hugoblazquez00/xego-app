@@ -6,7 +6,8 @@ const ProjectSchema = new Schema({
   idxego: { type: Schema.Types.ObjectId, ref: "Xego", required: true },
   name: { type: String, required: true }, 
   description: { type: String },
-  files: [{ type: Schema.Types.ObjectId, ref: "File" }], 
+  files: [{ type: Schema.Types.ObjectId, ref: "File" }],
+  currentXegoStep: {type: Number, default: 0},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

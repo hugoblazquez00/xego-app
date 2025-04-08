@@ -7,6 +7,7 @@ const XegoFileSchema = new Schema({
   path: { type: String, required: true },
   language: { type: String, required: false },
   type: { type: String, required: true },
+  step: { type: Number, required: true },
   __v: { type: Number, default: 0 },
   modtime: { type: Date, default: Date.now },
   createdAt: { type: Date, default: Date.now },
