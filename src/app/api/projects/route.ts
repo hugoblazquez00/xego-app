@@ -85,4 +85,33 @@ export const POST = async (request: Request) => {
   }
 };
 
-// Puedes agregar métodos PATCH y DELETE según sea necesario 
+export const PATCH = async (request: Request) => {
+  try {
+    await connect();
+    const { projectId, action } = await request.json();
+
+    if (!projectId || !["next", "prev"].includes(action)) {
+      return new NextResponse("Missing or invalid parameters", { status: 400 });
+    }
+
+    const projects = await Project.find({ _id: projectId }).exec();
+    const project = projects[0];
+    if (!project) {
+      return new NextResponse("Project not found", { status: 404 });
+    }
+
+    const newStep = action === "next"
+      ? project.currentXegoStep + 1
+      : Math.max(0, project.currentXegoStep - 1);
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      { currentXegoStep: newStep },
+      { new: true }
+    );
+
+    return new NextResponse(JSON.stringify(updatedProject), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse("Error updating project: " + error.message, { status: 500 });
+  }
+};

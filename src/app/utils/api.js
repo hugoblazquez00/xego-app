@@ -144,3 +144,19 @@ export const fetchInstructionByStep = async (xegoId, step) => {
   const allInstructions = await response.json();
   return allInstructions.find(instruction => instruction.step === step);
 };
+
+export const updateProjectStep = async (projectId, action) => {
+  const response = await fetch(`${API_BASE_URL}/projects`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ projectId, action }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Error updating project step');
+  }
+
+  return await response.json();
+};
