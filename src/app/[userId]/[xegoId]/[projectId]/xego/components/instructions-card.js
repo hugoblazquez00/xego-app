@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { PreviousInstructions, NextInstructions } from "@/components/icons";
 
-import { fetchProjectDetails, fetchInstructionByStep} from '../../../../../utils/api';
+import { fetchProjectDetails, fetchInstructionByStep, updateProjectStep } from '../../../../../utils/api';
 export function InstructionsCard({ projectId }) {
   const [instruction, setInstruction] = useState(null);
 
@@ -24,20 +24,38 @@ export function InstructionsCard({ projectId }) {
     fetchInstruction();
   }, [projectId]);
 
+  const updateInstruction = async (action) => {
+    try {
+      await updateProjectStep(projectId, action);
+      const projectData = await fetchProjectDetails(projectId);
+      const project = projectData[0];
+      const xegoId = project.idxego;
+      const currentStep = project.currentXegoStep;
+
+      const data = await fetchInstructionByStep(xegoId, currentStep);
+      setInstruction(data);
+    } catch (err) {
+      console.error(`Error updating step (${action}):`, err);
+    }
+  };
+
+  const handleNext = () => updateInstruction("next");
+  const handlePrev = () => updateInstruction("prev");
+
   if (!instruction) return null;
 
   return (
     <div className={`relative bg-white rounded-lg shadow-md px-6 py-5`}>
-      {/* Botón anterior */}
+      
       <button
-        //onClick={onPrev}
+        onClick={handlePrev}
         className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center  hover:bg-gray-200 p-2 rounded-full"
-        aria-label="Anterior"
+        aria-label="Prev"
       >
         <PreviousInstructions className="pr-1 h-8 w-8 text-gray-700" />
       </button>
 
-      {/* Contenido */}
+      
       <div className="text-center px-10">
         <h4 className="text-sm text-gray-500 font-medium uppercase tracking-wide mb-1">
           Activity
@@ -52,11 +70,11 @@ export function InstructionsCard({ projectId }) {
         <p className="text-sm text-gray-600 mt-4">{instruction.description}</p>
       </div>
 
-      {/* Botón siguiente */}
+
       <button
-        //onClick={onNext}
+        onClick={handleNext}
         className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center  hover:bg-gray-200 p-2 rounded-full"
-        aria-label="Siguiente"
+        aria-label="Next"
       >
         <NextInstructions className="pl-1 h-8 w-8 text-gray-700" />
       </button>
