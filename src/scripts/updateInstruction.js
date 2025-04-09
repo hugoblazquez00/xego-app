@@ -1,13 +1,27 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-const Instruction = require("../app/lib/modals/instruction.js");
+
+
+const InstructionSchema = new mongoose.Schema({
+  xegoId: { type: mongoose.Schema.Types.ObjectId, ref: "Xego", required: true },
+  step: { type: Number, required: true },
+  activityTitle: { type: String, required: true },
+  taskTitle: { type: String, required: true },
+  description: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
+
+const Instruction = mongoose.models.Instruction || mongoose.model("Instruction", InstructionSchema, "instructions");
 
 (async function run() {
   try {
+    console.log("Connecting to DB:", process.env.MONGODB_URI);
     await mongoose.connect(process.env.MONGODB_URI);
 
-    const instructionId = "67f54ef4a712bd907058372b";
+    const instructionId = new mongoose.Types.ObjectId("67f54ef4a712bd907058372b");
 
+    
     const updatedInstruction = await Instruction.findByIdAndUpdate(
       instructionId,
       {
@@ -20,12 +34,12 @@ const Instruction = require("../app/lib/modals/instruction.js");
     );
 
     if (!updatedInstruction) {
-      console.log("⚠️ Instruction not found");
+      console.log(" Instruction not found");
     } else {
-      console.log("✅ Instruction updated:", updatedInstruction);
+      console.log(" Instruction updated:", updatedInstruction);
     }
   } catch (error) {
-    console.error("❌ Error updating instruction:", error);
+    console.error(" Error updating instruction:", error);
   } finally {
     await mongoose.disconnect();
   }
