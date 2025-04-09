@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { PreviousInstructions, NextInstructions } from "@/components/icons";
 
 import { fetchProjectDetails, fetchInstructionByStep, updateProjectStep } from '../../../../../utils/api';
-export function InstructionsCard({ projectId }) {
+export function InstructionsCard({ projectId,onStepChange }) {
   const [instruction, setInstruction] = useState(null);
 
   useEffect(() => {
@@ -34,6 +34,10 @@ export function InstructionsCard({ projectId }) {
 
       const data = await fetchInstructionByStep(xegoId, currentStep);
       setInstruction(data);
+      
+      if (onStepChange) {
+        onStepChange(currentStep);
+      }
     } catch (err) {
       console.error(`Error updating step (${action}):`, err);
     }

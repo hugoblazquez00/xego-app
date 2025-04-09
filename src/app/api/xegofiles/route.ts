@@ -6,6 +6,7 @@ export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const xegoId = searchParams.get("xegoID");
   const fileName = searchParams.get("fileName");
+  const stepParam = searchParams.get("step");
 
   try {
     await connect();
@@ -19,8 +20,13 @@ export const GET = async (request: Request) => {
       return new NextResponse(JSON.stringify(file), { status: 200 });
     }
 
-    // Get all files for xego
-    const files = await XegoFile.find({ idxego: xegoId });
+    // Get all files for xego with optional step filter
+    const query: any = { idxego: xegoId };
+    if (stepParam !== null) {
+      query.step = Number(stepParam);
+    }
+    
+    const files = await XegoFile.find(query);
     return new NextResponse(JSON.stringify(files), { status: 200 });
   } catch (error) {
     console.error("Error fetching xego files:", error);

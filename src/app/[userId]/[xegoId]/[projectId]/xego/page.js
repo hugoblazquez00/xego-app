@@ -6,7 +6,7 @@ import { ViewSelector } from "./components/view-selector"
 import { XegoNavbar } from "./components/XegoNavbar"
 import { InstructionsCard } from "./components/instructions-card";
 import React from "react"
-import { fetchFiles } from '../../../../utils/api';
+import { fetchFiles, fetchProjectDetails } from '../../../../utils/api';
 
 export default function XegoPage({ params }) {
   const [currentView, setCurrentView] = useState("website")
@@ -15,6 +15,7 @@ export default function XegoPage({ params }) {
   const [isSavedXego, setIsSavedXego] = useState(true);
   const [codeXego, setCodeXego] = useState('');
   const [currentFileXego, setCurrentFileXego] = useState(null);
+  const [currentStep, setCurrentStep] = useState(null);
   
   const projectId = params.projectId
   const userId = params.userId
@@ -29,7 +30,19 @@ export default function XegoPage({ params }) {
       }
     };
 
+    const loadCurrentStep = async () => {
+      try {
+        const projectDetails = await fetchProjectDetails(projectId);
+        if (projectDetails && projectDetails[0]) {
+          setCurrentStep(projectDetails[0].currentXegoStep);
+        }
+      } catch (error) {
+        console.error("Error loading current step:", error);
+      }
+    };
+
     loadFiles();
+    loadCurrentStep();
   }, [projectId]);
 
   const toggleScreen = () => {
@@ -81,6 +94,7 @@ export default function XegoPage({ params }) {
             currentScreen={currentScreen} 
             currentView={currentView} 
             projectId={projectId} 
+            currentStep={currentStep}
             files={files} 
             setIsSavedXego={setIsSavedXego} 
             isSavedXego={isSavedXego}
@@ -96,9 +110,9 @@ export default function XegoPage({ params }) {
       {currentScreen === "instructions" && (
         <div className="absolute bottom-6 right-6 z-50 w-[400px]">
           <InstructionsCard 
-          
-          projectId={projectId}
-        />
+            projectId={projectId}
+            onStepChange={setCurrentStep}
+          />
         </div>
       )}
     </div>
