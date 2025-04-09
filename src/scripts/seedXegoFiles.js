@@ -35,7 +35,7 @@ export default function App() {
         path: "/src/App.js",
         language: "javascript",
         type: "frontend",
-        step: 0,
+        step: 1,
       },
       {
         idxego: xegoId,

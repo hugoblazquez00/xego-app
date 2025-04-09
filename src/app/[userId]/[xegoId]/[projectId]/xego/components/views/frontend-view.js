@@ -43,7 +43,18 @@ const buildTree = (files) => {
   return tree;
 };
 
-export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSavedXego, setCodeXego, codeXego, setCurrentFileXego, currentFileXego, saveCurrentFile }) {
+export function FrontendView({ 
+  currentScreen, 
+  projectId, 
+  currentStep,
+  setIsSavedXego, 
+  isSavedXego, 
+  setCodeXego, 
+  codeXego, 
+  setCurrentFileXego, 
+  currentFileXego, 
+  saveCurrentFile 
+}) {
   const [files, setFiles] = useState([]);
   const editorRef = useRef(null);
   const [currentTheme, setCurrentTheme] = useState('vs-dark');
@@ -56,7 +67,7 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
       if (currentScreen === "project") {
         data = await fetchFiles(projectId);
       } else {
-        data = await fetchXegoFiles(projectId);
+        data = await fetchXegoFiles(projectId, currentStep);
       }
       const organizedFiles = buildTree(data);
       setFiles(organizedFiles);
@@ -67,7 +78,7 @@ export function FrontendView({ currentScreen, projectId, setIsSavedXego, isSaved
 
   useEffect(() => {
     loadFiles();
-  }, [projectId, currentScreen]);
+  }, [projectId, currentScreen, currentStep]);
 
   const handleEditorChange = (value) => {
     setCodeXego(value);

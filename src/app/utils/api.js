@@ -16,10 +16,11 @@ export const fetchFile = async (projectId, filename) => {
   return await response.json();
 };
 
-export const fetchXegoFiles = async (projectId) => {
+export const fetchXegoFiles = async (projectId, step) => {
   const projectDetails = await fetchProjectDetails(projectId);
   const idXego = projectDetails[0]?.idxego; 
-  const response = await fetch(`${API_BASE_URL}/xegofiles?xegoID=${idXego}`);
+  const url = `${API_BASE_URL}/xegofiles?xegoID=${idXego}${step !== undefined ? `&step=${step}` : ''}`;
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error('Error fetching xego files');
