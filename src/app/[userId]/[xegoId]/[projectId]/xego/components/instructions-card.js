@@ -66,7 +66,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep }) {
 
   if (isLastStep) {
     return (
-      <div className="relative bg-white rounded-lg shadow-md px-6 py-5">
+      <div className="relative bg-white rounded-lg shadow-md px-6 py-5 min-h-[300px] flex flex-col">
         <button
           onClick={handlePrev}
           className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
@@ -75,7 +75,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep }) {
           <PreviousInstructions className="pr-1 h-8 w-8 text-gray-700" />
         </button>
 
-        <div className="text-center px-10">
+        <div className="text-center px-10 flex-1 flex flex-col justify-center">
           <h3 className="text-2xl font-bold text-gray-800 mb-4">Congratulations! 🎉</h3>
           <p className="text-lg text-gray-700 mb-2">You've completed the whole XEGO!</p>
           <p className="text-md text-gray-600">You reached the end of the tutorial. Good job!</p>
@@ -87,35 +87,38 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep }) {
   if (!instruction) return null;
 
   return (
-    <div className={`relative bg-white rounded-lg shadow-md px-6 py-5`}>
-      
+    <div className="relative bg-white rounded-lg shadow-md px-6 py-5 min-h-[300px] flex flex-col">
       <button
         onClick={handlePrev}
-        className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center  hover:bg-gray-200 p-2 rounded-full"
+        className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
         aria-label="Prev"
       >
         <PreviousInstructions className="pr-1 h-8 w-8 text-gray-700" />
       </button>
 
-      
-      <div className="text-center px-10">
-        <h4 className="text-sm text-gray-500 font-medium uppercase tracking-wide mb-1">
-          Activity
-        </h4>
-        <h3 className="text-xl font-bold text-gray-800 mb-4">{instruction.activityTitle}</h3>
+      <div className="text-center px-10 flex-1 flex flex-col">
+        <div className="mb-auto pt-2">
+          <h4 className="text-sm text-gray-500 font-medium uppercase tracking-wide mb-1">
+            Activity
+          </h4>
+          <h3 className="text-xl font-bold text-gray-800 mb-4">{instruction.activityTitle}</h3>
+        </div>
 
-        <h5 className="text-sm text-gray-500 font-medium uppercase tracking-wide mb-1">
-          Task
-        </h5>
-        <p className="text-md text-gray-700 font-medium">{instruction.taskTitle}</p>
+        <div className="flex-1 flex flex-col justify-center">
+          <h5 className="text-sm text-gray-500 font-medium uppercase tracking-wide mb-1">
+            Task
+          </h5>
+          <p className="text-md text-gray-700 font-medium mb-4">{instruction.taskTitle}</p>
 
-        <p className="text-sm text-gray-600 mt-4">{instruction.description}</p>
+          <div className="overflow-y-auto max-h-[120px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+            <p className="text-sm text-gray-600">{instruction.description}</p>
+          </div>
+        </div>
       </div>
-
 
       <button
         onClick={handleNext}
-        className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center  hover:bg-gray-200 p-2 rounded-full"
+        className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
         aria-label="Next"
       >
         <NextInstructions className="pl-1 h-8 w-8 text-gray-700" />
