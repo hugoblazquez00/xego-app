@@ -99,9 +99,9 @@ export function FrontendView({
       if (currentScreen === "project") {
         response = await fetchFile(projectId, file.name);
       } else {
-        response = await fetchXegoFile(projectId, file.name);
+        response = await fetchXegoFile(projectId, file.name, currentStep);
       }
-      const fileData =  response;
+      const fileData = response;
       const completeFileData = {
         ...file,
         ...fileData,

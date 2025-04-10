@@ -21,7 +21,11 @@ export function Workspace({
   const renderView = () => {
     switch (currentView) {
       case "website":
-        return <WebsiteView currentScreen={currentScreen} projectId={projectId} />
+        return <WebsiteView 
+                 currentScreen={currentScreen} 
+                 projectId={projectId} 
+                 currentStep={currentStep}
+               />
       case "frontend":
         return <FrontendView 
                  currentScreen={currentScreen} 

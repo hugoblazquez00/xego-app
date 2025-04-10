@@ -26,6 +26,27 @@ async function run() {
     const files = [
       {
         idxego: xegoId,
+        name: "src",
+        path: "/src",
+        type: "folder",
+        step: 1,
+      },
+      {
+        idxego: xegoId,
+        name: "index.jsx",
+        content: `import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import App from "./App.js";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);`,
+        path: "/src/index.jsx",
+        language: "javascript",
+        type: "file",
+        step: 1,
+      },
+      {
+        idxego: xegoId,
         name: "App.js",
         content: `import React from "react";
 
@@ -34,35 +55,8 @@ export default function App() {
 }`,
         path: "/src/App.js",
         language: "javascript",
-        type: "frontend",
+        type: "file",
         step: 1,
-      },
-      {
-        idxego: xegoId,
-        name: "App.js",
-        content: `import React, { useEffect, useState } from "react";
-
-export default function App() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/tasks")
-      .then(res => res.json())
-      .then(data => setTasks(data));
-  }, []);
-
-  return (
-    <ul>
-      {tasks.map(task => (
-        <li key={task.id}>{task.text}</li>
-      ))}
-    </ul>
-  );
-}`,
-        path: "/src/App.js",
-        language: "javascript",
-        type: "frontend",
-        step: 5,
       },
     ];
 

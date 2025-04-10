@@ -28,11 +28,11 @@ export const fetchXegoFiles = async (projectId, step) => {
   return await response.json();
 };
 
-export const fetchXegoFile = async (projectId, filename) => {
+export const fetchXegoFile = async (projectId, filename, step) => {
   const projectDetails = await fetchProjectDetails(projectId);
   const idXego = projectDetails[0]?.idxego; 
-  console.log("idxego",filename)
-  const response = await fetch(`${API_BASE_URL}/xegofiles?xegoID=${idXego}&fileName=${filename}`);
+  const url = `${API_BASE_URL}/xegofiles?xegoID=${idXego}&fileName=${filename}${step !== undefined ? `&step=${step}` : ''}`;
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Error fetching files');
   }
@@ -160,4 +160,15 @@ export const updateProjectStep = async (projectId, action) => {
   }
 
   return await response.json();
+};
+
+export const fetchBundle = async (projectId, currentScreen, currentStep) => {
+  const url = `${API_BASE_URL}/bundle?projectID=${projectId}&screen=${currentScreen}${currentStep !== undefined ? `&step=${currentStep}` : ''}`;
+  const response = await fetch(url, { method: 'POST' });
+  
+  if (!response.ok) {
+    throw new Error('Error fetching bundle');
+  }
+  
+  return await response.text();
 };

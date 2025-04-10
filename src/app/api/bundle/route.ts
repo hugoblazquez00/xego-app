@@ -9,6 +9,7 @@ export const POST = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const projectID = searchParams.get("projectID");
   const screen = searchParams.get("screen");
+  const step = searchParams.get("step");
 
   if (!projectID) {
     return new NextResponse("Missing projectID parameter", { status: 400 });
@@ -22,15 +23,18 @@ export const POST = async (request: Request) => {
     } else if (screen === "instructions") {
       const project = await Project.find({ _id: projectID }).exec();
       
-      //const xegoID = project?.idxego;
       const xegoID = project[0]?.idxego; 
       if (!xegoID) {
         return new NextResponse("XegoID not found for the project", { status: 404 });
       }
 
-      files = await XegoFile.find({ idxego: xegoID }).exec();
+      const query = { idxego: xegoID };
+      if (step !== null) {
+        query['step'] = Number(step);
+      }
+      files = await XegoFile.find(query).exec();
     }
-
+    console.log(files);
     if (files.length === 0) {
       return new NextResponse("No files found for the project or xego", { status: 404 });
     }
