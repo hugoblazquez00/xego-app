@@ -71,6 +71,28 @@ export function FrontendView({
       }
       const organizedFiles = buildTree(data);
       setFiles(organizedFiles);
+
+      // Actualizar el editor si el archivo abierto sigue existiendo en el nuevo step
+      const stillExists = data.find(
+        f => f.name === currentFileXego?.name && f.path === currentFileXego?.path
+      );
+
+      if (stillExists) {
+        const response = await fetchXegoFile(projectId, stillExists.name, currentStep);
+        const updatedFile = {
+          ...stillExists,
+          ...response,
+          content: response.content || `// No content available for ${stillExists.name}`,
+        };
+        setCodeXego(updatedFile.content);
+        setCurrentFileXego(updatedFile);
+        setIsSavedXego(true);
+      } else {
+        // Si el archivo actual ya no existe en este step, limpia el editor
+        setCodeXego("");
+        setCurrentFileXego(null);
+      }
+
     } catch (error) {
       console.error("Error loading files:", error);
     }
@@ -192,6 +214,7 @@ export function FrontendView({
           onDelete={handleDelete}
           itemToDelete={itemToDelete}
           setItemToDelete={setItemToDelete}
+          currentFile={currentFileXego}
         />
       </div>
       <div className="flex flex-col flex-1 relative">
@@ -201,4 +224,4 @@ export function FrontendView({
       </div>
     </div>
   )
-} 
+}

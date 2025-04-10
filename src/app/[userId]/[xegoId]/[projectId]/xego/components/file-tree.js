@@ -6,18 +6,25 @@ import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import { ProiconsDelete } from 'src/components/icons';
 
 // Recursive function to render tree items
-const renderTreeItem = (item, onSelect, onDelete) => {
+const renderTreeItem = (item, onSelect, onDelete, currentFile) => {
   const isFile = item.type === 'file';
+  const isCurrentFile = currentFile && item.name === currentFile.name && item.path === currentFile.path;
 
   return (
-    <div key={item._id || `${item.path}-${item.name}`}  className="relative group">
+    <div key={item._id || `${item.path}-${item.name}`} className="relative group">
       {isFile ? (
-        <File  value={item.name} onClick={() => onSelect(item)}>
+        <File 
+          value={item.name} 
+          onClick={() => onSelect(item)}
+          className={`${isCurrentFile ? 'bg-gray-200 !w-full ' : ''} hover:bg-accent/30 transition-colors duration-200`}
+        >
           <p>{item.name}</p>
         </File>
       ) : (
-        <Folder  value={item.name} element={item.name}>
-          {(item.children || []).map(child => renderTreeItem(child, onSelect, onDelete))}
+        <Folder value={item.name} element={item.name}>
+          {(item.children || []).map(child => 
+            renderTreeItem(child, onSelect, onDelete, currentFile)
+          )}
         </Folder>
       )}
       <button
@@ -33,7 +40,7 @@ const renderTreeItem = (item, onSelect, onDelete) => {
   );
 };
 
-export function FileTree({ onSelect, currentScreen, files, projectId, handleCreateFile, onDelete, itemToDelete, setItemToDelete }) {
+export function FileTree({ onSelect, currentScreen, files, projectId, handleCreateFile, onDelete, itemToDelete, setItemToDelete, currentFile }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = (item) => {
@@ -62,7 +69,7 @@ export function FileTree({ onSelect, currentScreen, files, projectId, handleCrea
           className="overflow-auto rounded-md bg-background p-2"
           elements={files}
         >
-          {files.map((item) => renderTreeItem(item, onSelect, handleDelete))}
+          {files.map((item) => renderTreeItem(item, onSelect, handleDelete, currentFile))}
         </Tree>
       </div>
 

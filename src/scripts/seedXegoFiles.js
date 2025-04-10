@@ -24,40 +24,40 @@ async function run() {
     const xegoId = new mongoose.Types.ObjectId("67ae561601ba5bfb4eb4a9d2");
 
     const files = [
+    //   {
+    //     idxego: xegoId,
+    //     name: "src",
+    //     path: "/src",
+    //     type: "folder",
+    //     step: 1,
+    //   },
       {
         idxego: xegoId,
-        name: "src",
-        path: "/src",
-        type: "folder",
-        step: 1,
-      },
-      {
-        idxego: xegoId,
-        name: "index.jsx",
+        name: "test.jsx",
         content: `import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import App from "./App.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);`,
-        path: "/src/index.jsx",
+        path: "/test.jsx",
         language: "javascript",
         type: "file",
         step: 1,
       },
-      {
-        idxego: xegoId,
-        name: "App.js",
-        content: `import React from "react";
+//       {
+//         idxego: xegoId,
+//         name: "App.js",
+//         content: `import React from "react";
 
-export default function App() {
-  return <div>My App</div>;
-}`,
-        path: "/src/App.js",
-        language: "javascript",
-        type: "file",
-        step: 1,
-      },
+// export default function App() {
+//   return <div>My App</div>;
+// }`,
+//         path: "/src/App.js",
+//         language: "javascript",
+//         type: "file",
+//         step: 1,
+//       },
     ];
 
     await XegoFile.insertMany(files);
