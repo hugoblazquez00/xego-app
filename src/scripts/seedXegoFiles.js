@@ -23,42 +23,308 @@ async function run() {
 
     const xegoId = new mongoose.Types.ObjectId("67ae561601ba5bfb4eb4a9d2");
 
-    const files = [
-    //   {
-    //     idxego: xegoId,
-    //     name: "src",
-    //     path: "/src",
-    //     type: "folder",
-    //     step: 1,
-    //   },
-      {
-        idxego: xegoId,
-        name: "test.jsx",
-        content: `import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import App from "./App.js";
+    const files = [];
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);`,
-        path: "/test.jsx",
-        language: "javascript",
-        type: "file",
-        step: 1,
-      },
-//       {
-//         idxego: xegoId,
-//         name: "App.js",
-//         content: `import React from "react";
+      files.push(
+        {
+          idxego: xegoId,
+          name: "App.jsx",
+          content: `import React, { useEffect, useState } from "react";
 
-// export default function App() {
-//   return <div>My App</div>;
-// }`,
-//         path: "/src/App.js",
-//         language: "javascript",
-//         type: "file",
-//         step: 1,
-//       },
-    ];
+export default function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+
+  const fetchTasks = () => {
+    fetch("/api/tasks")
+      .then(res => res.json())
+      .then(data => setTasks(data))
+      .catch(err => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const handleDelete = async (id) => {
+    await fetch(\`/api/tasks/\${id}\`, { method: "DELETE" });
+    fetchTasks();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await fetch("/api/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: newTask }),
+    });
+    setNewTask("");
+    fetchTasks();
+  };
+
+  return (
+    <div>
+      <h1>My App</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text" 
+          value={newTask} 
+          onChange={(e) => setNewTask(e.target.value)} 
+        />
+        <button type="submit">Add Task</button>
+      </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task._id}>
+            {task.title}
+            <button onClick={() => handleDelete(task._id)}>Delete</button>
+            <button>Edit</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+          path: "/src/App.jsx",
+          language: "javascript",
+          type: "file",
+          step: 14,
+        },
+        {
+          idxego: xegoId,
+          name: "App.jsx",
+          content: `import React, { useEffect, useState } from "react";
+
+export default function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+  const [editingTaskId, setEditingTaskId] = useState(null);
+
+  const fetchTasks = () => {
+    fetch("/api/tasks")
+      .then(res => res.json())
+      .then(data => setTasks(data))
+      .catch(err => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const handleDelete = async (id) => {
+    await fetch(\`/api/tasks/\${id}\`, { method: "DELETE" });
+    fetchTasks();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await fetch("/api/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: newTask }),
+    });
+    setNewTask("");
+    fetchTasks();
+  };
+
+  return (
+    <div>
+      <h1>My App</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text" 
+          value={newTask} 
+          onChange={(e) => setNewTask(e.target.value)} 
+        />
+        <button type="submit">Add Task</button>
+      </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task._id}>
+            {task.title}
+            <button onClick={() => handleDelete(task._id)}>Delete</button>
+            <button onClick={() => setEditingTaskId(task._id)}>Edit</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+          path: "/src/App.jsx",
+          language: "javascript",
+          type: "file",
+          step: 15,
+        },
+        {
+          idxego: xegoId,
+          name: "App.jsx",
+          content: `import React, { useEffect, useState } from "react";
+
+export default function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingValue, setEditingValue] = useState("");
+
+  const fetchTasks = () => {
+    fetch("/api/tasks")
+      .then(res => res.json())
+      .then(data => setTasks(data))
+      .catch(err => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const handleDelete = async (id) => {
+    await fetch(\`/api/tasks/\${id}\`, { method: "DELETE" });
+    fetchTasks();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await fetch("/api/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: newTask }),
+    });
+    setNewTask("");
+    fetchTasks();
+  };
+
+  return (
+    <div>
+      <h1>My App</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text" 
+          value={newTask} 
+          onChange={(e) => setNewTask(e.target.value)} 
+        />
+        <button type="submit">Add Task</button>
+      </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task._id}>
+            {editingTaskId === task._id ? (
+              <input
+                value={editingValue}
+                onChange={(e) => setEditingValue(e.target.value)}
+              />
+            ) : (
+              task.title
+            )}
+            <button onClick={() => handleDelete(task._id)}>Delete</button>
+            <button onClick={() => {
+              setEditingTaskId(task._id);
+              setEditingValue(task.title);
+            }}>Edit</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+          path: "/src/App.jsx",
+          language: "javascript",
+          type: "file",
+          step: 16,
+        },
+        {
+          idxego: xegoId,
+          name: "App.jsx",
+          content: `import React, { useEffect, useState } from "react";
+
+export default function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingValue, setEditingValue] = useState("");
+
+  const fetchTasks = () => {
+    fetch("/api/tasks")
+      .then(res => res.json())
+      .then(data => setTasks(data))
+      .catch(err => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const handleDelete = async (id) => {
+    await fetch(\`/api/tasks/\${id}\`, { method: "DELETE" });
+    fetchTasks();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await fetch("/api/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: newTask }),
+    });
+    setNewTask("");
+    fetchTasks();
+  };
+
+  const handleEditSubmit = async (id) => {
+    await fetch(\`/api/tasks/\${id}\`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: editingValue }),
+    });
+    setEditingTaskId(null);
+    setEditingValue("");
+    fetchTasks();
+  };
+
+  return (
+    <div>
+      <h1>My App</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text" 
+          value={newTask} 
+          onChange={(e) => setNewTask(e.target.value)} 
+        />
+        <button type="submit">Add Task</button>
+      </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task._id}>
+            {editingTaskId === task._id ? (
+              <>
+                <input
+                  value={editingValue}
+                  onChange={(e) => setEditingValue(e.target.value)}
+                />
+                <button onClick={() => handleEditSubmit(task._id)}>Save</button>
+              </>
+            ) : (
+              <>
+                {task.title}
+                <button onClick={() => handleDelete(task._id)}>Delete</button>
+                <button onClick={() => {
+                  setEditingTaskId(task._id);
+                  setEditingValue(task.title);
+                }}>Edit</button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+          path: "/src/App.jsx",
+          language: "javascript",
+          type: "file",
+          step: 17,
+        }
+      );
+    
 
     await XegoFile.insertMany(files);
     console.log("✅ XegoFiles created successfully.");
