@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { fetchBundle } from '@/app/utils/api';
 
-export function WebsiteView({ projectId, currentScreen }) {
+export function WebsiteView({ projectId, currentScreen, currentStep }) {
   const [iframeSrc, setIframeSrc] = useState("");
 
   useEffect(() => {
     const loadBundle = async () => {
       try {
-        const response = await fetch(`/api/bundle?projectID=${projectId}&screen=${currentScreen}`, { method: "POST" });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const code = await response.text();
+        const code = await fetchBundle(projectId, currentScreen, currentStep);
 
         const blob = new Blob([code], { type: "text/javascript" });
         const scriptURL = URL.createObjectURL(blob);
@@ -37,7 +33,7 @@ export function WebsiteView({ projectId, currentScreen }) {
     };
 
     loadBundle();
-  }, [projectId, currentScreen]);
+  }, [projectId, currentScreen, currentStep]);
 
   return (
     <div className="website-view" style={{ width: "100%" }}>

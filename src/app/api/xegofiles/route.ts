@@ -11,21 +11,23 @@ export const GET = async (request: Request) => {
   try {
     await connect();
 
-    if (fileName) {
-      const file = await XegoFile.findOne({ idxego: xegoId, name: fileName }).exec();
-      if (!file) {
-        return new NextResponse("File not found", { status: 404 });
-      }
-
-      return new NextResponse(JSON.stringify(file), { status: 200 });
-    }
-
-    // Get all files for xego with optional step filter
+    // Construir la query base
     const query: any = { idxego: xegoId };
     if (stepParam !== null) {
       query.step = Number(stepParam);
     }
-    
+
+    if (fileName) {
+      // Añadir el nombre del archivo a la query
+      query.name = fileName;
+      const file = await XegoFile.findOne(query).exec();
+      if (!file) {
+        return new NextResponse("File not found", { status: 404 });
+      }
+      return new NextResponse(JSON.stringify(file), { status: 200 });
+    }
+
+    // Get all files for xego
     const files = await XegoFile.find(query);
     return new NextResponse(JSON.stringify(files), { status: 200 });
   } catch (error) {
