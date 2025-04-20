@@ -10,8 +10,6 @@ export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const idXego = searchParams.get("xegoID");
 
-  //const { idXego } = params; // Obtener el id del parámetro de la URL
-
   try {
     await connect();
     if (idXego){
@@ -20,7 +18,6 @@ export const GET = async (request: Request) => {
         return new NextResponse("Xego not found", { status: 404 });
       }
   
-      // console.log("Xego from api/xegos:", xego)
       return new NextResponse(JSON.stringify(xego), { status: 200 });
     }
     else{

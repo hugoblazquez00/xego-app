@@ -34,7 +34,6 @@ export const POST = async (request: Request) => {
       }
       files = await XegoFile.find(query).exec();
     }
-    console.log(files);
     if (files.length === 0) {
       return new NextResponse("No files found for the project or xego", { status: 404 });
     }
