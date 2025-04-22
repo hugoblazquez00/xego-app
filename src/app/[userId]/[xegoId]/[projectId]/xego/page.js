@@ -7,7 +7,7 @@ import { XegoNavbar } from "./components/XegoNavbar"
 import { InstructionsCard } from "./components/instructions-card"
 import { Confetti } from "@/components/magicui/confetti"
 import React from "react"
-import { fetchFiles, fetchProjectDetails } from '../../../../utils/api';
+import { fetchFiles, fetchProjectDetails } from '@/app/utils/api';
 
 export default function XegoPage({ params }) {
   const [currentView, setCurrentView] = useState("website")

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import ProjectCard from '@/app/components/projectCard';
 import React from 'react';
-import { fetchProjects } from '../../utils/api';
+import { fetchProjects } from '@/app/utils/api';
 
 export default function Home({ params }) {
   const userId = params.userId; 

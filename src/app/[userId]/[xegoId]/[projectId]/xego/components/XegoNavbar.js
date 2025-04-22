@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { HomeIcon, BoldComputer, EmptyComputer, OnComputer, AiHelperIcon} from '@/components/icons'
 import { ScreenSelector } from './screen-selector'
-import { fetchProjectDetails, fetchXegoDetails} from '../../../../../utils/api';
+import { fetchProjectDetails, fetchXegoDetails} from '@/app/utils/api';
 import { AiHelperModal } from './AiHelperModal'
 
 export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, projectId, userId, files }) {
