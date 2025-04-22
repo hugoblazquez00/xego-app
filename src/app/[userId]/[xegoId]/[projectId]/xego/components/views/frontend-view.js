@@ -3,7 +3,7 @@ import { FileTree } from "../file-tree"
 import { CodeEditor } from "../code-editor"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { fetchFiles, fetchXegoFiles, createFile, deleteFile, fetchFile,fetchXegoFile } from '../../../../../../utils/api';
+import { fetchFiles, fetchXegoFiles, createFile, deleteFile, fetchFile,fetchXegoFile } from '@/app/utils/api';
 
 const buildTree = (files) => {
   const tree = [];

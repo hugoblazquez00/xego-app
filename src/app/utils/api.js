@@ -172,3 +172,20 @@ export const fetchBundle = async (projectId, currentScreen, currentStep) => {
   
   return await response.text();
 };
+
+export const executeQuery = async (schemaId, query) => {
+  const response = await fetch(`${API_BASE_URL}/querySQL/${schemaId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query }),
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error executing query');
+  }
+  
+  return await response.json();
+};

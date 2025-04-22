@@ -42,7 +42,10 @@ export function Workspace({
       case "backend":
         return <BackendView currentScreen={currentScreen} />
       case "database":
-        return <DatabaseView currentScreen={currentScreen} />
+        return <DatabaseView 
+                 currentScreen={currentScreen}
+                 projectId={projectId}
+               />
       default:
         return <div className="text-center text-gray-400 mt-20">Vista no encontrada</div>
     }

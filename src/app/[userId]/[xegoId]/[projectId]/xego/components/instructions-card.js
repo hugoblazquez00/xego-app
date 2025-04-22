@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { PreviousInstructions, NextInstructions } from "@/components/icons";
 import { Confetti } from "@/components/magicui/confetti";
-import { fetchProjectDetails, fetchInstructionByStep, updateProjectStep } from '../../../../../utils/api';
+import { fetchProjectDetails, fetchInstructionByStep, updateProjectStep } from '@/app/utils/api';
 
 export function InstructionsCard({ projectId, onStepChange, onLastStep }) {
   const [instruction, setInstruction] = useState(null);

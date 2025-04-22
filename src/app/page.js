@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { verifyUser } from './utils/api';
+import { verifyUser } from '@/app/utils/api';
 
 export default function HomePage() {
   const [userId, setUserId] = useState("");
