@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PreviousInstructions, NextInstructions } from "@/components/icons";
+import { PreviousInstructions, NextInstructions, CloseButton } from "@/components/icons";
 import { Confetti } from "@/components/magicui/confetti";
 import { fetchProjectDetails, fetchInstructionByStep, updateProjectStep } from '@/app/utils/api';
 
-export function InstructionsCard({ projectId, onStepChange, onLastStep }) {
+export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose }) {
   const [instruction, setInstruction] = useState(null);
   const [isLastStep, setIsLastStep] = useState(false);
 
@@ -68,6 +68,14 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep }) {
     return (
       <div className="relative bg-white rounded-lg shadow-md px-6 py-5 min-h-[300px] flex flex-col">
         <button
+          onClick={onClose}
+          className="absolute right-2 top-2 p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Cerrar instrucciones"
+        >
+          <InstructionsButton className="h-5 w-5 transform rotate-180" />
+        </button>
+
+        <button
           onClick={handlePrev}
           className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
           aria-label="Prev"
@@ -88,6 +96,14 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep }) {
 
   return (
     <div className="relative bg-white rounded-lg shadow-md px-6 py-5 min-h-[300px] flex flex-col">
+      <button
+        onClick={onClose}
+        className="absolute right-2 top-2 p-2 hover:bg-gray-100 rounded-full transition-colors"
+        aria-label="Cerrar instrucciones"
+      >
+        <CloseButton className="h-5 w-5 transform rotate-180" />
+      </button>
+
       <button
         onClick={handlePrev}
         className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
