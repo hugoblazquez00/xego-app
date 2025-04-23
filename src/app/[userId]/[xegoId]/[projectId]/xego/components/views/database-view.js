@@ -5,6 +5,7 @@ import { fetchProjectDetails } from '@/app/utils/api'
 
 export function DatabaseView({ currentScreen, projectId }) {
   const [schemaId, setSchemaId] = useState(null)
+  const [queryType, setQueryType] = useState(null)
 
   useEffect(() => {
     const getSchemaId = async () => {
@@ -12,12 +13,14 @@ export function DatabaseView({ currentScreen, projectId }) {
         if (currentScreen === "project") {
           // Si estamos en la pantalla de proyecto, el schemaId es el projectId
           setSchemaId(projectId)
+          setQueryType('project')
         } else {
           // Si estamos en instrucciones, necesitamos obtener el xegoId
           const projectDetails = await fetchProjectDetails(projectId)
           const xegoId = projectDetails[0]?.idxego
           if (xegoId) {
             setSchemaId(xegoId)
+            setQueryType('xego')
           }
         }
       } catch (error) {
@@ -29,13 +32,13 @@ export function DatabaseView({ currentScreen, projectId }) {
   }, [currentScreen, projectId])
 
   return (
-    <div className="database-view w-full">
-      <div className="flex gap-4 h-full">
+    <div className="flex-1 flex h-[calc(100vh-8rem)]"> {/* Altura calculada restando navbar y viewselector */}
+      <div className="flex gap-4 w-full p-4">
         <div className="w-1/2">
-          {schemaId && <TablesView schemaId={schemaId} />}
+          {schemaId && <TablesView schemaId={schemaId} queryType={queryType} />}
         </div>
         <div className="w-1/2">
-          {schemaId && <QueryExecutor schemaId={schemaId} />}
+          {schemaId && <QueryExecutor schemaId={schemaId} queryType={queryType} />}
         </div>
       </div>
     </div>
