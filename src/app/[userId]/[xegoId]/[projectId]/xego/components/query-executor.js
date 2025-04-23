@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { executeQuery } from '@/app/utils/api'
+import { ExecuteQueryDatabase } from "@/components/icons";
 
-export function QueryExecutor({ schemaId }) {
+export function QueryExecutor({ schemaId, queryType }) {
   const [query, setQuery] = useState('')
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
@@ -9,16 +10,22 @@ export function QueryExecutor({ schemaId }) {
   const handleExecute = async () => {
     try {
       setError(null)
+      setResult(null)
+      
       const textArea = document.querySelector('textarea')
       const selectedText = textArea.value.substring(textArea.selectionStart, textArea.selectionEnd)
-      const queryToExecute = selectedText || query
+      
+      const queryToExecute = (selectedText || query)
+        .replace(/[\r\n]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
 
-      if (!queryToExecute.trim()) {
+      if (!queryToExecute) {
         setError('Por favor, introduce una consulta SQL')
         return
       }
 
-      const response = await executeQuery(schemaId, queryToExecute)
+      const response = await executeQuery(schemaId, queryToExecute, queryType)
       setResult(response)
     } catch (err) {
       setError(err.message)
@@ -31,10 +38,10 @@ export function QueryExecutor({ schemaId }) {
     const columns = Object.keys(data[0])
 
     return (
-      <div className="overflow-auto max-h-full w-full">
+      <div className="w-full">
         <table className="min-w-full bg-white border border-gray-300">
-          <thead className="sticky top-0 z-10">
-            <tr className="bg-gray-100">
+          <thead className="sticky top-0 z-10 bg-gray-100">
+            <tr>
               {columns.map((column) => (
                 <th key={column} className="px-4 py-2 border-b text-left">
                   {column}
@@ -98,8 +105,8 @@ export function QueryExecutor({ schemaId }) {
   }
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="flex-none p-4">
+    <div className="flex flex-col h-[calc(100vh-9rem)]">
+      <div className="flex-none p-4 bg-white">
         <textarea
           className="w-full h-48 p-2 font-mono border border-gray-300 rounded"
           value={query}
@@ -108,18 +115,23 @@ export function QueryExecutor({ schemaId }) {
         />
         <button
           onClick={handleExecute}
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="mt-2 px-4 py-2 w-full bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center gap-2"
         >
-          Execute Query
+          <ExecuteQueryDatabase className="h-5 w-5" />
+          <span>Execute Query</span>
         </button>
       </div>
 
       {error && (
-        <div className="flex-none px-4 text-red-500">{error}</div>
+        <div className="flex-none px-4 text-red-500 bg-white">
+          {error}
+        </div>
       )}
 
-      <div className="flex-1 min-h-0 p-4 overflow-auto">
-        {result && renderResult(result)}
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className="p-4">
+          {result && renderResult(result)}
+        </div>
       </div>
     </div>
   )
