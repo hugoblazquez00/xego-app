@@ -8,6 +8,7 @@ import { InstructionsCard } from "./components/instructions-card"
 import { Confetti } from "@/components/magicui/confetti"
 import React from "react"
 import { fetchFiles, fetchProjectDetails } from '@/app/utils/api';
+import { InstructionsButton } from "@/components/icons";
 
 export default function XegoPage({ params }) {
   const [currentView, setCurrentView] = useState("website")
@@ -18,6 +19,7 @@ export default function XegoPage({ params }) {
   const [currentFileXego, setCurrentFileXego] = useState(null);
   const [currentStep, setCurrentStep] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [isInstructionsOpen, setIsInstructionsOpen] = useState(true)
   
   const projectId = params.projectId
   const userId = params.userId
@@ -169,11 +171,24 @@ export default function XegoPage({ params }) {
       </main>
       {currentScreen === "instructions" && (
         <div className="absolute bottom-6 right-6 z-50 w-[400px]">
-          <InstructionsCard 
-            projectId={projectId}
-            onStepChange={setCurrentStep}
-            onLastStep={handleLastStep}
-          />
+          {isInstructionsOpen ? (
+            <div className="relative">
+              <InstructionsCard 
+                projectId={projectId}
+                onStepChange={setCurrentStep}
+                onLastStep={handleLastStep}
+                onClose={() => setIsInstructionsOpen(false)}
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsInstructionsOpen(true)}
+              className="ml-auto flex items-center gap-2 bg-white rounded-lg shadow-md px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              <InstructionsButton className="h-5 w-5" />
+              <span>Display instructions</span>
+            </button>
+          )}
         </div>
       )}
     </div>
