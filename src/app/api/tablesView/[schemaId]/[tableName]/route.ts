@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseClient } from '@/app/lib/supabaseClient';
 
-export async function GET(req: NextRequest, { params }: { params: { schemaId: string, tableName: string } }) {
+export async function POST(req: NextRequest, { params }: { params: { schemaId: string, tableName: string } }) {
   try {
     const { schemaId, tableName } = params;
     const supabase = createSupabaseClient();
@@ -20,7 +20,6 @@ export async function GET(req: NextRequest, { params }: { params: { schemaId: st
       table_name: tableName,
       limit_rows: 100
     });
-
     if (dataError) throw dataError;
 
     return NextResponse.json({
