@@ -8,7 +8,6 @@ export function TablesView({ schemaId, refreshTrigger }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // Cargar nombres de tablas
   useEffect(() => {
     const loadTableNames = async () => {
       try {
@@ -16,8 +15,15 @@ export function TablesView({ schemaId, refreshTrigger }) {
         const response = await fetchTableNames(schemaId)
         if (response.success) {
           setTableNames(response.data)
-          setSelectedTable(null)
-          setTableData(null)
+          
+          if (selectedTable && !response.data.includes(selectedTable)) {
+            setSelectedTable(null)
+            setTableData(null)
+          }
+          else if (!selectedTable && response.data.length > 0) {
+            setSelectedTable(response.data[0])
+            handleTableSelect(response.data[0])
+          }
         } else {
           setError(response.error)
         }
@@ -31,10 +37,17 @@ export function TablesView({ schemaId, refreshTrigger }) {
     loadTableNames()
   }, [schemaId, refreshTrigger])
 
-  // Cargar datos de la tabla seleccionada
-  const handleTableSelect = async (tableName) => {
+  useEffect(() => {
+    if (selectedTable) {
+      handleTableSelect(selectedTable, true)
+    }
+  }, [refreshTrigger])
+
+  const handleTableSelect = async (tableName, isRefresh = false) => {
     try {
-      setSelectedTable(tableName)
+      if (!isRefresh) {
+        setSelectedTable(tableName)
+      }
       setLoading(true)
       setError(null)
 
@@ -83,12 +96,8 @@ export function TablesView({ schemaId, refreshTrigger }) {
     )
   }
 
-  // if (loading) return <div className="w-full h-full p-4">Loading tables...</div>
-  // if (error) return <div className="w-full h-full p-4 text-red-500">Error: {error}</div>
-
   return (
     <div className="w-full h-full flex">
-      {/* Panel izquierdo - Lista de tablas */}
       <div className="w-1/4 border-r border-gray-200 overflow-y-auto">
         <div className="p-4">
           <h2 className="text-lg font-semibold mb-4">Tables</h2>
@@ -109,8 +118,6 @@ export function TablesView({ schemaId, refreshTrigger }) {
           </div>
         </div>
       </div>
-
-      {/* Panel derecho - Tabla con datos */}
       <div className="flex-1 p-4 overflow-y-auto">
         {loading && <div>Loading...</div>}
         {error && <div className="text-red-500">Error: {error}</div>}
@@ -132,7 +139,7 @@ export function TablesView({ schemaId, refreshTrigger }) {
                   {tableData.records.map((record, rowIndex) => (
                     <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                       {tableData.columns.map((column) => (
-                        <td key={column.column_name} className="px-4 py-2 border-b">
+                        <td key={column.column_name} className="px-4 py-2 pl-14  pr-14 border-b">
                           {record[column.column_name] === null 
                             ? <span className="text-gray-400">NULL</span>
                             : String(record[column.column_name])}

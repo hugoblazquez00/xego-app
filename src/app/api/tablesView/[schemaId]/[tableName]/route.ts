@@ -6,15 +6,13 @@ export async function POST(req: NextRequest, { params }: { params: { schemaId: s
     const { schemaId, tableName } = params;
     const supabase = createSupabaseClient();
 
-    // Obtener la estructura de la tabla
-    const { data: structure, error: structureError } = await supabase.rpc('get_table_structure2', {
+    const { data: structure, error: structureError } = await supabase.rpc('get_table_structure', {
         schema_name: schemaId,
         tbl_name: tableName
       });
 
     if (structureError) throw structureError;
 
-    // Obtener los datos de la tabla
     const { data: records, error: dataError } = await supabase.rpc('get_table_data', {
       schema_name: schemaId,
       table_name: tableName,

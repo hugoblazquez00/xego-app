@@ -12,7 +12,7 @@ export const POST = async (request: Request) => {
     const body = await request.json();
     await connect();
 
-    // Guardar mensaje del usuario con contexto
+    // Save user's message with it context
     const userMessage = new AiMessage({
       idproject: body.idproject,
       sender: 'user',
@@ -22,10 +22,10 @@ export const POST = async (request: Request) => {
       context: body.context
     });
     await userMessage.save();
-    // Obtener los últimos 5 mensajes del usuario
+    // Get 5 last users messages
     const lastMessages = body.lastMessages.map(msg => msg.content);
 
-    // Preparar el mensaje para OpenAI con contexto
+    // Build message with context
     let contextFiles = "";
     for (const file of body.context) {
       contextFiles += `File: ${file.path}\nContent:\n${file.content}\n\n`;

@@ -4,7 +4,6 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import { motion, useTransform } from 'framer-motion';
 import React, { useState, useRef } from 'react';
 import { Dock, DockIcon } from "@/components/magicui/dock";
-// import { Separator } from "@/components/ui/separator";
 import { FileIcon, FolderIcon, CollapseIcon } from "@/components/icons";
 import CreateFileModal from './CreateFileModal'; // Import the modal component
 
@@ -17,7 +16,7 @@ export function FileDock({ projectId, handleCreateFile, files }) {
   const [isFolder, setIsFolder] = useState(false);
 
   const handleToggleFolders = () => {
-    console.log("Abrir/Cerrar carpetas");
+    console.log("Open/Close folders");
   };
 
   return (

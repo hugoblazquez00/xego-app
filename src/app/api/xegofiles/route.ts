@@ -11,14 +11,12 @@ export const GET = async (request: Request) => {
   try {
     await connect();
 
-    // Construir la query base
     const query: any = { idxego: xegoId };
     if (stepParam !== null) {
       query.step = Number(stepParam);
     }
 
     if (fileName) {
-      // Añadir el nombre del archivo a la query
       query.name = fileName;
       const file = await XegoFile.findOne(query).exec();
       if (!file) {

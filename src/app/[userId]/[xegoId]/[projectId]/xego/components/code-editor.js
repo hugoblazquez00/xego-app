@@ -5,11 +5,11 @@ import Editor from '@monaco-editor/react';
 
 export const CodeEditor = forwardRef(({ code, setCode, theme }, ref) => {
   const editorRef = useRef(null);
-  const monacoRef = useRef(null); // Referencia para la instancia de Monaco
+  const monacoRef = useRef(null);
 
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
-    monacoRef.current = monaco; // Almacena la instancia de Monaco
+    monacoRef.current = monaco; 
   };
 
   const handleChange = (value, event) => {

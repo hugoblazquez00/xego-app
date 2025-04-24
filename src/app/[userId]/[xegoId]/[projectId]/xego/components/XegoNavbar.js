@@ -92,7 +92,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
             <button
               onClick={handleSave}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              title={isSavedXego ? "Proyecto guardado" : "Guardar proyecto"}
+              title={isSavedXego ? "Project saved" : "Save project"}
             >
               {isSaving ? (
                 <OnComputer className="w-6 h-6" />

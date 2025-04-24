@@ -12,11 +12,9 @@ export function DatabaseView({ currentScreen, projectId }) {
     const getSchemaId = async () => {
       try {
         if (currentScreen === "project") {
-          // Si estamos en la pantalla de proyecto, el schemaId es el projectId
           setSchemaId(projectId)
           setQueryType('project')
         } else {
-          // Si estamos en instrucciones, necesitamos obtener el xegoId
           const projectDetails = await fetchProjectDetails(projectId)
           const xegoId = projectDetails[0]?.idxego
           if (xegoId) {
@@ -32,13 +30,12 @@ export function DatabaseView({ currentScreen, projectId }) {
     getSchemaId()
   }, [currentScreen, projectId])
 
-  // Función para forzar la actualización de las tablas
   const refreshTables = () => {
     setShouldRefreshTables(prev => prev + 1)
   }
 
   return (
-    <div className="flex-1 flex h-[calc(100vh-8rem)]"> {/* Altura calculada restando navbar y viewselector */}
+    <div className="flex-1 flex h-[calc(100vh-8rem)]"> 
       <div className="flex gap-4 w-full p-4">
         <div className="w-1/2">
           {schemaId && (

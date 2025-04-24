@@ -13,7 +13,7 @@ export default function Home({ params }) {
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const data = await fetchProjects(userId); // Usar la función importada
+        const data = await fetchProjects(userId);
         console.log("----------------------------------------\nHome - (/home) - List of Projects for user id ", userId, ": ", data, "\n----------------------------------------\n");
         setProjects(data);
       } catch (error) {

@@ -166,8 +166,6 @@ export function AiHelperModal({ isOpen, onClose, projectId, files }) {
           ))}
           <div ref={messagesEndRef} />
         </div>
-
-        {/* Área de archivos seleccionados */}
         {selectedFiles.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-2">
             {selectedFiles.map((file) => (
@@ -223,8 +221,6 @@ export function AiHelperModal({ isOpen, onClose, projectId, files }) {
           >
             <SendIcon className={`w-5 h-5 ${isLoading ? 'opacity-50' : ''}`} />
           </button>
-
-          {/* Menú de contexto */}
           {isContextMenuOpen && (
             <div
               ref={contextMenuRef}
