@@ -7,12 +7,10 @@ export async function GET(req: NextRequest, { params }: { params: { schemaId: st
     const supabase = createSupabaseClient();
 
     // Obtener la estructura de la tabla
-    const { data: structure, error: structureError } = await supabase.rpc('get_table_structure', {
-      schema_name: schemaId,
-      tbl_name: tableName
-    });
-    console.log("tableName ",tableName)
-    console.log("structure:\n",structure)
+    const { data: structure, error: structureError } = await supabase.rpc('get_table_structure2', {
+        schema_name: schemaId,
+        tbl_name: tableName
+      });
 
     if (structureError) throw structureError;
 
