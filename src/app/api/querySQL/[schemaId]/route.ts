@@ -27,7 +27,7 @@ export async function POST(req: NextRequest, { params }: { params: { schemaId: s
         { status: 400 }
       );
     }
-
+    console.log(query)
     const fullQuery = query
     .replace(/from\s+([a-zA-Z_][\w]*)/gi, `from "${schemaId}".$1`)
     .replace(/insert\s+into\s+([a-zA-Z_][\w]*)/gi, `insert into "${schemaId}".$1`)
