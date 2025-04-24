@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { executeQuery } from '@/app/utils/api'
 import { ExecuteQueryDatabase } from "@/components/icons";
 
-export function QueryExecutor({ schemaId, queryType }) {
+export function QueryExecutor({ schemaId, queryType, onQueryExecuted }) {
   const [query, setQuery] = useState('')
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
@@ -27,6 +27,11 @@ export function QueryExecutor({ schemaId, queryType }) {
 
       const response = await executeQuery(schemaId, queryToExecute, queryType)
       setResult(response)
+      
+      // Si la query fue exitosa, notificar para actualizar las tablas
+      if (response.success) {
+        onQueryExecuted?.()
+      }
     } catch (err) {
       setError(err.message)
     }

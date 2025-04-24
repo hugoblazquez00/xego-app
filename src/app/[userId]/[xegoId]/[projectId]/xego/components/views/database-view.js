@@ -6,6 +6,7 @@ import { fetchProjectDetails } from '@/app/utils/api'
 export function DatabaseView({ currentScreen, projectId }) {
   const [schemaId, setSchemaId] = useState(null)
   const [queryType, setQueryType] = useState(null)
+  const [shouldRefreshTables, setShouldRefreshTables] = useState(0)
 
   useEffect(() => {
     const getSchemaId = async () => {
@@ -31,14 +32,31 @@ export function DatabaseView({ currentScreen, projectId }) {
     getSchemaId()
   }, [currentScreen, projectId])
 
+  // Función para forzar la actualización de las tablas
+  const refreshTables = () => {
+    setShouldRefreshTables(prev => prev + 1)
+  }
+
   return (
     <div className="flex-1 flex h-[calc(100vh-8rem)]"> {/* Altura calculada restando navbar y viewselector */}
       <div className="flex gap-4 w-full p-4">
         <div className="w-1/2">
-          {schemaId && <TablesView schemaId={schemaId} queryType={queryType} />}
+          {schemaId && (
+            <TablesView 
+              schemaId={schemaId} 
+              queryType={queryType} 
+              refreshTrigger={shouldRefreshTables}
+            />
+          )}
         </div>
         <div className="w-1/2">
-          {schemaId && <QueryExecutor schemaId={schemaId} queryType={queryType} />}
+          {schemaId && (
+            <QueryExecutor 
+              schemaId={schemaId} 
+              queryType={queryType}
+              onQueryExecuted={refreshTables}
+            />
+          )}
         </div>
       </div>
     </div>
