@@ -193,12 +193,22 @@ export const executeQuery = async (schemaId, query, queryType) => {
   return await response.json();
 };
 
-export const fetchTables = async (schemaId) => {
+export const fetchTableNames = async (schemaId) => {
   try {
-    const response = await fetch(`/api/tablesView/${schemaId}`)
-    const data = await response.json()
-    return data
+    const response = await fetch(`/api/tablesView/${schemaId}`);
+    const data = await response.json();
+    return data;
   } catch (error) {
-    throw new Error('Error fetching tables: ' + error.message)
+    throw new Error('Error fetching table names: ' + error.message);
   }
-}
+};
+
+export const fetchTableData = async (schemaId, tableName) => {
+  try {
+    const response = await fetch(`/api/tablesView/${schemaId}/${tableName}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error('Error fetching table data: ' + error.message);
+  }
+};
