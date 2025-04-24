@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseClient } from '@/app/lib/supabaseClient';
 
-export async function GET(req: NextRequest, { params }: { params: { schemaId: string } }) {
+export async function POST(req: NextRequest, { params }: { params: { schemaId: string } }) {
   try {
     const { schemaId } = params;
     const supabase = createSupabaseClient();

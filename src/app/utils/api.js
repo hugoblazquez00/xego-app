@@ -195,7 +195,11 @@ export const executeQuery = async (schemaId, query, queryType) => {
 
 export const fetchTableNames = async (schemaId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/tablesView/${schemaId}`);
+    //const response = await fetch(`${API_BASE_URL}/tablesView/${schemaId}`);
+
+    const response = await fetch(`${API_BASE_URL}/tablesView/${schemaId}`, {
+      method: 'POST'
+    });
     const data = await response.json();
     return data;
   } catch (error) {
