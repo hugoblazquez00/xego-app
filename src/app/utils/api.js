@@ -192,3 +192,13 @@ export const executeQuery = async (schemaId, query, queryType) => {
   
   return await response.json();
 };
+
+export const fetchTables = async (schemaId) => {
+  try {
+    const response = await fetch(`/api/tablesView/${schemaId}`)
+    const data = await response.json()
+    return data
+  } catch (error) {
+    throw new Error('Error fetching tables: ' + error.message)
+  }
+}
