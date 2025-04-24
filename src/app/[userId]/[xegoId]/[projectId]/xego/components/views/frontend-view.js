@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import { FileTree } from "../file-tree"
 import { CodeEditor } from "../code-editor"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { fetchFiles, fetchXegoFiles, createFile, deleteFile, fetchFile,fetchXegoFile } from '@/app/utils/api';
 
 const buildTree = (files) => {
@@ -71,8 +69,6 @@ export function FrontendView({
       }
       const organizedFiles = buildTree(data);
       setFiles(organizedFiles);
-
-      // Actualizar el editor si el archivo abierto sigue existiendo en el nuevo step
       const stillExists = data.find(
         f => f.name === currentFileXego?.name && f.path === currentFileXego?.path
       );
@@ -88,7 +84,6 @@ export function FrontendView({
         setCurrentFileXego(updatedFile);
         setIsSavedXego(true);
       } else {
-        // Si el archivo actual ya no existe en este step, limpia el editor
         setCodeXego("");
         setCurrentFileXego(null);
       }

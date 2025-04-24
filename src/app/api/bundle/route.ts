@@ -64,7 +64,7 @@ export const POST = async (request: Request) => {
         {
           name: "virtual-files",
           setup(build) {
-            // Resolver React y ReactDOM
+            // Resolve dependencies
             build.onResolve({ filter: /^react$/ }, () => ({ path: "react", namespace: "shim" }));
             build.onResolve({ filter: /^react-dom$/ }, () => ({ path: "react-dom", namespace: "shim" }));
             build.onResolve({ filter: /^react-dom\/client$/ }, () => ({ path: "react-dom/client", namespace: "shim" }));

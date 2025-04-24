@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { FaPlay, FaSun, FaMoon, FaCode, FaPaintBrush } from 'react-icons/fa'; // Opcional: Importa íconos para mejorar el UI
+import { FaPlay, FaSun, FaMoon, FaCode, FaPaintBrush } from 'react-icons/fa';
 
 export function ActionsFrontendView({ editorRef, currentTheme, toggleTheme }) {
-  const [selectedLanguage, setSelectedLanguage] = useState('javascript'); // Lenguaje por defecto
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para el menú de acciones
-  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false); // Estado para el menú de lenguajes
-  const [timeoutId, setTimeoutId] = useState(null); // ID del temporizador
-  const [languageTimeoutId, setLanguageTimeoutId] = useState(null); // ID del temporizador para el menú de lenguajes
+  const [selectedLanguage, setSelectedLanguage] = useState('javascript');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
+  const [languageTimeoutId, setLanguageTimeoutId] = useState(null);
 
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
@@ -21,7 +21,7 @@ export function ActionsFrontendView({ editorRef, currentTheme, toggleTheme }) {
   const handleMouseEnter = () => {
     setIsMenuOpen(true);
     if (timeoutId) {
-      clearTimeout(timeoutId); // Limpiar el temporizador si el mouse entra
+      clearTimeout(timeoutId);
     }
   };
 
@@ -36,14 +36,14 @@ export function ActionsFrontendView({ editorRef, currentTheme, toggleTheme }) {
   const handleLanguageMouseEnter = () => {
     setIsLanguageMenuOpen(true);
     if (languageTimeoutId) {
-      clearTimeout(languageTimeoutId); // Limpiar el temporizador si el mouse entra
+      clearTimeout(languageTimeoutId); 
     }
   };
 
   const handleLanguageMouseLeave = () => {
     const id = setTimeout(() => {
       setIsLanguageMenuOpen(false);
-    }, 2000); // Esperar 2 segundos antes de cerrar el menú de lenguajes
+    }, 2000); 
     setLanguageTimeoutId(id);
   };
 
@@ -56,7 +56,7 @@ export function ActionsFrontendView({ editorRef, currentTheme, toggleTheme }) {
         {(isMenuOpen || isLanguageMenuOpen) && (
           <div className="absolute bottom-12 right-0 flex flex-col gap-2 transition-opacity duration-300">
             <Button onClick={toggleTheme} className="bg-gray-600 hover:bg-gray-700 flex items-center">
-              {currentTheme === 'vs-dark' ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />} Cambiar Tema
+              {currentTheme === 'vs-dark' ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />} Change theme
             </Button>
             <div className="">
               <Button 
@@ -64,7 +64,7 @@ export function ActionsFrontendView({ editorRef, currentTheme, toggleTheme }) {
                 onMouseEnter={handleLanguageMouseEnter} 
                 onMouseLeave={handleLanguageMouseLeave}
               >
-                <FaCode className="mr-2" /> Seleccionar Lenguaje
+                <FaCode className="mr-2" /> Select Language
               </Button>
               {isLanguageMenuOpen && (
                 <div className="absolute left-0 mt-1 w-48 bg-white border border-gray-300 rounded shadow-lg z-10">
@@ -81,7 +81,7 @@ export function ActionsFrontendView({ editorRef, currentTheme, toggleTheme }) {
               )}
             </div>
             <Button onClick={() => editorRef.current?.formatCode()} className="bg-purple-600 hover:bg-purple-700 flex items-center">
-              <FaPaintBrush className="mr-2" /> Formatear Código
+              <FaPaintBrush className="mr-2" /> Format Code
             </Button>
           </div>
         )}

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from "@/components/ui/button"; // Adjust the import based on your UI library
+import { Button } from "@/components/ui/button";
 
 const CreateFileModal = ({ isOpen, onClose, handleCreateFile, type, files }) => {
   const [name, setName] = useState('');
@@ -13,7 +13,7 @@ const CreateFileModal = ({ isOpen, onClose, handleCreateFile, type, files }) => 
     console.log(fullPath);
     console.log
     handleCreateFile( name, fullPath, type );
-    onClose(); // Cerrar el modal después de la creación
+    onClose();
   };
 
   const handleClickOutside = (event) => {

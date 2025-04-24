@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { File, Folder, Tree } from "@/components/ui/file-tree";
 import { FileDock } from "./file-dock";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
-import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import { ProiconsDelete } from 'src/components/icons';
 
 // Recursive function to render tree items

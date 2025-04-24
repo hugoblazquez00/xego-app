@@ -21,16 +21,23 @@ export function QueryExecutor({ schemaId, queryType, onQueryExecuted }) {
         .trim()
 
       if (!queryToExecute) {
-        setError('Por favor, introduce una consulta SQL')
+        setError('Please enter SQL query')
         return
       }
 
       const response = await executeQuery(schemaId, queryToExecute, queryType)
       setResult(response)
       
-      // Si la query fue exitosa, notificar para actualizar las tablas
       if (response.success) {
-        onQueryExecuted?.()
+        const queryLower = queryToExecute.toLowerCase()
+        if (queryLower.startsWith('create table') || 
+            queryLower.startsWith('drop table')) {
+          onQueryExecuted?.()
+        } else if (queryLower.startsWith('insert') || 
+                  queryLower.startsWith('delete') || 
+                  queryLower.startsWith('update')) {
+          onQueryExecuted?.()
+        }
       }
     } catch (err) {
       setError(err.message)
@@ -77,23 +84,19 @@ export function QueryExecutor({ schemaId, queryType, onQueryExecuted }) {
   const renderResult = (result) => {
     if (!result) return null
 
-    // Si la consulta fue exitosa
     if (result.success) {
-      // Si tenemos datos y es un array (resultado tipo tabla)
       if (Array.isArray(result.data) && result.data.length > 0) {
         return renderTableResult(result.data)
       }
       
-      // Si es un resultado de operación (INSERT, UPDATE, DELETE)
       if (typeof result.data === 'object' && 'rowCount' in result.data) {
         return (
           <div className="p-4 bg-green-50 text-green-700 rounded">
-            Operación exitosa: {result.data.rowCount} fila(s) afectada(s)
+            Successful operation {result.data.rowCount} row(s) affected(s)
           </div>
         )
       }
 
-      // Para cualquier otro tipo de resultado
       return (
         <pre className="mt-4 p-4 bg-gray-100 rounded overflow-auto">
           {JSON.stringify(result.data, null, 2)}
@@ -101,10 +104,9 @@ export function QueryExecutor({ schemaId, queryType, onQueryExecuted }) {
       )
     }
 
-    // Si hubo un error en la consulta
     return (
       <div className="p-4 bg-red-50 text-red-700 rounded">
-        Error en la consulta: {result.error}
+        Query error: {result.error}
       </div>
     )
   }
@@ -116,7 +118,7 @@ export function QueryExecutor({ schemaId, queryType, onQueryExecuted }) {
           className="w-full h-48 p-2 font-mono border border-gray-300 rounded"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Escribe tu consulta SQL aquí..."
+          placeholder="Enter SQL query here..."
         />
         <button
           onClick={handleExecute}

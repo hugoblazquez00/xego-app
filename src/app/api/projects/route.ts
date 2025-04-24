@@ -39,7 +39,7 @@ export const POST = async (request: Request) => {
     const body = await request.json();
     await connect();
 
-    // Crear el nuevo proyecto
+    // Create new project
     const newProject = new Project({
       iduser: body.iduser,
       idxego: body.idxego,
@@ -48,10 +48,10 @@ export const POST = async (request: Request) => {
       files: [],
     });
 
-    // Guardar el proyecto para obtener su ID
+    // Save project to get the ID
     const savedProject = await newProject.save();
 
-    // Crear archivos asociados
+    // Create files
     const filePromises = body.files.map(async (file) => {
       const newFile = new File({
         idproject: savedProject._id,
@@ -62,15 +62,15 @@ export const POST = async (request: Request) => {
         type: file.type,
       });
 
-      // Guardar el archivo
+      // Save files
       const savedFile = await newFile.save();
       return savedFile._id;
     });
 
-    // Esperar a que todos los archivos se guarden
+    // Wait to files to be saved
     const savedFiles = await Promise.all(filePromises);
 
-    // Actualizar el proyecto con los IDs de los archivos
+    // Update project with files IDs
     savedProject.files = savedFiles;
     await savedProject.save();
 

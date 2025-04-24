@@ -35,5 +35,3 @@ export const POST = async (request: Request) => {
     });
   }
 };
-
-// Puedes agregar métodos PATCH y DELETE según sea necesario 

@@ -63,7 +63,7 @@ export const POST = async (request: Request) => {
 export const PATCH = async (request: Request) => {
   try {
     const body = await request.json();
-    const { fileId, newContent } = body; // Obtener el ID del archivo y el nuevo contenido
+    const { fileId, newContent } = body; 
     await connect();
 
     if (!fileId || !newContent) {

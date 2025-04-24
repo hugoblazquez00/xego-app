@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { PreviousInstructions, NextInstructions, CloseButton } from "@/components/icons";
-import { Confetti } from "@/components/magicui/confetti";
 import { fetchProjectDetails, fetchInstructionByStep, updateProjectStep } from '@/app/utils/api';
 
 export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose }) {
@@ -70,7 +69,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
         <button
           onClick={onClose}
           className="absolute right-2 top-2 p-2 hover:bg-gray-100 rounded-full transition-colors"
-          aria-label="Cerrar instrucciones"
+          aria-label="Close instructions"
         >
           <InstructionsButton className="h-5 w-5 transform rotate-180" />
         </button>
@@ -99,7 +98,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
       <button
         onClick={onClose}
         className="absolute right-2 top-2 p-2 hover:bg-gray-100 rounded-full transition-colors"
-        aria-label="Cerrar instrucciones"
+        aria-label="Close instructions"
       >
         <CloseButton className="h-5 w-5 transform rotate-180" />
       </button>
