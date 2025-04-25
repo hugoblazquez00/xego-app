@@ -71,7 +71,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
           className="absolute right-2 top-2 p-2 hover:bg-gray-100 rounded-full transition-colors"
           aria-label="Close instructions"
         >
-          <InstructionsButton className="h-5 w-5 transform rotate-180" />
+          <CloseButton className="h-5 w-5 transform rotate-180" />
         </button>
 
         <button

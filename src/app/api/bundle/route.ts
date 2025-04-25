@@ -18,12 +18,16 @@ export const POST = async (request: Request) => {
   try {
     await connect();
     let files;
+    let id_p_x = null;
     if (screen === "project") {
+      id_p_x = projectID;
       files = await File.find({ idproject: projectID }).exec();
     } else if (screen === "instructions") {
       const project = await Project.find({ _id: projectID }).exec();
       
       const xegoID = project[0]?.idxego; 
+
+      id_p_x = xegoID;
       if (!xegoID) {
         return new NextResponse("XegoID not found for the project", { status: 404 });
       }
@@ -103,7 +107,13 @@ export const POST = async (request: Request) => {
 
             build.onLoad({ filter: /.*/, namespace: "file-loader" }, (args) => {
               if (fileMap[args.path]) {
-                return { contents: fileMap[args.path], loader: "jsx" };
+                // Rewrite fetch("/api/xyz") to fetch("http://localhost:3000/api/dynamic-proxy/xyz?projectId=...")
+                const patchedContent = fileMap[args.path].replace(
+                  /fetch\((['"`])\/api\/(.*?)\1/g,
+                  (_match, quote, route) => `fetch(${quote}http://localhost:3000/api/dynamic-proxy/${route}?projectId=${id_p_x}${quote}`
+                );
+                console.log(patchedContent);
+                return { contents: patchedContent, loader: "jsx" };
               }
               throw new Error(`File not found: ${args.path}`);
             });
@@ -111,7 +121,6 @@ export const POST = async (request: Request) => {
         },
       ],
     });
-
     return new NextResponse(result.outputFiles[0].text, { status: 200 });
   } catch (error) {
     return new NextResponse(`Error bundling files: ${error.message}`, { status: 500 });

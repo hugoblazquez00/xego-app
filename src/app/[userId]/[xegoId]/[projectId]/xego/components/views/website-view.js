@@ -23,7 +23,6 @@ export function WebsiteView({ projectId, currentScreen, currentStep }) {
             </body>
           </html>
         `;
-
         const htmlBlob = new Blob([htmlContent], { type: "text/html" });
         const htmlURL = URL.createObjectURL(htmlBlob);
         setIframeSrc(htmlURL);
