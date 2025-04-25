@@ -109,10 +109,10 @@ export const POST = async (request: Request) => {
               if (fileMap[args.path]) {
                 // Rewrite fetch("/api/xyz") to fetch("http://localhost:3000/api/dynamic-proxy/xyz?projectId=...")
                 const patchedContent = fileMap[args.path].replace(
-                  /fetch\((['"`])\/api\/(.*?)\1/g,
-                  (_match, quote, route) => `fetch(${quote}http://localhost:3000/api/dynamic-proxy/${route}?projectId=${id_p_x}${quote}`
+                  /fetch\((['"`])\/api\/([^'"`)]+)\1/g,
+                  (_match, quote, route) => 
+                    `fetch(${quote}http://localhost:3000/api/dynamic-proxy/${route}?projectId=${id_p_x}${quote}`
                 );
-                console.log(patchedContent);
                 return { contents: patchedContent, loader: "jsx" };
               }
               throw new Error(`File not found: ${args.path}`);
