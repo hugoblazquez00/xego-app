@@ -19,9 +19,9 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
 
     const supabase = createSupabaseClient();
 
-    const rawQuery = `SELECT * FROM ${table}`;
-    const fullQuery = rawQuery.replace(/from\s+([a-zA-Z_][\w]*)/gi, `from "${projectId}".$1`);
+    const fullQuery = `SELECT * FROM "${projectId}".${table}`;
 
+  console.log("\nfullQuery: ", fullQuery);
     const { data, error } = await supabase.rpc("execute_raw_sql", { query: fullQuery });
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -42,11 +42,10 @@ export async function POST(req: Request, { params }: { params: { path: string[] 
   const body = await req.json();
   const columns = Object.keys(body).join(', ');
   const values = Object.values(body).map(v => typeof v === "string" ? `'${v}'` : v).join(', ');
-  const rawQuery = `INSERT INTO ${table} (${columns}) VALUES (${values})`;
-  const fullQuery = rawQuery.replace(/from\s+([a-zA-Z_][\w]*)/gi, `from "${projectId}".$1`);
+  const fullQuery = `INSERT INTO "${projectId}".${table} (${columns}) VALUES (${values})`;
 
   const supabase = createSupabaseClient();
-  const { error } = await supabase.rpc("execute_raw_sql", { fullQuery });
+  const { error } = await supabase.rpc("execute_raw_sql", { query: fullQuery });
 
   if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
 
@@ -64,11 +63,10 @@ export async function PUT(req: Request, { params }: { params: { path: string[] }
   const updates = Object.entries(body)
     .map(([k, v]) => `${k} = ${typeof v === "string" ? `'${v}'` : v}`)
     .join(', ');
-  const rawQuery = `UPDATE ${table} SET ${updates} WHERE id = ${id}`;
-  const fullQuery = rawQuery.replace(/from\s+([a-zA-Z_][\w]*)/gi, `from "${projectId}".$1`);
 
+  const fullQuery = `UPDATE "${projectId}".${table} SET ${updates} WHERE id = ${id}`;
   const supabase = createSupabaseClient();
-  const { error } = await supabase.rpc("execute_raw_sql", { fullQuery });
+  const { error } = await supabase.rpc("execute_raw_sql", { query: fullQuery });
   if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
 
   return NextResponse.json({ success: true });
@@ -81,11 +79,10 @@ export async function DELETE(req: Request, { params }: { params: { path: string[
 
   const table = params.path[0];
   const id = params.path[1];
-  const rawQuery = `DELETE FROM ${table} WHERE id = ${id}`;
-  const fullQuery = rawQuery.replace(/from\s+([a-zA-Z_][\w]*)/gi, `from "${projectId}".$1`);
+  const fullQuery = `DELETE FROM "${projectId}".${table} WHERE id = ${id}`;
 
   const supabase = createSupabaseClient();
-  const { error } = await supabase.rpc("execute_raw_sql", { fullQuery });
+  const { error } = await supabase.rpc("execute_raw_sql", { query: fullQuery });
   if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
 
   return NextResponse.json({ success: true });
