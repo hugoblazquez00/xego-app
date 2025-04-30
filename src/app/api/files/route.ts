@@ -113,14 +113,29 @@ export const DELETE = async (request: Request) => {
       return new NextResponse("File ID is required", { status: 400 });
     }
 
-    const deletedFile = await File.findByIdAndDelete(fileId);
+    const fileToDelete = await File.findById(fileId);
 
-    if (!deletedFile) {
+    if (!fileToDelete) {
       return new NextResponse("File not found", { status: 404 });
     }
 
+    if (fileToDelete.type === 'folder') {
+      const escapedPath = fileToDelete.path.replace(/^\//, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      console.log("Deleting folder with path pattern:", `^${escapedPath}/`);
+      
+      await File.deleteMany({
+        idproject: fileToDelete.idproject,
+        path: new RegExp(`^${escapedPath}/`)
+      });
+    }
+
+    const deletedFile = await File.findByIdAndDelete(fileId);
+
     return new NextResponse(
-      JSON.stringify({ message: "File deleted", file: deletedFile }),
+      JSON.stringify({ 
+        message: fileToDelete.type === 'folder' ? "Folder and its contents deleted" : "File deleted", 
+        file: deletedFile 
+      }),
       { status: 200 }
     );
   } catch (error: any) {
@@ -129,3 +144,4 @@ export const DELETE = async (request: Request) => {
     });
   }
 };
+
