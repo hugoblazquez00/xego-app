@@ -121,7 +121,6 @@ export const DELETE = async (request: Request) => {
 
     if (fileToDelete.type === 'folder') {
       const escapedPath = fileToDelete.path.replace(/^\//, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      console.log("Deleting folder with path pattern:", `^${escapedPath}/`);
       
       await File.deleteMany({
         idproject: fileToDelete.idproject,

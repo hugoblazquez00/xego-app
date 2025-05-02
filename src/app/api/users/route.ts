@@ -10,7 +10,6 @@ export const GET = async (request: Request) => {
     await connect();
     const user = await User.findOne({ _id: userId });
 
-    console.log("User from api/users:", user)
     return new NextResponse(JSON.stringify(user), { status: 200 });
   } catch (error) {
     return new NextResponse("Error in fetching user " + error.message, {
