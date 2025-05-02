@@ -6,7 +6,7 @@ import { createSupabaseClient } from '@/app/lib/supabaseClient';
 export async function GET(req: Request, { params }: { params: { path: string[] } }) {
   try {
     // const { searchParams } = new URL(req.url);
-    const { searchParams } = new URL(req.url, `https://${req.headers.get("host")}`);
+    const { searchParams } = req.nextUrl;
     const projectId = searchParams.get("projectId");
 
     if (!projectId) {
@@ -35,7 +35,7 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
 
 export async function POST(req: Request, { params }: { params: { path: string[] } }) {
   // const { searchParams } = new URL(req.url);
-  const { searchParams } = new URL(req.url, `https://${req.headers.get("host")}`);
+  const { searchParams } = req.nextUrl;
   const projectId = searchParams.get("projectId");
   if (!projectId) return NextResponse.json({ success: false, error: "Missing projectId" }, { status: 400 });
 
@@ -55,7 +55,7 @@ export async function POST(req: Request, { params }: { params: { path: string[] 
 
 export async function PUT(req: Request, { params }: { params: { path: string[] } }) {
   // const { searchParams } = new URL(req.url);
-  const { searchParams } = new URL(req.url, `https://${req.headers.get("host")}`);
+  const { searchParams } = req.nextUrl;
   const projectId = searchParams.get("projectId");
   if (!projectId) return NextResponse.json({ success: false, error: "Missing projectId" }, { status: 400 });
 
@@ -76,7 +76,7 @@ export async function PUT(req: Request, { params }: { params: { path: string[] }
 
 export async function DELETE(req: Request, { params }: { params: { path: string[] } }) {
   // const { searchParams } = new URL(req.url);
-  const { searchParams } = new URL(req.url, `https://${req.headers.get("host")}`);
+  const { searchParams } = req.nextUrl;
   const projectId = searchParams.get("projectId");
   if (!projectId) return NextResponse.json({ success: false, error: "Missing projectId" }, { status: 400 });
 
