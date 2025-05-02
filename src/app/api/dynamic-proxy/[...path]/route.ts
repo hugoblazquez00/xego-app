@@ -14,7 +14,7 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       return NextResponse.json({ success: false, error: "Missing projectId" }, { status: 400 });
     }
 
-    const table = params.path[0]; // e.g. /api/dynamic-proxy/tasks → "tasks"
+    const table = params.path[0]; 
     if (!table) {
       return NextResponse.json({ success: false, error: "Missing table in path" }, { status: 400 });
     }
@@ -30,15 +30,20 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
 
     return NextResponse.json(data, { status: 200 });
   } catch (error: any) {
-    // return NextResponse.json({ success: false, error: "error.message 2" }, { status: 500 });
+    const url = new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL);
     return NextResponse.json({
+      success: false,
+      error: error.message,
       debug: {
         reqUrl: req.url,
         baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
         fullConstructedUrl: new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL).toString(),
         params,
+        projectId: url?.searchParams.get("projectId"),
+        table: params.path?.[0],
+        fullQuery: `SELECT * FROM "${url?.searchParams.get("projectId")}".${params.path?.[0]}`
       }
-    });
+    }, { status: 500 });
   }
 }
 
