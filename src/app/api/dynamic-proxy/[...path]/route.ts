@@ -30,7 +30,15 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
 
     return NextResponse.json(data, { status: 200 });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: "error.message 2" }, { status: 500 });
+    // return NextResponse.json({ success: false, error: "error.message 2" }, { status: 500 });
+    return NextResponse.json({
+      debug: {
+        reqUrl: req.url,
+        baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+        fullConstructedUrl: new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL).toString(),
+        params,
+      }
+    });
   }
 }
 
