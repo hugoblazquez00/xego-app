@@ -21,7 +21,6 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
 
     const fullQuery = `SELECT * FROM "${projectId}".${table}`;
 
-  console.log("\nfullQuery: ", fullQuery);
     const { data, error } = await supabase.rpc("execute_raw_sql", { query: fullQuery });
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
