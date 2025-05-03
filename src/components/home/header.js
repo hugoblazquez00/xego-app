@@ -22,19 +22,19 @@ export default function Header() {
         {/* Logo and nav aligned left */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold tracking-tight text-platinum-400">XEGO</span>
+            <span className="text-2xl font-bold tracking-tight text-[#275eff]">XEGO</span>
           </Link>
           <nav className="hidden md:flex gap-6 ml-12">
-            <Link href="#features" className="text-sm font-medium transition-colors hover:text-platinum-400">
+            <Link href="#features" className="text-sm font-medium transition-colors hover:text-[#5084ff]">
               Features
             </Link>
-            <Link href="#platform" className="text-sm font-medium transition-colors hover:text-platinum-400">
+            <Link href="#platform" className="text-sm font-medium transition-colors hover:text-[#5084ff]">
               Platform
             </Link>
-            <Link href="#testimonials" className="text-sm font-medium transition-colors hover:text-platinum-400">
+            <Link href="#testimonials" className="text-sm font-medium transition-colors hover:text-[#5084ff]">
               Testimonials
             </Link>
-            <Link href="#pricing" className="text-sm font-medium transition-colors hover:text-platinum-400">
+            <Link href="#pricing" className="text-sm font-medium transition-colors hover:text-[#5084ff]">
               Pricing
             </Link>
           </nav>
@@ -66,7 +66,7 @@ export default function Header() {
               <Button variant="outline" size="sm" asChild>
                 <Link href="/login">Log in</Link>
               </Button>
-              <Button size="sm" className="bg-platinum-400 hover:bg-platinum-500 text-white" asChild>
+              <Button size="sm" className="bg-[#275eff] hover:bg-[#1a44be] text-white" asChild>
                 <Link href="/register">Get XEGO</Link>
               </Button>
             </>
@@ -93,28 +93,28 @@ export default function Header() {
           <nav className="flex flex-col space-y-4">
             <Link
               href="#features"
-              className="text-sm font-medium transition-colors hover:text-platinum-400"
+              className="text-sm font-medium transition-colors hover:text-[#5084ff]"
               onClick={() => setIsMenuOpen(false)}
             >
               Features
             </Link>
             <Link
               href="#platform"
-              className="text-sm font-medium transition-colors hover:text-platinum-400"
+              className="text-sm font-medium transition-colors hover:text-[#5084ff]"
               onClick={() => setIsMenuOpen(false)}
             >
               Platform
             </Link>
             <Link
               href="#testimonials"
-              className="text-sm font-medium transition-colors hover:text-platinum-400"
+              className="text-sm font-medium transition-colors hover:text-[#5084ff]"
               onClick={() => setIsMenuOpen(false)}
             >
               Testimonials
             </Link>
             <Link
               href="#pricing"
-              className="text-sm font-medium transition-colors hover:text-platinum-400"
+              className="text-sm font-medium transition-colors hover:text-[#5084ff]"
               onClick={() => setIsMenuOpen(false)}
             >
               Pricing
@@ -142,7 +142,7 @@ export default function Header() {
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/login">Log in</Link>
                   </Button>
-                  <Button size="sm" className="bg-platinum-400 hover:bg-platinum-500 text-white" asChild>
+                  <Button size="sm" className="bg-[#275eff] hover:bg-[#1a44be] text-white" asChild>
                     <Link href="/register">Get XEGO</Link>
                   </Button>
                 </>
