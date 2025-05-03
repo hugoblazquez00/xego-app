@@ -11,13 +11,13 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 z-50 w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container relative flex h-16 items-center justify-between ml-16">
+        {/* Logo and nav aligned left */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-2xl font-bold tracking-tight text-platinum-400">XEGO</span>
           </Link>
-
-          <nav className="hidden md:flex gap-6">
+          <nav className="hidden md:flex gap-6 ml-12">
             <Link href="#features" className="text-sm font-medium transition-colors hover:text-platinum-400">
               Features
             </Link>
@@ -33,7 +33,8 @@ export default function Header() {
           </nav>
         </div>
 
-        <div className="hidden md:flex items-center gap-4">
+        {/* Botones a la derecha */}
+        <div className="hidden md:flex items-center gap-4 absolute right-0 top-0 h-16">
           <ModeToggle />
           <Button variant="outline" size="sm" asChild>
             <Link href="/login">Log in</Link>
@@ -43,7 +44,8 @@ export default function Header() {
           </Button>
         </div>
 
-        <div className="md:hidden flex items-center gap-4">
+        {/* Mobile menu button */}
+        <div className="md:hidden flex items-center gap-4 absolute right-4 top-0 h-16">
           <ModeToggle />
           <Button
             variant="ghost"

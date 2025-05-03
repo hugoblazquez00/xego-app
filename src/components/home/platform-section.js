@@ -25,73 +25,98 @@ export default function PlatformSection() {
 
           <TabsContent
             value="instruction"
-            className="relative h-[500px] rounded-lg overflow-hidden shadow-lg border border-border"
+            className="relative rounded-lg overflow-hidden shadow-lg border border-border group bg-transparent"
           >
-            <Image
-              src="/home/xego01.png"
-              alt="XEGO instruction screen showing step-by-step tutorial"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur-sm p-6">
-              <h3 className="text-xl font-semibold mb-2">Instruction Screen</h3>
-              <p className="text-muted-foreground">
-                Follow guided tutorials with clear step-by-step instructions, code snippets, and explanations.
-              </p>
+            <div className="relative w-full bg-transparent" style={{ aspectRatio: '900/500' }}>
+              <Image
+                src="/home/xego01.png"
+                alt="XEGO instruction screen showing step-by-step tutorial"
+                fill
+                className="object-cover"
+                sizes="(max-width: 900px) 100vw, 900px"
+                priority
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 bg-background/95 p-6 transition-all duration-300 ease-in-out
+                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+              >
+                <h3 className="text-xl font-semibold mb-2">Instruction Screen</h3>
+                <p className="text-muted-foreground">
+                  Follow guided tutorials with clear step-by-step instructions, code snippets, and explanations.
+                </p>
+              </div>
             </div>
           </TabsContent>
 
           <TabsContent
             value="frontend"
-            className="relative h-[500px] rounded-lg overflow-hidden shadow-lg border border-border"
+            className="relative rounded-lg overflow-hidden shadow-lg border border-border group bg-transparent"
           >
-            <Image
-              src="/home/xego05.png"
-              alt="XEGO frontend view showing code editor"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur-sm p-6">
-              <h3 className="text-xl font-semibold mb-2">Frontend View</h3>
-              <p className="text-muted-foreground">
-                Edit your React components and styles with our powerful code editor with syntax highlighting.
-              </p>
+            <div className="relative w-full bg-transparent" style={{ aspectRatio: '900/500' }}>
+              <Image
+                src="/home/xego05.png"
+                alt="XEGO frontend view showing code editor"
+                fill
+                className="object-cover"
+                sizes="(max-width: 900px) 100vw, 900px"
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 bg-background/95 p-6 transition-all duration-300 ease-in-out
+                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+              >
+                <h3 className="text-xl font-semibold mb-2">Frontend View</h3>
+                <p className="text-muted-foreground">
+                  Edit your React components and styles with our powerful code editor with syntax highlighting.
+                </p>
+              </div>
             </div>
           </TabsContent>
 
           <TabsContent
             value="preview"
-            className="relative h-[500px] rounded-lg overflow-hidden shadow-lg border border-border"
+            className="relative rounded-lg overflow-hidden shadow-lg border border-border group bg-transparent"
           >
-            <Image
-              src="/home/xego02.png"
-              alt="XEGO web preview showing live application"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur-sm p-6">
-              <h3 className="text-xl font-semibold mb-2">Web Preview</h3>
-              <p className="text-muted-foreground">
-                See your changes in real-time with our live preview that updates as you type.
-              </p>
+            <div className="relative w-full bg-transparent" style={{ aspectRatio: '900/500' }}>
+              <Image
+                src="/home/xego02.png"
+                alt="XEGO web preview showing live application"
+                fill
+                className="object-cover"
+                sizes="(max-width: 900px) 100vw, 900px"
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 bg-background/95 p-6 transition-all duration-300 ease-in-out
+                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+              >
+                <h3 className="text-xl font-semibold mb-2">Web Preview</h3>
+                <p className="text-muted-foreground">
+                  See your changes in real-time with our live preview that updates as you type.
+                </p>
+              </div>
             </div>
           </TabsContent>
 
           <TabsContent
             value="database"
-            className="relative h-[500px] rounded-lg overflow-hidden shadow-lg border border-border"
+            className="relative rounded-lg overflow-hidden shadow-lg border border-border group bg-transparent"
           >
-            <Image
-              src="/home/xego03.png"
-              alt="XEGO database view showing collections and documents"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur-sm p-6">
-              <h3 className="text-xl font-semibold mb-2">Database View</h3>
-              <p className="text-muted-foreground">
-                Create and manage data collections with our intuitive database interface powered by MongoDB.
-              </p>
+            <div className="relative w-full bg-transparent" style={{ aspectRatio: '900/500' }}>
+              <Image
+                src="/home/xego03.png"
+                alt="XEGO database view showing collections and documents"
+                fill
+                className="object-cover"
+                sizes="(max-width: 900px) 100vw, 900px"
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 bg-background/95 p-6 transition-all duration-300 ease-in-out
+                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+              >
+                <h3 className="text-xl font-semibold mb-2">Database View</h3>
+                <p className="text-muted-foreground">
+                  Create and manage data collections with our intuitive database interface powered by Supabase.
+                </p>
+              </div>
             </div>
           </TabsContent>
         </Tabs>
