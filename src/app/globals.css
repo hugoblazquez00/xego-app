@@ -22,8 +22,10 @@
     --destructive-foreground: 60 5% 98%;
     --border: 60 5% 90%;
     --input: 60 5% 90%;
-    --ring: 60 5% 64%;
+    --ring: 220 100% 60%; /* uses --xelectric */
     --radius: 0.5rem;
+    --xelectric: 220 100% 60%; /* #275eff - XEGO final highlight */
+    --xelectric-foreground: 0 0% 100%;
   }
 
   .dark {
@@ -45,7 +47,11 @@
     --destructive-foreground: 60 5% 98%;
     --border: 60 5% 20%;
     --input: 60 5% 20%;
-    --ring: 60 5% 64%;
+    --ring: 220 100% 60%; /* uses --xelectric */
+    --xelectric: 220 100% 60%; /* #275eff - XEGO final highlight */
+    --xelectric-foreground: 0 0% 100%;
+    --xelectric-comp: 220 100% 67%;
+    --xelectric-comp-foreground: 0 0% 100%;
   }
 }
 
@@ -55,6 +61,14 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+@layer components {
+  .bg-xego {
+    background-color: hsl(var(--xelectric-comp));
+  }
+  .text-xego {
+    color: hsl(var(--xelectric-comp));
   }
 }
 

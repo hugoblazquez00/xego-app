@@ -59,21 +59,21 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
 
   return (
     <>
-      <header className="border-b p-4">
-        <div className="flex justify-between items-center">
+      <header className="border-b p-4 bg-white">
+        <div className="flex justify-between items-center ">
           <div className="flex items-center gap-4">
             {/* Logo/Home button */}
             <button 
               onClick={() => router.push(`/${userId}/home`)}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-              <HomeIcon/>
+              <HomeIcon  />
             </button>
 
             {/* Project and Xego names */}
             <div className="flex items-baseline gap-2">
-              <h1 className="text-2xl font-bold">{projectName}</h1>
-              <span className="text-lg text-gray-600">/ {xegoName}</span>
+              <h1 className="text-2xl text-[#275eff] font-bold">{projectName}</h1>
+              <span className="text-lg text-[#90b5ff]">/ {xegoName}</span>
             </div>
           </div>
 
@@ -95,18 +95,18 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
               title={isSavedXego ? "Project saved" : "Save project"}
             >
               {isSaving ? (
-                <OnComputer className="w-6 h-6" />
+                <OnComputer className="w-6 h-6 text-[#275eff]" />
               ) : isSavedXego ? (
-                <BoldComputer className="w-6 h-6" />
+                <BoldComputer className="w-6 h-6 text-[#275eff]" />
               ) : (
-                <EmptyComputer className="w-6 h-6" />
+                <EmptyComputer className="w-6 h-6 text-[#275eff]" />
               )}
             </button>
             <button
               onClick={() => setIsAiHelperOpen(true)}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-              <AiHelperIcon className="w-6 h-6" />
+              <AiHelperIcon className="w-6 h-6 text-[#275eff]" />
             </button>
           </div>
         </div>
@@ -119,4 +119,4 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
       />
     </>
   )
-} 
+}
