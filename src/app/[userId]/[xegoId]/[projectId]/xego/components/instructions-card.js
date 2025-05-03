@@ -8,6 +8,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
   const [instruction, setInstruction] = useState(null);
   const [isLastStep, setIsLastStep] = useState(false);
 
+  // TODO each activity a color to display
   useEffect(() => {
     const fetchInstruction = async () => {
       try {
@@ -79,13 +80,13 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
           className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
           aria-label="Prev"
         >
-          <PreviousInstructions className="pr-1 h-8 w-8 text-gray-700" />
+          <PreviousInstructions className="pr-1 h-8 w-8 text-[#2051de]700" />
         </button>
 
         <div className="text-center px-10 flex-1 flex flex-col justify-center">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Congratulations! 🎉</h3>
-          <p className="text-lg text-gray-700 mb-2">You've completed the whole XEGO!</p>
-          <p className="text-md text-gray-600">You reached the end of the tutorial. Good job!</p>
+          <h3 className="text-2xl font-bold text-[#2051de]800 mb-4">Congratulations! 🎉</h3>
+          <p className="text-lg text-[#2051de]700 mb-2">You've completed the whole XEGO!</p>
+          <p className="text-md text-[#2051de]600">You reached the end of the tutorial. Good job!</p>
         </div>
       </div>
     );
@@ -94,7 +95,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
   if (!instruction) return null;
 
   return (
-    <div className="relative bg-white rounded-lg shadow-md px-6 py-5 min-h-[300px] flex flex-col">
+    <div className="relative bg-white border-2 border-[#275eff] rounded-lg shadow-md px-6 py-5 min-h-[300px] flex flex-col">
       <button
         onClick={onClose}
         className="absolute right-2 top-2 p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -108,25 +109,25 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
         className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
         aria-label="Prev"
       >
-        <PreviousInstructions className="pr-1 h-8 w-8 text-gray-700" />
+        <PreviousInstructions className="pr-1 h-8 w-8 text-[#14379e]" />
       </button>
 
       <div className="text-center px-10 flex-1 flex flex-col">
         <div className="mb-auto pt-2">
-          <h4 className="text-sm text-gray-500 font-medium uppercase tracking-wide mb-1">
+          <h4 className="text-sm text-[#14379e] font-medium uppercase tracking-wide mb-1">
             Activity
           </h4>
-          <h3 className="text-xl font-bold text-gray-800 mb-4">{instruction.activityTitle}</h3>
+          <h3 className="text-xl font-bold text-[#14379e] mb-4">{instruction.activityTitle}</h3>
         </div>
 
         <div className="flex-1 flex flex-col justify-center">
-          <h5 className="text-sm text-gray-500 font-medium uppercase tracking-wide mb-1">
+          <h5 className="text-sm text-[#1a44be] font-medium uppercase tracking-wide mb-1">
             Task
           </h5>
-          <p className="text-md text-gray-700 font-medium mb-4">{instruction.taskTitle}</p>
+          <p className="text-md text-[#1a44be] font-medium mb-4">{instruction.taskTitle}</p>
 
           <div className="overflow-y-auto max-h-[120px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-            <p className="text-sm text-gray-600">{instruction.description}</p>
+            <p className="text-sm text-[#2051de]">{instruction.description}</p>
           </div>
         </div>
       </div>
@@ -136,7 +137,7 @@ export function InstructionsCard({ projectId, onStepChange, onLastStep, onClose 
         className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center hover:bg-gray-200 p-2 rounded-full"
         aria-label="Next"
       >
-        <NextInstructions className="pl-1 h-8 w-8 text-gray-700" />
+        <NextInstructions className="pl-1 h-8 w-8 text-[#14379e]" />
       </button>
     </div>
   );

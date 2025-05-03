@@ -4,7 +4,7 @@ export function ViewSelector({ currentView, onViewChange, className = "" }) {
         <button
           onClick={() => onViewChange("website")}
           className={`px-6 py-2 rounded-lg flex items-center gap-2 ${
-            currentView === "website" ? "bg-emerald-100 text-emerald-700" : "bg-secondary"
+            currentView === "website" ? "bg-[#ffc827] text-yellow-700" : "bg-secondary"
           }`}
         >
           Website view
@@ -12,7 +12,7 @@ export function ViewSelector({ currentView, onViewChange, className = "" }) {
         <button
           onClick={() => onViewChange("frontend")}
           className={`px-6 py-2 rounded-lg flex items-center gap-2 ${
-            currentView === "frontend" ? "bg-orange-100 text-orange-700" : "bg-secondary"
+            currentView === "frontend" ? "bg-[#27ff38] text-emerald-800" : "bg-secondary"
           }`}
         >
           Frontend view
@@ -20,7 +20,7 @@ export function ViewSelector({ currentView, onViewChange, className = "" }) {
         <button
           onClick={() => onViewChange("backend")}
           className={`px-6 py-2 rounded-lg flex items-center gap-2 ${
-            currentView === "backend" ? "bg-red-100 text-red-700" : "bg-secondary"
+            currentView === "backend" ? "bg-[#ff27a6] text-pink-100" : "bg-secondary"
           }`}
         >
           Backend view
@@ -28,7 +28,7 @@ export function ViewSelector({ currentView, onViewChange, className = "" }) {
         <button
           onClick={() => onViewChange("database")}
           className={`px-6 py-2 rounded-lg flex items-center gap-2 ${
-            currentView === "database" ? "bg-blue-100 text-blue-700" : "bg-secondary"
+            currentView === "database" ? "bg-[#bbd3ff] text-blue-700" : "bg-secondary"
           }`}
         >
           Database view

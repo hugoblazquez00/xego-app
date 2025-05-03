@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import Slide from "@mui/material/Slide"
 import { Workspace } from "./components/workspace"
 import { ViewSelector } from "./components/view-selector"
 import { XegoNavbar } from "./components/XegoNavbar"
@@ -23,6 +24,8 @@ export default function XegoPage({ params }) {
   
   const projectId = params.projectId
   const userId = params.userId
+
+  const containerRef = useRef(null)
 
   useEffect(() => {
     const loadFiles = async () => {
@@ -170,8 +173,8 @@ export default function XegoPage({ params }) {
         <ViewSelector currentView={currentView} onViewChange={setCurrentView} className="border-t p-4" />
       </main>
       {currentScreen === "instructions" && (
-        <div className="absolute bottom-6 right-6 z-50 w-[400px]">
-          {isInstructionsOpen ? (
+        <div ref={containerRef} className="absolute bottom-6 right-6 z-50 w-[400px] overflow-hidden">
+          <Slide in={isInstructionsOpen} direction="up" container={containerRef.current}>
             <div className="relative">
               <InstructionsCard 
                 projectId={projectId}
@@ -180,13 +183,14 @@ export default function XegoPage({ params }) {
                 onClose={() => setIsInstructionsOpen(false)}
               />
             </div>
-          ) : (
+          </Slide>
+          {!isInstructionsOpen && (
             <button
               onClick={() => setIsInstructionsOpen(true)}
-              className="ml-auto flex items-center gap-2 bg-white rounded-lg shadow-md px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+              className="ml-auto flex items-center gap-2 bg-[#275eff] rounded-lg shadow-md px-4 py-3 text-gray-700 hover:bg-[#6595ff] transition-colors"
             >
-              <InstructionsButton className="h-5 w-5" />
-              <span>Display instructions</span>
+              <InstructionsButton className="h-5 w-5 " />
+              <span></span>
             </button>
           )}
         </div>
