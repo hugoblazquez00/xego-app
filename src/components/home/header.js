@@ -1,13 +1,20 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "./ui/button"
 import { Menu, X } from "lucide-react"
 import { ModeToggle } from "./mode-toggle"
+import Image from "next/image"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) setUser(JSON.parse(storedUser))
+  }, [])
 
   return (
     <header className="fixed top-0 z-50 w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -33,15 +40,37 @@ export default function Header() {
           </nav>
         </div>
 
-        {/* Botones a la derecha */}
+        {/* Right side: user info or login/register */}
         <div className="hidden md:flex items-center gap-4 absolute right-0 top-0 h-16">
           <ModeToggle />
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/login">Log in</Link>
-          </Button>
-          <Button size="sm" className="bg-platinum-400 hover:bg-platinum-500 text-white" asChild>
-            <Link href="/register">Get XEGO</Link>
-          </Button>
+          {user ? (
+            <div className="flex items-center gap-2 pr-4">
+              {/* User image if exists */}
+              {user.image ? (
+                <Image
+                  src={user.image}
+                  alt={user.username}
+                  width={32}
+                  height={32}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+                  {user.username?.[0]?.toUpperCase() || "U"}
+                </div>
+              )}
+              <span className="font-medium">{user.username}</span>
+            </div>
+          ) : (
+            <>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/login">Log in</Link>
+              </Button>
+              <Button size="sm" className="bg-platinum-400 hover:bg-platinum-500 text-white" asChild>
+                <Link href="/register">Get XEGO</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile menu button */}
@@ -91,12 +120,33 @@ export default function Header() {
               Pricing
             </Link>
             <div className="flex flex-col space-y-2 pt-2">
-              <Button variant="outline" size="sm" asChild>
-                <Link href="/login">Log in</Link>
-              </Button>
-              <Button size="sm" className="bg-platinum-400 hover:bg-platinum-500 text-white" asChild>
-                <Link href="/register">Get XEGO</Link>
-              </Button>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  {user.image ? (
+                    <Image
+                      src={user.image}
+                      alt={user.username}
+                      width={32}
+                      height={32}
+                      className="rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+                      {user.username?.[0]?.toUpperCase() || "U"}
+                    </div>
+                  )}
+                  <span className="font-medium">{user.username}</span>
+                </div>
+              ) : (
+                <>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href="/login">Log in</Link>
+                  </Button>
+                  <Button size="sm" className="bg-platinum-400 hover:bg-platinum-500 text-white" asChild>
+                    <Link href="/register">Get XEGO</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </nav>
         </div>
