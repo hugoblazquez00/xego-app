@@ -1,6 +1,7 @@
 "use client"
 
 import { GripVertical } from "lucide-react"
+// @ts-expect-error: moduleResolution doesn't recognize this module type
 import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"

@@ -55,12 +55,15 @@ export default function HeroSection() {
 
           <div className="relative w-full max-w-5xl h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden shadow-2xl">
             <Image
-              src="/placeholder.svg?height=600&width=1000"
+              src="/home/xego04.png"
               alt="XEGO platform interface showing code editor and preview"
               fill
               className="object-cover"
+
+                sizes="(max-width: 1500px) 100vw, 1500px"
               priority
             />
+            
           </div>
         </div>
       </div>
