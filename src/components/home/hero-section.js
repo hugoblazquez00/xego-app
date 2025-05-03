@@ -21,13 +21,13 @@ export default function HeroSection() {
 
       <div className="container relative z-10">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-platinum-400/10 text-platinum-600 mb-8">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#d2e2ff]/30 text-[#1a44be] mb-8">
             <span className="text-sm font-medium">Introducing XEGO</span>
             <ArrowRight className="ml-2 h-4 w-4" />
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-            Your guided journey to <span className="text-platinum-500">coding mastery</span>
+            Your guided journey to <span className="text-[#275eff]">coding mastery</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10">
@@ -43,7 +43,7 @@ export default function HeroSection() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <Button type="submit" className="h-12 bg-platinum-500 text-white hover:bg-platinum-600">
+            <Button type="submit" className="h-12 bg-[#275eff] text-white hover:bg-[#1a44be]">
               Get Started
             </Button>
           </form>
@@ -53,8 +53,8 @@ export default function HeroSection() {
           {/* 💻 Hero mockup con vídeo dentro del portátil */}
           <div className="relative w-full max-w-5xl mx-auto">
 
-          <div class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
-              <div class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
+          <div class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800  border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+              <div class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-[#0e2b80]">
                   {/* <img src="https://flowbite.s3.amazonaws.com/docs/device-mockups/laptop-screen.png" class="dark:hidden h-[156px] md:h-[278px] w-full rounded-lg" alt=""></img>
                   <img src="https://flowbite.s3.amazonaws.com/docs/device-mockups/laptop-screen-dark.png" class="hidden dark:block h-[156px] md:h-[278px] w-full rounded-lg" alt=""></img> */}
                   <video
@@ -67,8 +67,8 @@ export default function HeroSection() {
               />
               </div>
           </div>
-          <div class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
-              <div class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800"></div>
+          <div class="relative mx-auto border-gray-900  bg-gray-700  rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+              <div class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-[#0e2b80]"></div>
           </div>
 
             

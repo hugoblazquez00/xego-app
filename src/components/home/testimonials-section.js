@@ -32,14 +32,14 @@ export default function TestimonialsSection() {
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Loved by beginners</h2>
-          <p className="text-xl text-muted-foreground">See what our users have to say about learning with XEGO</p>
+          <p className="text-xl text-[#14379e]">See what our users have to say about learning with XEGO</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-border hover:border-platinum-400/50 transition-colors">
+            <Card key={index} className="border-border hover:border-[#5084ff] transition-colors">
               <CardContent className="p-8">
-                <Quote className="h-8 w-8 text-platinum-400/60 mb-4" />
+                <Quote className="h-8 w-8 text-[#275eff] mb-4" />
                 <p className="mb-6 text-lg">{testimonial.quote}</p>
                 <div className="flex items-center gap-4">
                   <div className="relative h-12 w-12 rounded-full overflow-hidden">
@@ -51,8 +51,8 @@ export default function TestimonialsSection() {
                     />
                   </div>
                   <div>
-                    <h4 className="font-semibold">{testimonial.author}</h4>
-                    <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+                    <h4 className="font-semibold text-[#14379e]">{testimonial.author}</h4>
+                    <p className="text-sm text-[#14379e]">{testimonial.title}</p>
                   </div>
                 </div>
               </CardContent>
