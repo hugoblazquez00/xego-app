@@ -9,8 +9,8 @@ export default function PlatformSection() {
       >
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">A complete coding environment</h2>
-          <p className="text-xl text-[#14379e]">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">A complete <span className="text-[#275eff]">coding</span> environment</h2>
+          <p className="text-xl text-[#14379e] text-muted-foreground">
             XEGO provides everything you need to learn and build in one integrated platform
           </p>
         </div>
@@ -25,7 +25,7 @@ export default function PlatformSection() {
 
           <TabsContent
             value="instruction"
-            className="relative rounded-lg overflow-hidden shadow-lg border border-[#a5c4ff] group bg-transparent"
+            className="relative rounded-lg overflow-hidden shadow-lg border border-[#a5c4ff] dark:border-white group bg-transparent"
           >
             <div className="relative w-full bg-transparent" style={{ aspectRatio: '900/500' }}>
               <Image
@@ -37,11 +37,10 @@ export default function PlatformSection() {
                 priority
               />
               <div
-                className="absolute bottom-0 left-0 right-0 bg-[#ffffff]/90 dark:bg-[#0e2b80]/90 p-6 transition-all duration-300 ease-in-out
-                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+                className="absolute bottom-0 left-0 right-0 bg-white/90 p-6 transition-all duration-300 ease-in-out group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
               >
-                <h3 className="text-xl font-semibold mb-2">Instruction Screen</h3>
-                <p className="text-[#14379e]">
+                <h3 className="text-xl font-semibold mb-2 text-[#1a44be] ">Instruction Screen</h3>
+                <p className="text-black">
                   Follow guided tutorials with clear step-by-step instructions, code snippets, and explanations.
                 </p>
               </div>
@@ -61,11 +60,10 @@ export default function PlatformSection() {
                 sizes="(max-width: 900px) 100vw, 900px"
               />
               <div
-                className="absolute bottom-0 left-0 right-0 bg-[#ffffff]/90 dark:bg-[#0e2b80]/90 p-6 transition-all duration-300 ease-in-out
-                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+                className="absolute bottom-0 left-0 right-0 bg-white/90 p-6 transition-all duration-300 ease-in-out group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
               >
-                <h3 className="text-xl font-semibold mb-2">Frontend View</h3>
-                <p className="text-[#14379e]">
+                <h3 className="text-xl font-semibold mb-2 text-[#1a44be]">Frontend View</h3>
+                <p className="text-black">
                   Edit your React components and styles with our powerful code editor with syntax highlighting.
                 </p>
               </div>
@@ -85,11 +83,10 @@ export default function PlatformSection() {
                 sizes="(max-width: 900px) 100vw, 900px"
               />
               <div
-                className="absolute bottom-0 left-0 right-0 bg-[#ffffff]/90 dark:bg-[#0e2b80]/90 p-6 transition-all duration-300 ease-in-out
-                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+                className="absolute bottom-0 left-0 right-0 bg-white/90 p-6 transition-all duration-300 ease-in-out group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
               >
-                <h3 className="text-xl font-semibold mb-2">Web Preview</h3>
-                <p className="text-[#14379e]">
+                <h3 className="text-xl font-semibold mb-2 text-[#1a44be]">Web Preview</h3>
+                <p className="text-black">
                   See your changes in real-time with our live preview that updates as you type.
                 </p>
               </div>
@@ -109,11 +106,10 @@ export default function PlatformSection() {
                 sizes="(max-width: 900px) 100vw, 900px"
               />
               <div
-                className="absolute bottom-0 left-0 right-0 bg-[#ffffff]/90 dark:bg-[#0e2b80]/90 p-6 transition-all duration-300 ease-in-out
-                  group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
+                className="absolute bottom-0 left-0 right-0 bg-white/90 p-6 transition-all duration-300 ease-in-out group-hover:opacity-0 group-hover:translate-y-8 group-hover:pointer-events-none"
               >
-                <h3 className="text-xl font-semibold mb-2">Database View</h3>
-                <p className="text-[#14379e]">
+                <h3 className="text-xl font-semibold mb-2 text-[#1a44be]">Database View</h3>
+                <p className="text-black">
                   Create and manage data collections with our intuitive database interface powered by Supabase.
                 </p>
               </div>

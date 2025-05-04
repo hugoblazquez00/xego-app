@@ -17,7 +17,7 @@ export default function CtaSection() {
   }
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-20 ">
       <div className="container">
         <div className="bg-gradient-to-r from-[#a5c4ff] to-[#5084ff] text-[#0e2b80] rounded-lg p-8 md:p-12 lg:p-16 text-center">
           <div className="max-w-3xl mx-auto">

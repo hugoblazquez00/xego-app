@@ -28,11 +28,11 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="py-20 bg-background">
+    <section id="testimonials" className="py-20 ">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Loved by beginners</h2>
-          <p className="text-xl text-[#14379e]">See what our users have to say about learning with XEGO</p>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Loved by  <span className="text-[#275eff]">beginners</span> </h2>
+          <p className="text-xl text-[#14379e] text-muted-foreground">See what our users have to say about learning with XEGO</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -50,9 +50,9 @@ export default function TestimonialsSection() {
                       className="object-cover"
                     />
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-[#14379e]">{testimonial.author}</h4>
-                    <p className="text-sm text-[#14379e]">{testimonial.title}</p>
+                  <div className="">
+                    <h4 className="font-semibold text-[#14379e] dark:text-white">{testimonial.author}</h4>
+                    <p className="text-sm text-[#14379e] dark:text-white">{testimonial.title}</p>
                   </div>
                 </div>
               </CardContent>
