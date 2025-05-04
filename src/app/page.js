@@ -8,20 +8,30 @@ import TestimonialsSection from "@/components/home/testimonials-section"
 import PricingSection from "@/components/home/pricing-section"
 import CtaSection from "@/components/home/cta-section"
 import Footer from "@/components/home/footer"
-
+import FlickerGrid from "@/components/magicui/flickering-grid"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center">
-      <Header />
-      <HeroSection />
-      <FeaturesSection />
-      <PlatformSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <CtaSection />
-      <Footer />
-    </main>
+    <>
+      <div className="fixed inset-0 -z-10">
+        <FlickerGrid
+          className="h-full w-full"
+          showGrid
+          flickerChance = "0.8"
+          maxOpacity = "0.1"
+          color="#275eff"
+        />
+      </div>
+      <main className="min-h-screen flex flex-col items-center px-4 sm:px-6 lg:px-0">
+        <Header />
+        <HeroSection />
+        <FeaturesSection />
+        <PlatformSection />
+        <TestimonialsSection />
+        {/* <PricingSection /> */}
+        <CtaSection />
+        <Footer />
+      </main>
+    </>
   )
-
 }

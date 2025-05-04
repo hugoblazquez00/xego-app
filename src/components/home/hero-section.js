@@ -21,7 +21,7 @@ export default function HeroSection() {
 
       <div className="container relative z-10">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#d2e2ff]/30 text-[#1a44be] mb-8">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#d2e2ff]/30 text-[#1a44be] dark:text-white mb-8">
             <span className="text-sm font-medium">Introducing XEGO</span>
             <ArrowRight className="ml-2 h-4 w-4" />
           </div>
@@ -68,7 +68,7 @@ export default function HeroSection() {
               </div>
           </div>
           <div class="relative mx-auto border-gray-900  bg-gray-700  rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
-              <div class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-[#0e2b80]"></div>
+              <div class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-100"></div>
           </div>
 
             

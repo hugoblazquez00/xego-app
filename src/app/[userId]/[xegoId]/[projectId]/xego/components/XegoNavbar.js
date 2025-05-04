@@ -59,7 +59,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
 
   return (
     <>
-      <header className="border-b p-4 bg-white">
+      <header className="border-b-2 border-[#2051de] p-4 bg-white  ">
         <div className="flex justify-between items-center ">
           <div className="flex items-center gap-4">
             {/* Logo/Home button */}
@@ -73,7 +73,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
             {/* Project and Xego names */}
             <div className="flex items-baseline gap-2">
               <h1 className="text-2xl text-[#275eff] font-bold">{projectName}</h1>
-              <span className="text-lg text-[#90b5ff]">/ {xegoName}</span>
+              <span className="text-lg text-[#6595ff]">/ {xegoName}</span>
             </div>
           </div>
 
@@ -85,7 +85,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
           {/* Right - Save Button with Status */}
           <div className="flex items-center gap-2">
             {isSaving && (
-              <span className="text-sm text-gray-500 animate-fade-in">
+              <span className="text-sm text-[#275eff] animate-fade-in">
                 Unsave...
               </span>
             )}

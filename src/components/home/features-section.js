@@ -35,11 +35,12 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section id="features" className="py-20 bg-background">
+    <section id="features" className="py-20 ">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Built for coding beginners</h2>
-          <p className="text-xl text-[#14379e]">
+
+          <h2 className="text-3xl md:text-4xl dark:text-white font-bold tracking-tight mb-4">Built for <span className="text-[#275eff]">coding beginners</span></h2>
+          <p className="text-xl text-[#14379e] dark:text-muted-foreground text-muted-foreground">
             Everything you need to start building real projects without prior experience
           </p>
         </div>
@@ -52,7 +53,7 @@ export default function FeaturesSection() {
             >
               <div className="mb-4">{feature.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-[#14379e]">{feature.description}</p>
+              <p className="text-[#14379e] dark:text-muted-foreground">{feature.description}</p>
             </div>
           ))}
         </div>
