@@ -229,3 +229,11 @@ export const loginUser = async (username, password) => {
   }
   return data;
 };
+
+export const fetchAllXegos = async () => { 
+  const response = await fetch(`${API_BASE_URL}/xegos?xegoID=all`);
+  if (!response.ok) {
+    throw new Error('Error fetching xegos');
+  }
+  return await response.json();
+};

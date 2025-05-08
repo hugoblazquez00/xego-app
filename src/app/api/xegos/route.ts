@@ -13,6 +13,10 @@ export const GET = async (request: Request) => {
   try {
     await connect();
     if (idXego){
+      if (idXego === "all") {
+        const xegos = await Xego.find({});
+        return new NextResponse(JSON.stringify(xegos), { status: 200 });
+      }
       const xego = await Xego.findOne({ _id: idXego });
       if (!xego) {
         return new NextResponse("Xego not found", { status: 404 });
