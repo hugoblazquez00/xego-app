@@ -15,9 +15,16 @@
  };
  
  function getRandomColor() {
-   const colors = ['bg-red-100', 'bg-blue-100', 'bg-green-100', 'bg-yellow-100', 'bg-purple-100', 'bg-pink-100'];
-   return colors[Math.floor(Math.random() * colors.length)];
- }
+  const colorConfigs = [
+    { bg: 'bg-[#ff27a6]', text: 'text-white' },
+    { bg: 'bg-[#fe27ff]', text: 'text-white' },
+    { bg: 'bg-[#a427ff]', text: 'text-white' },
+    { bg: 'bg-[#27ffec]', text: 'text-black' },
+    { bg: 'bg-[#27ff92]', text: 'text-black' },
+    { bg: 'bg-[#27ff38]', text: 'text-black' },
+  ];
+  return colorConfigs[Math.floor(Math.random() * colorConfigs.length)];
+}
  
  const ProjectCard = ({ project }) => {
    const router = useRouter();
@@ -58,7 +65,7 @@
    if (error) return <div>Error: {error}</div>;
  
    return (
-     <div onClick={handleClick} className="border rounded-lg p-4 w-80 h-96 flex flex-col cursor-pointer">
+     <div onClick={handleClick} className="border border-[#275eff] bg-[#3b72ff] rounded-lg p-4 w-80 h-96 flex flex-col cursor-pointer">
        <div className="flex justify-between mb-2">
          <span className={`px-2 py-1 rounded text-sm ${difficultyColors[xegoData?.difficulty]}`}>
            {xegoData?.difficulty}
@@ -68,27 +75,30 @@
          </span>
        </div>
        
-       <h2 className="text-xl font-bold mb-2">{project.name}</h2>
+       <h2 className="text-xl font-bold text-[#e8f1ff] mb-2">{project.name}</h2>
        
-       <p className="text-gray-600 mb-4 flex-grow overflow-hidden">
+       <p className="text-gray-200 mb-4 flex-grow overflow-hidden">
          {project.description}
        </p>
        
        <div className="mb-4">
-         <h3 className="font-semibold mb-2">Technologies:</h3>
+         <h3 className="font-semibold text-white mb-2">Technologies:</h3>
          <div className="flex flex-wrap gap-1">
-           {xegoData?.technologies.map((tech, index) => (
-             <span 
-               key={index} 
-               className={`px-1 py-0.5 rounded text-xs ${getRandomColor()}`}
-             >
-               {tech}
-             </span>
-           ))}
+           {xegoData?.technologies.map((tech, index) => {
+             const color = getRandomColor();
+             return (
+               <span 
+                 key={index} 
+                 className={`px-1 py-0.5 rounded text-xs ${color.bg} ${color.text}`}
+               >
+                 {tech}
+               </span>
+             );
+           })}
          </div>
        </div>
        
-       <div className="text-sm text-gray-500">
+       <div className="text-sm text-[#bbd3ff]">
          {project.views} Views
        </div>
      </div>
