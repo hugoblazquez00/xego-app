@@ -1,6 +1,7 @@
 import connect from "@/app/lib/db";
 import User from "@/app/lib/modals/user";
 import { NextResponse } from "next/server";
+import { compare } from "bcrypt";
 
 export const POST = async (request: Request) => {
   try {
@@ -12,8 +13,8 @@ export const POST = async (request: Request) => {
       return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 401 });
     }
 
-    // Sencillo: compara la contraseña en texto plano (¡en producción usa hash!)
-    if (user.password !== password) {
+    const isPasswordCorrect = await compare(password, user.password);
+    if (!isPasswordCorrect) {
       return new NextResponse(JSON.stringify({ error: "Invalid password" }), { status: 401 });
     }
 
