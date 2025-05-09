@@ -6,6 +6,8 @@ import NewProjectModal from "@/app/[userId]/[xegoId]/[projectId]/xego/components
 import { fetchProjects } from '@/app/utils/api';
 import { PlusCircle } from "lucide-react"
 import Navbar from "@/app/[userId]/[xegoId]/[projectId]/xego/components/navbarHome"
+import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
+
 
 export default function Home({ params }) {
   const userId = params.userId; 
@@ -91,8 +93,14 @@ export default function Home({ params }) {
     )
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+    <div className="relative min-h-screen overflow-hidden">
+{/* 
+      <div className="absolute inset-0 -z-10">
+        <InteractiveGridPattern
+          className="w-full h-full"
+        />
+      </div> */}
+      
       <header className="bg-white border-b border-gray-200 py-4 px-6">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">XEGO</h1>
@@ -137,33 +145,36 @@ export default function Home({ params }) {
 
       {/* Navigation */}
       <Navbar userId={userId} />
+      {/* <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background">
+        <InteractiveGridPattern
+          // className={cn(
+          //   "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
+          //   "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+          // )}
+        />
+      </div> */}
+      <div className="pointer-events-none absolute inset-0 -z-10 w-full h-full">
+        <InteractiveGridPattern className="w-full h-full" />
+      </div>
 
-      <main className="container mx-auto px-6 pb-12">
-        {/* Welcome Banner */}
-        <div className="bg-[#275eff] rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-white">Welcome back {username}!</h2>
+      <div className="relative z-10 container mx-auto px-6 pb-12">
+        <h2 className="bg-[#275eff] z-20 rounded-lg p-6 mb-8 text-2xl font-bold text-white">Welcome back {username}!</h2>
+        <h3 className="mb-8 text-xl font-medium text-gray-800 mb-4">Continue with:</h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <ProjectCard key={index} project={project} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"/>
+          ))}
+
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="border-2 border-dashed border-gray-300 rounded-lg p-6 h-96 flex flex-col items-center justify-center text-gray-500 hover:border-[#275eff] hover:text-[#275eff] transition-colors"
+          >
+            <PlusCircle className="w-16 h-16 mb-4" />
+            <span className="text-lg font-medium">Iniciar nuevo proyecto</span>
+          </button>
         </div>
-
-        {/* Continue with section */}
-        <div className="mb-8">
-          <h3 className="text-xl font-medium text-gray-800 mb-4">Continue with:</h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project, index) => (
-              <ProjectCard key={index} project={project} />
-            ))}
-
-            {/* New Project Button */}
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="border-2 border-dashed border-gray-300 rounded-lg p-6 h-96 flex flex-col items-center justify-center text-gray-500 hover:border-[#275eff] hover:text-[#275eff] transition-colors"
-            >
-              <PlusCircle className="w-16 h-16 mb-4" />
-              <span className="text-lg font-medium">Iniciar nuevo proyecto</span>
-            </button>
-          </div>
-        </div>
-      </main>
+      </div>
 
       {/* New Project Modal */}
       {isModalOpen && (

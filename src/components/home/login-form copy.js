@@ -3,70 +3,33 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
-import { Eye, EyeOff, Mail, Lock, User, AlertCircle } from "lucide-react"
+import { Eye, EyeOff, User, Lock, AlertCircle } from "lucide-react"
+import { loginUser } from "@/lib/api"
 
-export default function Register() {
+export default function Login() {
   const router = useRouter()
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
-
-    // Validate passwords match
-    if (password !== confirmPassword) {
-      setError("Passwords do not match")
-      return
-    }
-
     setIsLoading(true)
 
     try {
-      // Register the user
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed")
+      const user = await loginUser(username, password)
+      if (user) {
+        router.push(`/${user.id}/home`)
+      } else {
+        setError("Invalid username or password")
+        setIsLoading(false)
       }
-
-      // Sign in the user after successful registration
-      const result = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      })
-
-      if (result?.error) {
-        setError("Registration successful, but failed to log in. Please try logging in.")
-        router.push("/login")
-        return
-      }
-
-      // Redirect to home page on successful login
-      router.push("/home")
     } catch (error) {
-      console.error("Registration error:", error)
-      setError(error.message || "An unexpected error occurred. Please try again.")
-    } finally {
+      console.error("Login error:", error)
+      setError("An unexpected error occurred. Please try again.")
       setIsLoading(false)
     }
   }
@@ -77,7 +40,7 @@ export default function Register() {
       await signIn(provider, { callbackUrl: "/home" })
     } catch (error) {
       console.error(`${provider} login error:`, error)
-      setError(`Failed to register with ${provider}. Please try again.`)
+      setError(`Failed to login with ${provider}. Please try again.`)
       setIsLoading(false)
     }
   }
@@ -86,11 +49,11 @@ export default function Register() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h1 className="text-center text-3xl font-bold text-gray-900">XEGO</h1>
-        <h2 className="mt-6 text-center text-2xl font-bold text-gray-900">Create a new account</h2>
+        <h2 className="mt-6 text-center text-2xl font-bold text-gray-900">Sign in to your account</h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Or{" "}
-          <Link href="/login" className="font-medium text-[#275eff] hover:text-[#1e4cd1]">
-            sign in to your existing account
+          <Link href="/register" className="font-medium text-[#275eff] hover:text-[#1e4cd1]">
+            create a new account
           </Link>
         </p>
       </div>
@@ -106,45 +69,23 @@ export default function Register() {
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Full name
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                Username
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <User className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="name"
-                  name="name"
+                  id="username"
+                  name="username"
                   type="text"
-                  autoComplete="name"
+                  autoComplete="username"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#275eff] focus:border-[#275eff]"
-                  placeholder="John Doe"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#275eff] focus:border-[#275eff]"
-                  placeholder="you@example.com"
+                  placeholder="your username"
                 />
               </div>
             </div>
@@ -161,7 +102,7 @@ export default function Register() {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
+                  autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -179,54 +120,24 @@ export default function Register() {
               </div>
             </div>
 
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                Confirm password
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
                 <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#275eff] focus:border-[#275eff]"
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-[#275eff] focus:ring-[#275eff] border-gray-300 rounded"
                 />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="text-gray-400 hover:text-gray-500 focus:outline-none"
-                  >
-                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </div>
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                  Remember me
+                </label>
               </div>
-            </div>
 
-            <div className="flex items-center">
-              <input
-                id="terms"
-                name="terms"
-                type="checkbox"
-                required
-                className="h-4 w-4 text-[#275eff] focus:ring-[#275eff] border-gray-300 rounded"
-              />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-                I agree to the{" "}
-                <Link href="/terms" className="font-medium text-[#275eff] hover:text-[#1e4cd1]">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="/privacy" className="font-medium text-[#275eff] hover:text-[#1e4cd1]">
-                  Privacy Policy
+              <div className="text-sm">
+                <Link href="/forgot-password" className="font-medium text-[#275eff] hover:text-[#1e4cd1]">
+                  Forgot your password?
                 </Link>
-              </label>
+              </div>
             </div>
 
             <div>
@@ -257,10 +168,10 @@ export default function Register() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    Creating account...
+                    Signing in...
                   </>
                 ) : (
-                  "Create account"
+                  "Sign in"
                 )}
               </button>
             </div>

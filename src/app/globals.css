@@ -53,6 +53,9 @@
     --xelectric-comp: 220 100% 67%;
     --xelectric-comp-foreground: 0 0% 100%;
   }
+  .theme {
+    --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite;
+  }
 }
 
 @layer base {
@@ -74,4 +77,15 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+@theme inline {
+  @keyframes ripple {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
 }
