@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
-import ProjectCard from '@/app/components/projectCard';
+import ProjectCard from '@/app/[userId]/[xegoId]/[projectId]/xego/components/projectCard';
 import React from 'react';
 import { fetchProjects } from '@/app/utils/api';
 

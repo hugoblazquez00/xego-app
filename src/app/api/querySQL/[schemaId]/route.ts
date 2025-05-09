@@ -7,6 +7,8 @@ const cleanErrorMessage = (error: string, schemaId: string) => {
 };
 
 export async function POST(req: NextRequest, { params }: { params: { schemaId: string } }) {
+  
+  const { schemaId } = params;
   try {
     const { schemaId } = params;
     const body = await req.json();
@@ -27,7 +29,6 @@ export async function POST(req: NextRequest, { params }: { params: { schemaId: s
         { status: 400 }
       );
     }
-    console.log(query)
     const fullQuery = query
     .replace(/from\s+([a-zA-Z_][\w]*)/gi, `from "${schemaId}".$1`)
     .replace(/insert\s+into\s+([a-zA-Z_][\w]*)/gi, `insert into "${schemaId}".$1`)
@@ -35,7 +36,6 @@ export async function POST(req: NextRequest, { params }: { params: { schemaId: s
     .replace(/delete\s+from\s+([a-zA-Z_][\w]*)/gi, `delete from "${schemaId}".$1`)
     .replace(/create\s+table\s+([a-zA-Z_][\w]*)/gi, `create table "${schemaId}".$1`)
     .replace(/drop\s+table\s+if\s+exists\s+([a-zA-Z_][\w]*)/gi, `drop table if exists "${schemaId}".$1`);
-    console.log("fullQuery: ",fullQuery)
     const { data, error } = await supabase.rpc('execute_raw_sql', { query: fullQuery });
 
     if (error) {

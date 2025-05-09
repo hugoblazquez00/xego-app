@@ -9,7 +9,7 @@ export function ScreenSelector({ currentScreen, onToggle }) {
   return (
     <ShimmerButton
       onClick={onToggle}
-      className="bg-white dark:bg-black/20"
+      className="bg-white dark:bg-blue-400"
     >
       {buttonText}
     </ShimmerButton>

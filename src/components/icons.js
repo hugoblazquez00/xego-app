@@ -16,7 +16,6 @@ export const HomeIcon = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    className="w-6 h-6"
     {...props}
   >
     <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
@@ -27,17 +26,17 @@ export const HomeIcon = (props) => (
 
 export function BoldComputer(props) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" {...props}><defs><mask id="IconifyId19518abcaf1c7caf50"><g fill="none" strokeWidth="4"><path stroke="#fff" strokeLinecap="round" strokeLinecap="round" d="M19 32h10v9H19z"/><rect width="38" height="24" x="5" y="8" fill="#fff" stroke="#fff" rx="2"/><path stroke="#000" strokeLinecap="round" strokeLinecap="round" d="M22 27h4"/><path stroke="#fff" strokeLinecap="round" strokeLinecap="round" d="M14 41h20"/></g></mask></defs><path fill="currentColor" d="M0 0h48v48H0z" mask="url(#IconifyId19518abcaf1c7caf50)"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" {...props}><defs><mask id="IconifyId19518abcaf1c7caf50"><g fill="none" strokeWidth="4"><path stroke="#fff" strokeLinecap="round" d="M19 32h10v9H19z"/><rect width="38" height="24" x="5" y="8" fill="#fff" stroke="#fff" rx="2"/><path stroke="#000" strokeLinecap="round" d="M22 27h4"/><path stroke="#fff" strokeLinecap="round" d="M14 41h20"/></g></mask></defs><path fill="currentColor" d="M0 0h48v48H0z" mask="url(#IconifyId19518abcaf1c7caf50)"/></svg>
   )
 }
 export function OnComputer(props) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" {...props}><defs><mask id="IconifyId19518abcaf1c7caf52"><g fill="none" stroke="#fff" strokeWidth="4"><path strokeLinecap="round" strokeLinecap="round" d="M19 32h10v9H19z"/><rect width="38" height="24" x="5" y="8" fill="#555" rx="2"/><path strokeLinecap="round" strokeLinecap="round" d="M22 27h4M14 41h20"/></g></mask></defs><path fill="currentColor" d="M0 0h48v48H0z" mask="url(#IconifyId19518abcaf1c7caf52)"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" {...props}><defs><mask id="IconifyId19518abcaf1c7caf52"><g fill="none" stroke="#fff" strokeWidth="4"><path strokeLinecap="round" d="M19 32h10v9H19z"/><rect width="38" height="24" x="5" y="8" fill="#555" rx="2"/><path strokeLinecap="round" d="M22 27h4M14 41h20"/></g></mask></defs><path fill="currentColor" d="M0 0h48v48H0z" mask="url(#IconifyId19518abcaf1c7caf52)"/></svg>
   )
 }
 export function EmptyComputer(props) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" {...props}><g fill="none" stroke="currentColor" strokeWidth="4"><path strokeLinecap="round" strokeLinecap="round" d="M19 32h10v9H19z"/><rect width="38" height="24" x="5" y="8" rx="2"/><path strokeLinecap="round" strokeLinecap="round" d="M22 27h4M14 41h20"/></g></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" {...props}><g fill="none" stroke="currentColor" strokeWidth="4"><path strokeLinecap="round" d="M19 32h10v9H19z"/><rect width="38" height="24" x="5" y="8" rx="2"/><path strokeLinecap="round" d="M22 27h4M14 41h20"/></g></svg>
   )
 }
 
@@ -118,13 +117,13 @@ export function NextInstructions(props) {
 
 export function InstructionsButton(props) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="currentColor" d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="#d2e2ff" d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
   )
 }
 
 export function CloseButton(props) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="#14379e" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"/></svg>
   )
 }
 

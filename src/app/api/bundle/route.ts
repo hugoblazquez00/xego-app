@@ -5,6 +5,9 @@ import Project from "@/app/lib/modals/project";
 import { NextResponse } from "next/server";
 import * as esbuild from "esbuild";
 
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
 export const POST = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const projectID = searchParams.get("projectID");
@@ -107,11 +110,10 @@ export const POST = async (request: Request) => {
 
             build.onLoad({ filter: /.*/, namespace: "file-loader" }, (args) => {
               if (fileMap[args.path]) {
-                // Rewrite fetch("/api/xyz") to fetch("http://localhost:3000/api/dynamic-proxy/xyz?projectId=...")
                 const patchedContent = fileMap[args.path].replace(
                   /fetch\((['"`])\/api\/([^'"`)]+)\1/g,
                   (_match, quote, route) => 
-                    `fetch(${quote}http://localhost:3000/api/dynamic-proxy/${route}?projectId=${id_p_x}${quote}`
+                    `fetch(${quote}${baseUrl}/api/dynamic-proxy/${route}?projectId=${id_p_x}${quote}`
                 );
                 return { contents: patchedContent, loader: "jsx" };
               }

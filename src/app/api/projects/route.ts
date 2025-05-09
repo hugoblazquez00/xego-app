@@ -24,7 +24,6 @@ export const GET = async (request: Request) => {
 
     // Get all projects for user
     const projects = await Project.find({ iduser: userId }).exec();
-    console.log("Projects from api/projects for user ",userId,":", projects);
     return new NextResponse(JSON.stringify(projects), { status: 200 });
   } catch (error) {
     console.error("Error fetching projects:", error);
