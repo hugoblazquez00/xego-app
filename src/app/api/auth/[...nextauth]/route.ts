@@ -2,23 +2,22 @@ import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { compare } from "bcrypt"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
+import { compare } from "bcrypt"
 
 const prisma = new PrismaClient()
 
-export const authOptions = {
+const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
-    
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -32,25 +31,18 @@ export const authOptions = {
         }
 
         const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
+          where: { email: credentials.email },
         })
 
-        if (!user || !user.password) {
-          return null
-        }
+        if (!user || !user.password) return null
 
-        const isPasswordValid = await compare(credentials.password, user.password)
-
-        if (!isPasswordValid) {
-          return null
-        }
+        const isValid = await compare(credentials.password, user.password)
+        if (!isValid) return null
 
         return {
           id: user.id,
-          email: user.email,
           name: user.name,
+          email: user.email,
         }
       },
     }),
@@ -58,9 +50,9 @@ export const authOptions = {
   pages: {
     signIn: "/login",
     signOut: "/",
-    error: "/login", // Error code passed in query string as ?error=
-    verifyRequest: "/verify-request", // (used for check email message)
-    newUser: "/register", // New users will be directed here on first sign in
+    error: "/login",
+    verifyRequest: "/verify-request",
+    newUser: "/register",
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -71,7 +63,9 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id
+        session.user = {
+          ...(session.user as { name?: string; email?: string; image?: string; id?: string }),
+        }
       }
       return session
     },
@@ -81,8 +75,6 @@ export const authOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
-}
-
-const handler = NextAuth(authOptions)
+})
 
 export { handler as GET, handler as POST }
