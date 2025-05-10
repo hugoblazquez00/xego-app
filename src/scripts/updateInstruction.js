@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-
 const InstructionSchema = new mongoose.Schema({
   xegoId: { type: mongoose.Schema.Types.ObjectId, ref: "Xego", required: true },
   step: { type: Number, required: true },
