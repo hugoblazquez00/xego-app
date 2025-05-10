@@ -1,3 +1,3 @@
 {
-    "buildCommand": "npx prisma generate && npm run build"
+    "buildCommand": "npx prisma generate --schema=src/lib/prisma/schema.prisma generate && npm run build"
   }
