@@ -63,7 +63,7 @@ export default function HeroSection() {
                 className="w-full h-full object-contain bg-gray-800"
                 muted
                 playsInline
-                src="/home/video_demo_app.mov"
+                src="/home/video_demo_app.mp4"
               />
               </div>
           </div>
