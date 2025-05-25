@@ -1,0 +1,2 @@
+*.mov filter=lfs diff=lfs merge=lfs -text
+public/home/video_demo_app.mov filter=lfs diff=lfs merge=lfs -text
