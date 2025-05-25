@@ -60,10 +60,10 @@ export default function HeroSection() {
                   <video
                 autoPlay
                 loop
+                className="w-full h-full object-contain bg-gray-800"
                 muted
                 playsInline
-                className="w-full h-full object-cover"
-                src="https://www.w3schools.com/html/mov_bbb.mp4" // 🔁 cámbialo por tu vídeo real
+                src="/home/video_demo_app.mov"
               />
               </div>
           </div>

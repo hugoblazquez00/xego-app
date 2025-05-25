@@ -6,7 +6,7 @@ import { HomeIcon, BoldComputer, EmptyComputer, OnComputer, AiHelperIcon} from '
 import { ScreenSelector } from './screen-selector'
 import { fetchProjectDetails, fetchXegoDetails} from '@/app/utils/api';
 import { AiHelperModal } from './AiHelperModal'
-
+import Image from "next/image"
 export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, projectId, userId, files }) {
   const router = useRouter()
   const [projectName, setProjectName] = useState('')
@@ -62,13 +62,19 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
       <header className="border-b-2 border-[#2051de] p-4 bg-white  ">
         <div className="flex justify-between items-center ">
           <div className="flex items-center gap-4">
-            {/* Logo/Home button */}
-            <button 
-              onClick={() => router.push(`/${userId}/home`)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <HomeIcon  />
-            </button>
+          <button 
+            onClick={() => router.push(`/${userId}/home`)}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors hover:bg-[#275eff]"
+          >
+            <div className="relative w-10 h-10">
+              <Image
+                src="/home/X DE XEGO PNG DEF.png"
+                alt="Xego logo"
+                fill
+                className="object-contain "
+              />
+            </div>
+          </button>
 
             {/* Project and Xego names */}
             <div className="flex items-baseline gap-2">
