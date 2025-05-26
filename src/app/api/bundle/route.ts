@@ -21,7 +21,7 @@ export const POST = async (request: Request) => {
   try {
     await connect();
     let files;
-    let id_p_x = null;
+    let id_p_x: string | null = null;
     if (screen === "project") {
       id_p_x = projectID;
       files = await File.find({ idproject: projectID }).exec();

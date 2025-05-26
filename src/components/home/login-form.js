@@ -29,7 +29,7 @@ export default function LoginForm() {
 
   const handleSocialLogin = async (provider) => {
     try {
-      await signIn(provider);
+      await signIn(provider, { callbackUrl: "/post-auth" });
     } catch (error) {
       setError("Social login failed. Please try again.");
     }

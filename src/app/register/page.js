@@ -47,22 +47,19 @@ export default function Register() {
       if (!response.ok) {
         throw new Error(data.message || "Registration failed")
       }
-
-      // Sign in the user after successful registration
       const result = await signIn("credentials", {
         redirect: false,
         email,
         password,
       })
-
+      
       if (result?.error) {
-        setError("Registration successful, but failed to log in. Please try logging in.")
+        setError("Registration successful, but failed to log in.")
         router.push("/login")
-        return
+      } else {
+        router.push("/post-auth")
       }
 
-      // Redirect to home page on successful login
-      router.push("/home")
     } catch (error) {
       console.error("Registration error:", error)
       setError(error.message || "An unexpected error occurred. Please try again.")

@@ -52,7 +52,6 @@ export default NextAuth({
     signOut: "/",
     error: "/login",
     verifyRequest: "/verify-request",
-    newUser: "/register",
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -63,7 +62,7 @@ export default NextAuth({
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id as string;
+        (session.user as { id?: string }).id = token.id as string;
       }
       return session;
     },
