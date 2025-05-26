@@ -43,8 +43,8 @@ export default function LoginForm() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-[#275eff] rounded-2xl mb-6">
             <Lock className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
-          <p className="text-gray-600">Sign in to your account to continue</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2  dark:text-white">Welcome back</h1>
+          <p className="text-gray-600 dark:text-[#275eff]">Sign in to your account to continue</p>
         </div>
 
         {/* Main Card */}
@@ -153,7 +153,7 @@ export default function LoginForm() {
 
         {/* Footer */}
         <div className="text-center mt-8">
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-white">
             {"Don't have an account? "}
             <a href="/register" className="text-[#275eff] hover:text-[#1e4cd1] font-semibold transition-colors">
               Sign up

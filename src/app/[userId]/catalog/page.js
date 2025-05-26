@@ -130,7 +130,7 @@ export default function Catalog({ params }) {
       <header className="bg-white border-b border-gray-200 py-4 px-6">
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="/home/XEGO AZUL GIF.gif" alt="XEGO" width={150} height={150} className="object-contain" />
+            <Image src="/home/xego_logo_gif_blue.gif" alt="XEGO" width={150} height={150} className="object-contain" />
           </Link>
           <div className="flex space-x-4">
             <button className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">

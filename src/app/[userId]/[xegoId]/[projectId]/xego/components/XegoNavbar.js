@@ -68,7 +68,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
           >
             <div className="relative w-10 h-10">
               <Image
-                src="/home/X DE XEGO PNG DEF.png"
+                src="/home/x_logo_blue.png"
                 alt="Xego logo"
                 fill
                 className="object-contain "

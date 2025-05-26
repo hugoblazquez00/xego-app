@@ -18,11 +18,11 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 z-50 w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container relative flex h-16 items-center justify-between ml-16">
+      <div className="container relative flex h-16 items-center justify-between md:ml-16 ml-4">
         {/* Logo and nav aligned left */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="/home/XEGO PNG DEF AZUL.png " alt="XEGO" width={128} height={128} className="object-contain" />
+            <Image src="/home/xego_logo_blue.png" alt="XEGO" width={128} height={128} className="object-contain" />
           </Link>
           <nav className="hidden md:flex gap-6 ml-12">
             <Link href="#features" className="text-sm font-medium transition-colors hover:text-[#5084ff]">
