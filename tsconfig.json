@@ -28,14 +28,17 @@
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/scripts/updateInstruction.js", "src/scripts/seedInstructions.js"  ],
+    "**/*.tsx",
+    "src/scripts/updateInstruction.js",
+    "src/scripts/seedInstructions.js"
+  ],
   "exclude": [
     "node_modules"
   ]

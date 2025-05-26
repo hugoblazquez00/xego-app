@@ -8,7 +8,7 @@ import { compare } from "bcrypt"
 
 const prisma = new PrismaClient()
 
-const handler = NextAuth({
+export default NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -27,23 +27,23 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null
+          return null;
         }
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-        })
+        });
 
-        if (!user || !user.password) return null
+        if (!user || !user.password) return null;
 
-        const isValid = await compare(credentials.password, user.password)
-        if (!isValid) return null
+        const isValid = await compare(credentials.password, user.password);
+        if (!isValid) return null;
 
         return {
           id: user.id,
           name: user.name,
           email: user.email,
-        }
+        };
       },
     }),
   ],
@@ -57,17 +57,15 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id
+        token.id = user.id;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user = {
-          ...(session.user as { name?: string; email?: string; image?: string; id?: string }),
-        }
+      if (token && session.user) {
+        session.user.id = token.id as string;
       }
-      return session
+      return session;
     },
   },
   session: {
@@ -75,6 +73,4 @@ const handler = NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
-})
-
-export { handler as GET, handler as POST }
+});

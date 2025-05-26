@@ -74,7 +74,7 @@ export default function Register() {
   const handleSocialLogin = async (provider) => {
     setIsLoading(true)
     try {
-      await signIn(provider, { callbackUrl: "/home" })
+      await signIn(provider, { callbackUrl: "/post-auth" })
     } catch (error) {
       console.error(`${provider} login error:`, error)
       setError(`Failed to register with ${provider}. Please try again.`)
