@@ -7,6 +7,8 @@ import { fetchProjects } from '@/app/utils/api';
 import { PlusCircle } from "lucide-react"
 import Navbar from "@/app/[userId]/[xegoId]/[projectId]/xego/components/navbarHome"
 import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
+import Image from "next/image";
+import Link from "next/link";
 
 
 export default function Home({ params }) {
@@ -103,7 +105,9 @@ export default function Home({ params }) {
       
       <header className="bg-white border-b border-gray-200 py-4 px-6">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">XEGO</h1>
+          <Link href="/" className="flex items-center space-x-2">
+            <Image src="/home/XEGO AZUL GIF.gif" alt="XEGO" width={150} height={150} className="object-contain" />
+          </Link>
           <div className="flex space-x-4">
             <button className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
               <span className="sr-only">Notifications</span>
@@ -145,14 +149,7 @@ export default function Home({ params }) {
 
       {/* Navigation */}
       <Navbar userId={userId} />
-      {/* <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background">
-        <InteractiveGridPattern
-          // className={cn(
-          //   "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-          //   "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
-          // )}
-        />
-      </div> */}
+      
       <div className="pointer-events-none absolute inset-0 -z-10 w-full h-full">
         <InteractiveGridPattern className="w-full h-full" />
       </div>

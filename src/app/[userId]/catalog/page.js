@@ -5,6 +5,8 @@ import XegoCard from "@/app/[userId]/[xegoId]/[projectId]/xego/components/xegoCa
 import FilterSidebar from "@/app/[userId]/[xegoId]/[projectId]/xego/components/FilterSidebar"
 import Navbar from "@/app/[userId]/[xegoId]/[projectId]/xego/components/navbarHome"
 import { fetchAllXegos } from '@/app/utils/api';
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Catalog({ params }) {
   const { userId } = params
@@ -127,7 +129,9 @@ export default function Catalog({ params }) {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 py-4 px-6">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">XEGO</h1>
+          <Link href="/" className="flex items-center space-x-2">
+            <Image src="/home/XEGO AZUL GIF.gif" alt="XEGO" width={150} height={150} className="object-contain" />
+          </Link>
           <div className="flex space-x-4">
             <button className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
               <span className="sr-only">Notifications</span>

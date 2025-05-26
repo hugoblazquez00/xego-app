@@ -64,7 +64,7 @@ export function XegoNavbar({ currentScreen, onToggle, isSavedXego, onSave, proje
           <div className="flex items-center gap-4">
           <button 
             onClick={() => router.push(`/${userId}/home`)}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors hover:bg-[#275eff]"
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors "
           >
             <div className="relative w-10 h-10">
               <Image

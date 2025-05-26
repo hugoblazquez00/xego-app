@@ -16,7 +16,7 @@ export default function HomePage() {
       <div className="fixed inset-0 -z-10">
         <FlickerGrid
           className="h-full w-full"
-          showGrid
+          showgrid="true"
           flickerChance = "0.8"
           maxOpacity = "0.1"
           color="#275eff"
