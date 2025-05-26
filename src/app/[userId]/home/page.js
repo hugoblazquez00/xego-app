@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 import ProjectCard from '@/app/[userId]/[xegoId]/[projectId]/xego/components/projectCard';
 import NewProjectModal from "@/app/[userId]/[xegoId]/[projectId]/xego/components//NewProjectModal"
 import { fetchProjects } from '@/app/utils/api';
@@ -126,7 +127,12 @@ export default function Home({ params }) {
                 />
               </svg>
             </button>
-            <button className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+            <button
+              onClick={() => {
+                signOut({ callbackUrl: "/" });
+              }}
+              className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
+            >
               <span className="sr-only">Profile</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -6,6 +6,8 @@ import { Button } from "./ui/button"
 import { Menu, X } from "lucide-react"
 import { ModeToggle } from "./mode-toggle"
 import Image from "next/image"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -15,6 +17,18 @@ export default function Header() {
     const storedUser = localStorage.getItem("user")
     if (storedUser) setUser(JSON.parse(storedUser))
   }, [])
+
+  const { data: session } = useSession()
+  const router = useRouter()
+
+  const handleLoginClick = (e) => {
+    e.preventDefault()
+    if (session?.user?.id) {
+      router.push("/post-auth")
+    } else {
+      router.push("/login")
+    }
+  }
 
   return (
     <header className="fixed top-0 z-50 w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -63,8 +77,8 @@ export default function Header() {
             </div>
           ) : (
             <>
-              <Button variant="outline" size="sm" asChild>
-                <Link href="/login">Log in</Link>
+              <Button variant="outline" size="sm" onClick={handleLoginClick}>
+                Log in
               </Button>
               <Button size="sm" className="bg-[#275eff] hover:bg-[#1a44be] text-white" asChild>
                 <Link href="/register">Get XEGO</Link>
@@ -139,8 +153,8 @@ export default function Header() {
                 </div>
               ) : (
                 <>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/login">Log in</Link>
+                  <Button variant="outline" size="sm" onClick={handleLoginClick}>
+                    Log in
                   </Button>
                   <Button size="sm" className="bg-[#275eff] hover:bg-[#1a44be] text-white" asChild>
                     <Link href="/register">Get XEGO</Link>
