@@ -1,9 +1,8 @@
 import connect from "@/app/lib/db";
 import Project from "@/app/lib/modals/project";
-import Xego from "@/app/lib/modals/xego";
-import File from "@/app/lib/modals/file";
 import { NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
+import { createProjectSchema } from './supabaseOperations';
+import { createBaseFiles } from './fileOperations';
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
@@ -50,37 +49,44 @@ export const POST = async (request: Request) => {
     // Save project to get the ID
     const savedProject = await newProject.save();
 
-    // Create files
-    const filePromises = body.files.map(async (file) => {
-      const newFile = new File({
-        idproject: savedProject._id,
-        name: file.name,
-        content: file.content,
-        path: file.path,
-        language: file.language,
-        type: file.type,
-      });
+    // Create Supabase schema for the project
+    try {
+      await createProjectSchema(savedProject._id.toString());
+    } catch (error) {
+      // If schema creation fails, delete the project and throw error
+      await Project.findByIdAndDelete(savedProject._id);
+      return new NextResponse(
+        JSON.stringify({ 
+          success: false, 
+          error: `Failed to create Supabase schema: ${error.message}` 
+        }), 
+        { status: 500 }
+      );
+    }
 
-      // Save files
-      const savedFile = await newFile.save();
-      return savedFile._id;
-    });
-
-    // Wait to files to be saved
-    const savedFiles = await Promise.all(filePromises);
+    // Create base files
+    const savedFiles = await createBaseFiles(savedProject._id);
 
     // Update project with files IDs
     savedProject.files = savedFiles;
     await savedProject.save();
 
     return new NextResponse(
-      JSON.stringify({ message: "Project created", project: savedProject }),
+      JSON.stringify({ 
+        success: true,
+        message: "Project created", 
+        project: savedProject 
+      }), 
       { status: 200 }
     );
   } catch (error: any) {
-    return new NextResponse("Error in creating Project " + error.message, {
-      status: 500,
-    });
+    return new NextResponse(
+      JSON.stringify({ 
+        success: false, 
+        error: `Error in creating Project: ${error.message}` 
+      }), 
+      { status: 500 }
+    );
   }
 };
 
