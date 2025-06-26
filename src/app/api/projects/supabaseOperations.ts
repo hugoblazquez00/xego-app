@@ -5,26 +5,12 @@ export const createProjectSchema = async (projectId: string) => {
   const supabase = createSupabaseClient();
   
   try {
-    const createSchemaQuery = `CREATE SCHEMA IF NOT EXISTS "${projectId}";`;
+    console.log('Creando schema con projectId:', projectId);
+    const { error } = await supabase.rpc('create_project_schema', { schema_name: projectId });
     
-    const { error: schemaError } = await supabase.rpc('execute_raw_sql', { query: createSchemaQuery });
-    
-    if (schemaError) {
-      throw new Error(`Error creating schema: ${schemaError.message}`);
+    if (error) {
+      throw new Error(`Error creating schema: ${error.message}`);
     }
-
-    // // Otorgar permisos al rol de servicio
-    // const grantPermissionsQuery = `
-    //   GRANT ALL PRIVILEGES ON SCHEMA "${projectId}" TO service_role;
-    //   GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA "${projectId}" TO service_role;
-    //   ALTER DEFAULT PRIVILEGES IN SCHEMA "${projectId}" GRANT ALL PRIVILEGES ON TABLES TO service_role;
-    // `;
-    
-    // const { error: grantError } = await supabase.rpc('execute_raw_sql', { query: grantPermissionsQuery });
-    
-    // if (grantError) {
-    //   throw new Error(`Error granting permissions: ${grantError.message}`);
-    // }
 
     return true;
   } catch (error) {

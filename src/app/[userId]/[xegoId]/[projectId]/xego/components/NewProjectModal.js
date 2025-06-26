@@ -11,6 +11,7 @@ const NewProjectModal = ({ onClose, userId }) => {
   const [error, setError] = useState(null)
   const [selectedXego, setSelectedXego] = useState(null)
   const [projectName, setProjectName] = useState("")
+  const [projectDescription, setProjectDescription] = useState("")
   const [formError, setFormError] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -51,11 +52,12 @@ const NewProjectModal = ({ onClose, userId }) => {
         name: projectName,
         iduser: userId,
         idxego: selectedXego._id,
-        description: `Based on ${selectedXego.name}`
+        description: projectDescription
       }
 
       // Create project using API
-      const createdProject = await createProject(newProject)
+      const data = await createProject(newProject)
+      const createdProject = data.project
       
       // Close modal and redirect to new project
       onClose()
@@ -118,6 +120,22 @@ const NewProjectModal = ({ onClose, userId }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#275eff] focus:border-transparent"
                   placeholder="New project..."
                   disabled={isSubmitting}
+                />
+              </div>
+
+              {/* Project Description Input */}
+              <div className="mb-6">
+                <label htmlFor="projectDescription" className="block text-sm font-medium text-gray-700 mb-1">
+                  Project description
+                </label>
+                <textarea
+                  id="projectDescription"
+                  value={projectDescription}
+                  onChange={(e) => setProjectDescription(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#275eff] focus:border-transparent"
+                  placeholder="Describe your project..."
+                  disabled={isSubmitting}
+                  rows={3}
                 />
               </div>
 
